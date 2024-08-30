@@ -1,0 +1,2136 @@
+#+TITLE: Desktop Configuration
+#+PROPERTY: header-args :mkdirp yes
+
+* Doas
+#+begin_src doas.conf :tangle /doas::/etc/doas.conf
+permit nopass keepenv rehandaphedar as root
+#+end_src
+
+* Pacman
+#+begin_src conf :tangle /doas::/etc/pacman.conf
+[options]
+HoldPkg     = pacman glibc
+Architecture = auto
+Color
+CheckSpace
+ParallelDownloads = 8
+SigLevel    = Required DatabaseOptional
+LocalFileSigLevel = Optional
+
+[core]
+Include = /etc/pacman.d/mirrorlist
+[extra]
+Include = /etc/pacman.d/mirrorlist
+[multilib]
+Include = /etc/pacman.d/mirrorlist
+[chaotic-aur]
+Include = /etc/pacman.d/chaotic-mirrorlist 
+#+end_src
+
+* Paru
+#+begin_src conf :tangle ~/.config/paru/paru.conf
+[options]
+PgpFetch
+Devel
+Provides
+DevelSuffixes = -git -cvs -svn -bzr -darcs -always -hg -fossil
+BottomUp
+[bin]
+Sudo = doas
+#+end_src
+
+* Reflector
+#+begin_src sh :tangle /doas::/etc/xdg/reflector/reflector.conf
+--save /etc/pacman.d/mirrorlist
+--protocol https
+--country India,Singapore
+--latest 20
+--sort rate
+#+end_src
+
+* Locale
+#+begin_src conf :tangle /doas::/etc/locale.conf
+LANG=en_IN.UTF-8
+#+end_src
+
+* TLP
+#+begin_src conf :tangle /doas::/etc/tlp.conf
+START_CHARGE_THRESH_BAT0=75
+STOP_CHARGE_THRESH_BAT0=100
+#+end_src
+
+* Profile
+** Programs
+#+begin_src sh :tangle ~/.profile
+export TERMINAL=footclient
+export EDITOR=nvim
+export BROWSER=firefox
+#+end_src
+
+** =$PATH=
+#+begin_src sh :tangle ~/.profile
+export PATH=$PATH:$HOME/.local/bin
+export PATH="$PATH:$(go env GOBIN):$(go env GOPATH)/bin"
+#+end_src
+
+** GPG Agent As SSH Agent
+#+begin_src sh :tangle ~/.profile
+export SSH_AGENT_PID=""
+export SSH_AUTH_SOCK="${XDG_RUNTIME_DIR}/gnupg/S.gpg-agent.ssh"
+#+end_src
+
+* Zsh
+** Theme Helper
+#+begin_src sh :tangle ~/.local/share/zsh_syntax_highlighting_catppuccin.zsh
+# Catppuccin Macchiato Theme (for zsh-syntax-highlighting)
+#
+# Paste this files contents inside your ~/.zshrc before you activate zsh-syntax-highlighting
+ZSH_HIGHLIGHT_HIGHLIGHTERS=(main cursor)
+typeset -gA ZSH_HIGHLIGHT_STYLES
+
+# Main highlighter styling: https://github.com/zsh-users/zsh-syntax-highlighting/blob/master/docs/highlighters/main.md
+#
+## General
+### Diffs
+### Markup
+## Classes
+## Comments
+ZSH_HIGHLIGHT_STYLES[comment]='fg=#5b6078'
+## Constants
+## Entitites
+## Functions/methods
+ZSH_HIGHLIGHT_STYLES[alias]='fg=#a6da95'
+ZSH_HIGHLIGHT_STYLES[suffix-alias]='fg=#a6da95'
+ZSH_HIGHLIGHT_STYLES[global-alias]='fg=#a6da95'
+ZSH_HIGHLIGHT_STYLES[function]='fg=#a6da95'
+ZSH_HIGHLIGHT_STYLES[command]='fg=#a6da95'
+ZSH_HIGHLIGHT_STYLES[precommand]='fg=#a6da95,italic'
+ZSH_HIGHLIGHT_STYLES[autodirectory]='fg=#f5a97f,italic'
+ZSH_HIGHLIGHT_STYLES[single-hyphen-option]='fg=#f5a97f'
+ZSH_HIGHLIGHT_STYLES[double-hyphen-option]='fg=#f5a97f'
+ZSH_HIGHLIGHT_STYLES[back-quoted-argument]='fg=#c6a0f6'
+## Keywords
+## Built ins
+ZSH_HIGHLIGHT_STYLES[builtin]='fg=#a6da95'
+ZSH_HIGHLIGHT_STYLES[reserved-word]='fg=#a6da95'
+ZSH_HIGHLIGHT_STYLES[hashed-command]='fg=#a6da95'
+## Punctuation
+ZSH_HIGHLIGHT_STYLES[commandseparator]='fg=#ed8796'
+ZSH_HIGHLIGHT_STYLES[command-substitution-delimiter]='fg=#cad3f5'
+ZSH_HIGHLIGHT_STYLES[command-substitution-delimiter-unquoted]='fg=#cad3f5'
+ZSH_HIGHLIGHT_STYLES[process-substitution-delimiter]='fg=#cad3f5'
+ZSH_HIGHLIGHT_STYLES[back-quoted-argument-delimiter]='fg=#ed8796'
+ZSH_HIGHLIGHT_STYLES[back-double-quoted-argument]='fg=#ed8796'
+ZSH_HIGHLIGHT_STYLES[back-dollar-quoted-argument]='fg=#ed8796'
+## Serializable / Configuration Languages
+## Storage
+## Strings
+ZSH_HIGHLIGHT_STYLES[command-substitution-quoted]='fg=#eed49f'
+ZSH_HIGHLIGHT_STYLES[command-substitution-delimiter-quoted]='fg=#eed49f'
+ZSH_HIGHLIGHT_STYLES[single-quoted-argument]='fg=#eed49f'
+ZSH_HIGHLIGHT_STYLES[single-quoted-argument-unclosed]='fg=#ee99a0'
+ZSH_HIGHLIGHT_STYLES[double-quoted-argument]='fg=#eed49f'
+ZSH_HIGHLIGHT_STYLES[double-quoted-argument-unclosed]='fg=#ee99a0'
+ZSH_HIGHLIGHT_STYLES[rc-quote]='fg=#eed49f'
+## Variables
+ZSH_HIGHLIGHT_STYLES[dollar-quoted-argument]='fg=#cad3f5'
+ZSH_HIGHLIGHT_STYLES[dollar-quoted-argument-unclosed]='fg=#ee99a0'
+ZSH_HIGHLIGHT_STYLES[dollar-double-quoted-argument]='fg=#cad3f5'
+ZSH_HIGHLIGHT_STYLES[assign]='fg=#cad3f5'
+ZSH_HIGHLIGHT_STYLES[named-fd]='fg=#cad3f5'
+ZSH_HIGHLIGHT_STYLES[numeric-fd]='fg=#cad3f5'
+## No category relevant in spec
+ZSH_HIGHLIGHT_STYLES[unknown-token]='fg=#ee99a0'
+ZSH_HIGHLIGHT_STYLES[path]='fg=#cad3f5,underline'
+ZSH_HIGHLIGHT_STYLES[path_pathseparator]='fg=#ed8796,underline'
+ZSH_HIGHLIGHT_STYLES[path_prefix]='fg=#cad3f5,underline'
+ZSH_HIGHLIGHT_STYLES[path_prefix_pathseparator]='fg=#ed8796,underline'
+ZSH_HIGHLIGHT_STYLES[globbing]='fg=#cad3f5'
+ZSH_HIGHLIGHT_STYLES[history-expansion]='fg=#c6a0f6'
+#ZSH_HIGHLIGHT_STYLES[command-substitution]='fg=?'
+#ZSH_HIGHLIGHT_STYLES[command-substitution-unquoted]='fg=?'
+#ZSH_HIGHLIGHT_STYLES[process-substitution]='fg=?'
+#ZSH_HIGHLIGHT_STYLES[arithmetic-expansion]='fg=?'
+ZSH_HIGHLIGHT_STYLES[back-quoted-argument-unclosed]='fg=#ee99a0'
+ZSH_HIGHLIGHT_STYLES[redirection]='fg=#cad3f5'
+ZSH_HIGHLIGHT_STYLES[arg0]='fg=#cad3f5'
+ZSH_HIGHLIGHT_STYLES[default]='fg=#cad3f5'
+ZSH_HIGHLIGHT_STYLES[cursor]='fg=#cad3f5'
+#+end_src
+
+** Profile
+#+begin_src bash :tangle ~/.zprofile
+source ~/.profile
+#+end_src
+
+** Colors
+#+begin_src bash :tangle ~/.zshrc
+autoload -U colors
+colors
+#+end_src
+
+**  History
+#+begin_src bash :tangle ~/.zshrc
+HISTSIZE=1000001
+SAVEHIST=1000000
+HISTFILE=~/.zsh_history
+setopt histignoredups histignorespace sharehistory
+#+end_src
+
+** Completion
+#+begin_src bash :tangle ~/.zshrc
+setopt autocd extendedglob
+
+zstyle :compinstall filename '/home/rehandaphedar/.zshrc'
+autoload -Uz compinit
+zstyle ':completion:*' menu select
+compinit
+
+zmodload zsh/complist
+#+end_src
+
+** Keybinds
+#+begin_src bash :tangle ~/.zshrc
+bindkey -v
+export KEYTIMEOUT=1
+
+bindkey "^[[H" beginning-of-line
+bindkey "^[[F" end-of-line
+bindkey -M vicmd "^[[H" beginning-of-line
+bindkey -M vicmd "^[[F" end-of-line
+
+bindkey '^[[A' history-substring-search-up
+bindkey '^[[B' history-substring-search-down
+
+bindkey -M menuselect 'h' vi-backward-char
+bindkey -M menuselect 'k' vi-up-line-or-history
+bindkey -M menuselect 'j' vi-down-line-or-history
+bindkey -M menuselect 'l' vi-forward-char
+#+end_src
+
+** Plugins
+#+begin_src bash :tangle ~/.zshrc
+source ~/.local/share/zsh_syntax_highlighting_catppuccin.zsh
+source /usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh 2>/dev/null
+source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/null
+source /usr/share/zsh/plugins/zsh-completions/zsh-completions.zsh 2>/dev/null
+source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh 2>/dev/null
+source /usr/share/zsh/plugins/zsh-vi-mode/zsh-vi-mode.zsh 2>/dev/null
+#+end_src
+
+** Prompt
+#+begin_src bash :tangle ~/.zshrc
+eval "$(starship init zsh)"
+#+end_src
+
+* Starship
+#+begin_src toml :tangle ~/.config/starship.toml
+palette = "catppuccin_macchiato"
+
+[aws]
+symbol = "  "
+
+[buf]
+symbol = " "
+
+[c]
+symbol = " "
+
+[conda]
+symbol = " "
+
+[crystal]
+symbol = " "
+
+[dart]
+symbol = " "
+
+[directory]
+read_only = " 󰌾"
+
+[docker_context]
+symbol = " "
+
+[elixir]
+symbol = " "
+
+[elm]
+symbol = " "
+
+[fennel]
+symbol = " "
+
+[fossil_branch]
+symbol = " "
+
+[git_branch]
+symbol = " "
+
+[golang]
+symbol = " "
+
+[guix_shell]
+symbol = " "
+
+[haskell]
+symbol = " "
+
+[haxe]
+symbol = " "
+
+[hg_branch]
+symbol = " "
+
+[hostname]
+ssh_symbol = " "
+
+[java]
+symbol = " "
+
+[julia]
+symbol = " "
+
+[kotlin]
+symbol = " "
+
+[lua]
+symbol = " "
+
+[memory_usage]
+symbol = "󰍛 "
+
+[meson]
+symbol = "󰔷 "
+
+[nim]
+symbol = "󰆥 "
+
+[nix_shell]
+symbol = " "
+
+[nodejs]
+symbol = " "
+
+[ocaml]
+symbol = " "
+
+[os.symbols]
+Alpaquita = " "
+Alpine = " "
+AlmaLinux = " "
+Amazon = " "
+Android = " "
+Arch = " "
+Artix = " "
+CentOS = " "
+Debian = " "
+DragonFly = " "
+Emscripten = " "
+EndeavourOS = " "
+Fedora = " "
+FreeBSD = " "
+Garuda = "󰛓 "
+Gentoo = " "
+HardenedBSD = "󰞌 "
+Illumos = "󰈸 "
+Kali = " "
+Linux = " "
+Mabox = " "
+Macos = " "
+Manjaro = " "
+Mariner = " "
+MidnightBSD = " "
+Mint = " "
+NetBSD = " "
+NixOS = " "
+OpenBSD = "󰈺 "
+openSUSE = " "
+OracleLinux = "󰌷 "
+Pop = " "
+Raspbian = " "
+Redhat = " "
+RedHatEnterprise = " "
+RockyLinux = " "
+Redox = "󰀘 "
+Solus = "󰠳 "
+SUSE = " "
+Ubuntu = " "
+Unknown = " "
+Void = " "
+Windows = "󰍲 "
+
+[package]
+symbol = "󰏗 "
+
+[perl]
+symbol = " "
+
+[php]
+symbol = " "
+
+[pijul_channel]
+symbol = " "
+
+[python]
+symbol = " "
+
+[rlang]
+symbol = "󰟔 "
+
+[ruby]
+symbol = " "
+
+[rust]
+symbol = " "
+
+[scala]
+symbol = " "
+
+[swift]
+symbol = " "
+
+[zig]
+symbol = " "
+
+[palettes.catppuccin_macchiato]
+rosewater = "#f4dbd6"
+flamingo = "#f0c6c6"
+pink = "#f5bde6"
+mauve = "#c6a0f6"
+red = "#ed8796"
+maroon = "#ee99a0"
+peach = "#f5a97f"
+yellow = "#eed49f"
+green = "#a6da95"
+teal = "#8bd5ca"
+sky = "#91d7e3"
+sapphire = "#7dc4e4"
+blue = "#8aadf4"
+lavender = "#b7bdf8"
+text = "#cad3f5"
+subtext1 = "#b8c0e0"
+subtext0 = "#a5adcb"
+overlay2 = "#939ab7"
+overlay1 = "#8087a2"
+overlay0 = "#6e738d"
+surface2 = "#5b6078"
+surface1 = "#494d64"
+surface0 = "#363a4f"
+base = "#24273a"
+mantle = "#1e2030"
+crust = "#181926"
+#+end_src
+
+* BTop
+** Theme
+#+begin_src conf :tangle ~/.config/btop/themes/catppuccin_macchiato.theme
+# Main background, empty for terminal default, need to be empty if you want transparent background
+theme[main_bg]="#24273A"
+
+# Main text color
+theme[main_fg]="#CAD3F5"
+
+# Title color for boxes
+theme[title]="#CAD3F5"
+
+# Highlight color for keyboard shortcuts
+theme[hi_fg]="#8AADF4"
+
+# Background color of selected item in processes box
+theme[selected_bg]="#494D64"
+
+# Foreground color of selected item in processes box
+theme[selected_fg]="#8AADF4"
+
+# Color of inactive/disabled text
+theme[inactive_fg]="#8087A2"
+
+# Color of text appearing on top of graphs, i.e uptime and current network graph scaling
+theme[graph_text]="#F4DBD6"
+
+# Background color of the percentage meters
+theme[meter_bg]="#494D64"
+
+# Misc colors for processes box including mini cpu graphs, details memory graph and details status text
+theme[proc_misc]="#F4DBD6"
+
+# CPU, Memory, Network, Proc box outline colors
+theme[cpu_box]="#c6a0f6" #Mauve
+theme[mem_box]="#a6da95" #Green
+theme[net_box]="#ee99a0" #Maroon
+theme[proc_box]="#8aadf4" #Blue
+
+# Box divider line and small boxes line color
+theme[div_line]="#6E738D"
+
+# Temperature graph color (Green -> Yellow -> Red)
+theme[temp_start]="#a6da95"
+theme[temp_mid]="#eed49f"
+theme[temp_end]="#ed8796"
+
+# CPU graph colors (Teal -> Lavender)
+theme[cpu_start]="#8bd5ca"
+theme[cpu_mid]="#7dc4e4"
+theme[cpu_end]="#b7bdf8"
+
+# Mem/Disk free meter (Mauve -> Lavender -> Blue)
+theme[free_start]="#c6a0f6"
+theme[free_mid]="#b7bdf8"
+theme[free_end]="#8aadf4"
+
+# Mem/Disk cached meter (Sapphire -> Lavender)
+theme[cached_start]="#7dc4e4"
+theme[cached_mid]="#8aadf4"
+theme[cached_end]="#b7bdf8"
+
+# Mem/Disk available meter (Peach -> Red)
+theme[available_start]="#f5a97f"
+theme[available_mid]="#ee99a0"
+theme[available_end]="#ed8796"
+
+# Mem/Disk used meter (Green -> Sky)
+theme[used_start]="#a6da95"
+theme[used_mid]="#8bd5ca"
+theme[used_end]="#91d7e3"
+
+# Download graph colors (Peach -> Red)
+theme[download_start]="#f5a97f"
+theme[download_mid]="#ee99a0"
+theme[download_end]="#ed8796"
+
+# Upload graph colors (Green -> Sky)
+theme[upload_start]="#a6da95"
+theme[upload_mid]="#8bd5ca"
+theme[upload_end]="#91d7e3"
+
+# Process box color gradient for threads, mem and cpu usage (Sapphire -> Mauve)
+theme[process_start]="#7dc4e4"
+theme[process_mid]="#b7bdf8"
+theme[process_end]="#c6a0f6"
+#+end_src
+
+** Main
+#+begin_src conf :tangle ~/.config/btop/btop.conf
+#? Config file for btop v. 1.3.2
+
+#* Name of a btop++/bpytop/bashtop formatted ".theme" file, "Default" and "TTY" for builtin themes.
+#* Themes should be placed in "../share/btop/themes" relative to binary or "$HOME/.config/btop/themes"
+color_theme = "/home/rehandaphedar/.config/btop/themes/catppuccin_macchiato.theme"
+
+#* If the theme set background should be shown, set to False if you want terminal background transparency.
+theme_background = False
+
+#* Sets if 24-bit truecolor should be used, will convert 24-bit colors to 256 color (6x6x6 color cube) if false.
+truecolor = True
+
+#* Set to true to force tty mode regardless if a real tty has been detected or not.
+#* Will force 16-color mode and TTY theme, set all graph symbols to "tty" and swap out other non tty friendly symbols.
+force_tty = False
+
+#* Define presets for the layout of the boxes. Preset 0 is always all boxes shown with default settings. Max 9 presets.
+#* Format: "box_name:P:G,box_name:P:G" P=(0 or 1) for alternate positions, G=graph symbol to use for box.
+#* Use whitespace " " as separator between different presets.
+#* Example: "cpu:0:default,mem:0:tty,proc:1:default cpu:0:braille,proc:0:tty"
+presets = "cpu:1:default,proc:0:default cpu:0:default,mem:0:default,net:0:default cpu:0:block,net:0:tty"
+
+#* Set to True to enable "h,j,k,l,g,G" keys for directional control in lists.
+#* Conflicting keys for h:"help" and k:"kill" is accessible while holding shift.
+vim_keys = True
+
+#* Rounded corners on boxes, is ignored if TTY mode is ON.
+rounded_corners = False
+
+#* Default symbols to use for graph creation, "braille", "block" or "tty".
+#* "braille" offers the highest resolution but might not be included in all fonts.
+#* "block" has half the resolution of braille but uses more common characters.
+#* "tty" uses only 3 different symbols but will work with most fonts and should work in a real TTY.
+#* Note that "tty" only has half the horizontal resolution of the other two, so will show a shorter historical view.
+graph_symbol = "braille"
+
+# Graph symbol to use for graphs in cpu box, "default", "braille", "block" or "tty".
+graph_symbol_cpu = "default"
+
+# Graph symbol to use for graphs in gpu box, "default", "braille", "block" or "tty".
+graph_symbol_gpu = "default"
+
+# Graph symbol to use for graphs in cpu box, "default", "braille", "block" or "tty".
+graph_symbol_mem = "default"
+
+# Graph symbol to use for graphs in cpu box, "default", "braille", "block" or "tty".
+graph_symbol_net = "default"
+
+# Graph symbol to use for graphs in cpu box, "default", "braille", "block" or "tty".
+graph_symbol_proc = "default"
+
+#* Manually set which boxes to show. Available values are "cpu mem net proc" and "gpu0" through "gpu5", separate values with whitespace.
+shown_boxes = "cpu mem net proc"
+
+#* Update time in milliseconds, recommended 2000 ms or above for better sample times for graphs.
+update_ms = 2000
+
+#* Processes sorting, "pid" "program" "arguments" "threads" "user" "memory" "cpu lazy" "cpu direct",
+#* "cpu lazy" sorts top process over time (easier to follow), "cpu direct" updates top process directly.
+proc_sorting = "cpu lazy"
+
+#* Reverse sorting order, True or False.
+proc_reversed = False
+
+#* Show processes as a tree.
+proc_tree = False
+
+#* Use the cpu graph colors in the process list.
+proc_colors = True
+
+#* Use a darkening gradient in the process list.
+proc_gradient = True
+
+#* If process cpu usage should be of the core it's running on or usage of the total available cpu power.
+proc_per_core = False
+
+#* Show process memory as bytes instead of percent.
+proc_mem_bytes = True
+
+#* Show cpu graph for each process.
+proc_cpu_graphs = True
+
+#* Use /proc/[pid]/smaps for memory information in the process info box (very slow but more accurate)
+proc_info_smaps = False
+
+#* Show proc box on left side of screen instead of right.
+proc_left = False
+
+#* (Linux) Filter processes tied to the Linux kernel(similar behavior to htop).
+proc_filter_kernel = False
+
+#* In tree-view, always accumulate child process resources in the parent process.
+proc_aggregate = False
+
+#* Sets the CPU stat shown in upper half of the CPU graph, "total" is always available.
+#* Select from a list of detected attributes from the options menu.
+cpu_graph_upper = "Auto"
+
+#* Sets the CPU stat shown in lower half of the CPU graph, "total" is always available.
+#* Select from a list of detected attributes from the options menu.
+cpu_graph_lower = "Auto"
+
+#* If gpu info should be shown in the cpu box. Available values = "Auto", "On" and "Off".
+show_gpu_info = "Auto"
+
+#* Toggles if the lower CPU graph should be inverted.
+cpu_invert_lower = True
+
+#* Set to True to completely disable the lower CPU graph.
+cpu_single_graph = False
+
+#* Show cpu box at bottom of screen instead of top.
+cpu_bottom = False
+
+#* Shows the system uptime in the CPU box.
+show_uptime = True
+
+#* Show cpu temperature.
+check_temp = True
+
+#* Which sensor to use for cpu temperature, use options menu to select from list of available sensors.
+cpu_sensor = "Auto"
+
+#* Show temperatures for cpu cores also if check_temp is True and sensors has been found.
+show_coretemp = True
+
+#* Set a custom mapping between core and coretemp, can be needed on certain cpus to get correct temperature for correct core.
+#* Use lm-sensors or similar to see which cores are reporting temperatures on your machine.
+#* Format "x:y" x=core with wrong temp, y=core with correct temp, use space as separator between multiple entries.
+#* Example: "4:0 5:1 6:3"
+cpu_core_map = ""
+
+#* Which temperature scale to use, available values: "celsius", "fahrenheit", "kelvin" and "rankine".
+temp_scale = "celsius"
+
+#* Use base 10 for bits/bytes sizes, KB = 1000 instead of KiB = 1024.
+base_10_sizes = False
+
+#* Show CPU frequency.
+show_cpu_freq = True
+
+#* Draw a clock at top of screen, formatting according to strftime, empty string to disable.
+#* Special formatting: /host = hostname | /user = username | /uptime = system uptime
+clock_format = "%X"
+
+#* Update main ui in background when menus are showing, set this to false if the menus is flickering too much for comfort.
+background_update = True
+
+#* Custom cpu model name, empty string to disable.
+custom_cpu_name = ""
+
+#* Optional filter for shown disks, should be full path of a mountpoint, separate multiple values with whitespace " ".
+#* Begin line with "exclude=" to change to exclude filter, otherwise defaults to "most include" filter. Example: disks_filter="exclude=/boot /home/user".
+disks_filter = ""
+
+#* Show graphs instead of meters for memory values.
+mem_graphs = True
+
+#* Show mem box below net box instead of above.
+mem_below_net = False
+
+#* Count ZFS ARC in cached and available memory.
+zfs_arc_cached = True
+
+#* If swap memory should be shown in memory box.
+show_swap = True
+
+#* Show swap as a disk, ignores show_swap value above, inserts itself after first disk.
+swap_disk = True
+
+#* If mem box should be split to also show disks info.
+show_disks = True
+
+#* Filter out non physical disks. Set this to False to include network disks, RAM disks and similar.
+only_physical = True
+
+#* Read disks list from /etc/fstab. This also disables only_physical.
+use_fstab = True
+
+#* Setting this to True will hide all datasets, and only show ZFS pools. (IO stats will be calculated per-pool)
+zfs_hide_datasets = False
+
+#* Set to true to show available disk space for privileged users.
+disk_free_priv = False
+
+#* Toggles if io activity % (disk busy time) should be shown in regular disk usage view.
+show_io_stat = True
+
+#* Toggles io mode for disks, showing big graphs for disk read/write speeds.
+io_mode = False
+
+#* Set to True to show combined read/write io graphs in io mode.
+io_graph_combined = False
+
+#* Set the top speed for the io graphs in MiB/s (100 by default), use format "mountpoint:speed" separate disks with whitespace " ".
+#* Example: "/mnt/media:100 /:20 /boot:1".
+io_graph_speeds = ""
+
+#* Set fixed values for network graphs in Mebibits. Is only used if net_auto is also set to False.
+net_download = 100
+
+net_upload = 100
+
+#* Use network graphs auto rescaling mode, ignores any values set above and rescales down to 10 Kibibytes at the lowest.
+net_auto = True
+
+#* Sync the auto scaling for download and upload to whichever currently has the highest scale.
+net_sync = True
+
+#* Starts with the Network Interface specified here.
+net_iface = ""
+
+#* Show battery stats in top right if battery is present.
+show_battery = True
+
+#* Which battery to use if multiple are present. "Auto" for auto detection.
+selected_battery = "Auto"
+
+#* Show power stats of battery next to charge indicator.
+show_battery_watts = True
+
+#* Set loglevel for "~/.config/btop/btop.log" levels are: "ERROR" "WARNING" "INFO" "DEBUG".
+#* The level set includes all lower levels, i.e. "DEBUG" will show all logging info.
+log_level = "WARNING"
+
+#* Measure PCIe throughput on NVIDIA cards, may impact performance on certain cards.
+nvml_measure_pcie_speeds = True
+
+#* Horizontally mirror the GPU graph.
+gpu_mirror_graph = True
+
+#* Custom gpu0 model name, empty string to disable.
+custom_gpu_name0 = ""
+
+#* Custom gpu1 model name, empty string to disable.
+custom_gpu_name1 = ""
+
+#* Custom gpu2 model name, empty string to disable.
+custom_gpu_name2 = ""
+
+#* Custom gpu3 model name, empty string to disable.
+custom_gpu_name3 = ""
+
+#* Custom gpu4 model name, empty string to disable.
+custom_gpu_name4 = ""
+
+#* Custom gpu5 model name, empty string to disable.
+custom_gpu_name5 = ""
+#+end_src
+
+* Fontconfig
+#+begin_src xml :tangle ~/.config/fontconfig/fonts.conf
+<?xml version="1.0"?>
+<!DOCTYPE fontconfig SYSTEM "fonts.dtd">
+<fontconfig>
+  <!-- Arabic -->
+  <match target="pattern">
+    <test name="lang" compare="contains">
+      <string>ar</string>
+    </test>
+    <test qual="any" name="family">
+      <string>serif</string>
+    </test>
+    <edit name="family" mode="prepend" binding="strong">
+      <string>KFGQPC HAFS Uthmanic Script</string>
+    </edit>
+  </match>
+  <match target="pattern">
+    <test name="lang" compare="contains">
+      <string>ar</string>
+    </test>
+    <test qual="any" name="family">
+      <string>sans-serif</string>
+    </test>
+    <edit name="family" mode="prepend" binding="strong">
+      <string>KFGQPC HAFS Uthmanic Script</string>
+    </edit>
+  </match>
+  <!-- Setting Default Fonts-->
+  <alias>
+    <family>sans-serif</family>
+    <prefer>
+      <family>Roboto</family>
+      <family>Twemoji</family>
+      <family>KFGQPC HAFS Uthmanic Script</family>
+    </prefer>
+  </alias>
+  <alias>
+    <family>serif</family>
+    <prefer>
+      <family>EB Garamond</family>
+      <family>Twemoji</family>
+      <family>KFGQPC HAFS Uthmanic Script</family>
+    </prefer>
+  </alias>
+  <alias>
+    <family>monospace</family>
+    <prefer>
+      <family>JetBrains Mono</family>
+      <family>Twemoji</family>
+      <family>KFGQPC HAFS Uthmanic Script</family>
+    </prefer>
+  </alias>
+</fontconfig>
+#+end_src
+
+* Mimeapps
+#+begin_src conf :tangle ~/.config/mimeapps.list
+[Default Applications]
+video/mp4=mpv.desktop
+video/ogg=mpv.desktop
+video/webm=mpv.desktop
+
+image/bmp=imv.desktop
+image/gif=imv.desktop
+image/jpeg=imv.desktop
+image/jpg=imv.desktop
+image/pjpeg=imv.desktop
+image/png=imv.desktop
+image/tiff=imv.desktop
+image/x-bmp=imv.desktop
+image/x-pcx=imv.desktop
+image/x-png=imv.desktop
+image/x-portable-anymap=imv.desktop
+image/x-portable-bitmap=imv.desktop
+image/x-portable-graymap=imv.desktop
+image/x-portable-pixmap=imv.desktop
+image/x-tga=imv.desktop
+image/x-xbitmap=imv.desktop
+image/heif=imv.desktop
+image/avif=imv.desktop
+
+text/html=firefox.desktop
+text/xml=firefox.desktop
+application/xhtml+xml=firefox.desktop
+application/vnd.mozilla.xul+xml=firefox.desktop
+text/mml=firefox.desktop
+x-scheme-handler/http=firefox.desktop
+x-scheme-handler/https=firefox.desktop
+
+application/pdf=emacsclient.desktop
+x-scheme-handler/mpv=mpv-scheme-handler.desktop
+#+end_src
+
+* GPG Agent
+#+begin_src conf :tangle ~/.gnupg/gpg-agent.conf
+default-cache-ttl 604800
+max-cache-ttl 604800
+default-cache-ttl-ssh 604800
+max-cache-ttl-ssh 604800
+allow-loopback-pinentry
+#+end_src
+
+* Git
+#+begin_src conf-toml :tangle ~/.gitconfig
+[init]
+	defaultBranch = main
+
+[user]
+	email = mail@rehandaphedar.com 
+	name = Rehan Daphedar
+
+[sendemail]
+	smtpserver = mail.rehandaphedar.com
+	smtpuser = mail@rehandaphedar.com
+	smtpencryption = ssl
+	smtpserverport = 465
+
+[credential]
+	helper = cache
+	helper = !pass-git-helper $@
+
+[pull]
+	rebase = true
+#+end_src
+
+* Pass Git Helper
+#+begin_src conf :tangle ~/.config/pass-git-helper/git-pass-mapping.ini
+[mail.rehandaphedar.com:465]
+	target=init/mail.rehandaphedar.com/password
+#+end_src
+
+* Foot
+** General
+#+begin_src conf :tangle ~/.config/foot/foot.ini
+font=JetBrains Mono Nerd Font:size=11
+
+[scrollback]
+lines=10000
+indicator-format=line
+
+[cursor]
+style=beam
+unfocused-style=hollow
+#+end_src
+
+** Theme
+#+begin_src conf :tangle ~/.config/foot/foot.ini
+[colors]
+foreground=cad3f5
+background=24273a
+
+regular0=b8c0e0
+regular1=ed8796
+regular2=a6da95
+regular3=eed49f
+regular4=8aadf4
+regular5=f5bde6
+regular6=8bd5ca
+regular7=5b6078
+
+bright0=a5adcb
+bright1=ed8796
+bright2=a6da95
+bright3=eed49f
+bright4=8aadf4
+bright5=f5bde6
+bright6=8bd5ca
+bright7=494d64
+
+selection-foreground=cad3f5
+selection-background=454a5f
+
+search-box-no-match=181926 ed8796
+search-box-match=cad3f5 363a4f
+
+jump-labels=181926 f5a97f
+urls=8aadf4
+#+end_src
+
+** Binds
+#+begin_src conf :tangle ~/.config/foot/foot.ini
+[key-bindings]
+scrollback-up-half-page=Control+k
+scrollback-down-half-page=Control+j
+scrollback-home=Control+g
+scrollback-end=Control+Shift+g
+search-start=Control+f
+pipe-scrollback=[wl-copy] Control+Shift+p
+pipe-command-output=[wl-copy] Control+p
+show-urls-launch=Control+u
+show-urls-copy=Control+Shift+u
+unicode-input=none
+
+[search-bindings]
+cancel=Escape
+find-prev=Shift+n
+find-next=n
+scrollback-up-half-page=Shift+k
+scrollback-down-half-page=Shift+j
+scrollback-home=Control+g
+scrollback-end=Control+Shift+g
+#+end_src
+
+* Wayland Session
+#+begin_src conf :tangle ~/.config/systemd/user/wayland-session.target
+[Unit]
+Description=Wayland session
+BindsTo=graphical-session.target
+#+end_src
+
+* Hypr
+** Hyprland
+*** Theme
+#+begin_src conf :tangle ~/.config/hypr/macchiato.conf
+$rosewater = rgb(f4dbd6)
+$rosewaterAlpha = f4dbd6
+
+$flamingo = rgb(f0c6c6)
+$flamingoAlpha = f0c6c6
+
+$pink = rgb(f5bde6)
+$pinkAlpha = f5bde6
+
+$mauve = rgb(c6a0f6)
+$mauveAlpha = c6a0f6
+
+$red = rgb(ed8796)
+$redAlpha = ed8796
+
+$maroon = rgb(ee99a0)
+$maroonAlpha = ee99a0
+
+$peach = rgb(f5a97f)
+$peachAlpha = f5a97f
+
+$yellow = rgb(eed49f)
+$yellowAlpha = eed49f
+
+$green = rgb(a6da95)
+$greenAlpha = a6da95
+
+$teal = rgb(8bd5ca)
+$tealAlpha = 8bd5ca
+
+$sky = rgb(91d7e3)
+$skyAlpha = 91d7e3
+
+$sapphire = rgb(7dc4e4)
+$sapphireAlpha = 7dc4e4
+
+$blue = rgb(8aadf4)
+$blueAlpha = 8aadf4
+
+$lavender = rgb(b7bdf8)
+$lavenderAlpha = b7bdf8
+
+$text = rgb(cad3f5)
+$textAlpha = cad3f5
+
+$subtext1 = rgb(b8c0e0)
+$subtext1Alpha = b8c0e0
+
+$subtext0 = rgb(a5adcb)
+$subtext0Alpha = a5adcb
+
+$overlay2 = rgb(939ab7)
+$overlay2Alpha = 939ab7
+
+$overlay1 = rgb(8087a2)
+$overlay1Alpha = 8087a2
+
+$overlay0 = rgb(6e738d)
+$overlay0Alpha = 6e738d
+
+$surface2 = rgb(5b6078)
+$surface2Alpha = 5b6078
+
+$surface1 = rgb(494d64)
+$surface1Alpha = 494d64
+
+$surface0 = rgb(363a4f)
+$surface0Alpha = 363a4f
+
+$base = rgb(24273a)
+$baseAlpha = 24273a
+
+$mantle = rgb(1e2030)
+$mantleAlpha = 1e2030
+
+$crust = rgb(181926)
+$crustAlpha = 181926
+#+end_src
+
+#+begin_src conf :tangle ~/.config/hypr/hyprland.conf
+source = ~/.config/hypr/macchiato.conf
+#+end_src
+
+*** Environment
+#+begin_src conf :tangle ~/.config/hypr/hyprland.conf
+exec-once = startup
+
+env = HYPRCURSOR_SIZE,24
+env = HYPRCURSOR_THEME,catppuccin-macchiato-yellow-cursors
+env = XCURSOR_SIZE,24
+env = XCURSOR_THEME,catppuccin-macchiato-yellow-cursors
+
+env = GDK_BACKEND,wayland,x11,*
+env = QT_QPA_PLATFORM,wayland;xcb
+env = QT_QPA_PLATFORMTHEME,qt6ct
+env = SDL_BACKEND,wayland
+env = CLUTTER_BACKEND,wayland
+env = XDG_SESSION_TYPE,wayland
+env = NVD_BACKEND,direct
+env = XDG_CURRENT_DESKTOP,Hyprland
+env = XDG_SESSION_TYPE,wayland
+env = XDG_SESSION_DESKTOP,Hyprland
+env = ELECTRON_OZONE_PLATFORM_HINT,auto
+
+xwayland {
+  force_zero_scaling = true
+}
+#+end_src
+
+*** General
+#+begin_src conf :tangle ~/.config/hypr/hyprland.conf
+general { 
+    gaps_in = 2
+    gaps_out = 4
+    border_size = 2
+
+    col.active_border = rgba($lavenderAlphaee)
+    col.inactive_border = rgba($overlay0Alphaaa)
+	
+    resize_on_border = true
+    layout = master
+}
+
+decoration {
+    inactive_opacity = 0.65
+    active_opacity = 0.95
+    fullscreen_opacity = 1.0
+
+    dim_inactive = true
+    dim_strength = 0.35
+
+    rounding = 0
+    drop_shadow = false
+
+    blur {
+    enabled = true
+
+    size = 4
+    passes = 2
+
+    ignore_opacity = true
+    xray = true
+
+    vibrancy = 0.35
+    }
+}
+
+animations {
+    enabled = true
+
+    bezier = easeOut,0.25, 1, 0.5, 1
+
+    animation = windows, 1, 4, easeOut, slide
+    animation = border, 1, 10, easeOut
+    animation = borderangle, 1, 8, easeOut
+    animation = fade, 1, 4, default
+    animation = workspaces, 1, 4, easeOut, slide
+}
+
+master {
+    no_gaps_when_only = 1
+    mfact = 0.6
+}
+
+misc { 
+    force_default_wallpaper = 0
+    disable_hyprland_logo = true
+    enable_swallow = true
+    swallow_regex = ^(footclient)$
+}
+#+end_src
+
+*** Input
+#+begin_src conf :tangle ~/.config/hypr/hyprland.conf
+input {
+    kb_layout = us
+    kb_options = ctrl:nocaps
+    numlock_by_default = true
+
+    follow_mouse = 1
+    sensitivity = -0.45
+    accel_profile = flat
+}
+
+gestures {
+    workspace_swipe = true
+    workspace_swipe_direction_lock = false
+    workspace_swipe_forever = true
+}
+
+
+bind=SUPER,R,pass,^(com\.obsproject\.Studio)$
+bind=SUPER+SHIFT,R,pass,^(com\.obsproject\.Studio)$
+
+bind = SUPER, mouse_down, workspace, e+1
+bind = SUPER, mouse_up, workspace, e-1
+
+bindm = SUPER, mouse:272, movewindow
+bindm = SUPER, mouse:273, resizewindow
+
+windowrulev2 = workspace 1,class:(emacs)
+windowrulev2 = workspace 3,class:(Firefox)
+windowrulev2 = workspace 4,class:(Mullvad Browser)
+
+layerrule = animation slide, wofi
+layerrule = dimaround, wofi
+layerrule = animation slide, notifications
+#+end_src
+
+*** Hyprtrails
+#+begin_src conf :tangle ~/.config/hypr/hyprland.conf
+plugin {
+	hyprtrails {
+		color = $sapphire
+	}
+}
+#+end_src
+
+** Hyprlock
+#+begin_src conf :tangle ~/.config/hypr/hyprlock.conf
+general {
+    hide_cursor = true
+    no_fade_in = true
+    no_fade_out = true
+}
+
+background {
+    monitor =
+    blur_passes = 0
+    color = rgb(1e2030)
+}
+
+label {
+    monitor =
+    text = cmd[update:1000] echo "$(date +"%-I:%M %p")"
+    color = rgba(255, 255, 255, 0.6)
+    font_size = 144
+    font_family = monospace
+    position = 0, 0
+    halign = center
+    valign = center
+}
+
+input-field {
+    monitor =
+    size = 500, 75
+
+    outline_thickness = 0
+    dots_size = 0.25
+    dots_spacing = 0.5
+    dots_center = true
+
+    outer_color = rgb(a6da95)
+    inner_color = rgb(181926)
+    font_color = rgb(cad3f5)
+    fade_on_empty = true
+    placeholder_text = <span foreground="##a5adcb">Password...</span>
+
+    check_color = rgb(8aadf4)
+    fail_color = rgb(ed8796)
+    fail_text =
+    fail_transition = 0
+
+    position = 0, -150
+    halign = center
+    valign = center
+}
+#+end_src
+
+** Hyprshade
+#+begin_src conf :tangle ~/.config/hyprshade/config.toml
+[[shades]]
+name = "blue-light-filter"
+start_time = 19:00:00
+end_time = 04:00:00
+#+end_src
+
+* swhkd
+** Hyprland
+#+begin_src conf :tangle ~/.config/swhkd/swhkdrc
+super + q
+	hyprctl dispatch killactive
+super + t
+	hyprctl dispatch togglefloating
+
+super + {_, shift, ctrl} + {h, j, k, l}
+	hyprctl dispatch {movefocus, movewindow, swapwindow} {l, d, u, r}
+super + alt + {h, j, k, l}
+	hyprctl dispatch resizeactive {-10 0, 0 10, 0 -10, 10 0}
+super + {_, shift} + tab
+	hyprctl dispatch layoutmsg {cyclenext, cycleprev}
+super + {_, shift} + m
+	hyprctl dispatch layoutmsg {addmaster, removemaster}
+super + {, shift + } o
+	hyprctl dispatch layoutmsg {rollnext, orientationnext}
+
+super + {_, shift} + {1, 2, 3, 4, 5, 6, 7, 8, 9, 0}
+	hyprland_workspace_helper {workspace, movetoworkspace} {1,2,3,4,5,6,7,8,9,10}
+# super + s
+# 	hyprctl dispatch togglespecialworkspace scratchpad
+# super + shift + s
+# 	hyprctl dispatch movetoworkspace special:scratchpad
+super + alt + s
+	  hyprshade toggle
+
+super + {_, shift} + f
+	hyprctl dispatch fullscreen {1, 0}
+#+end_src
+
+** General
+#+begin_src conf :tangle ~/.config/swhkd/swhkdrc
+super + escape
+	doas pkill -HUP swhkd
+super + shift + return
+	footclient
+super + d
+	wofi --show drun
+super + shift + d
+	wofi --show run
+super + c
+	cliphist list | wofi -r "cliphist-wofi-img %s" -dp 'Clipboard: ' | cliphist decode | wl-copy
+super + p
+	  passmenu_otp
+super + b
+	  rfkill toggle bluetooth
+super + shift + b
+	  rfkill toggle wlan
+F12
+	grim - | wl-copy
+F11
+	grim -g "$(slurp)" - | swappy -f - -o - | wl-copy
+F10
+	sleep 1; grim -g "$(slurp)" - | swappy -f - -o - | wl-copy
+super + grave
+	unicode_picker
+super + e
+	custom_emoji_main
+super + shift + e
+	custom_emoji_steal
+super + s
+	snippets_main
+super + shift + t
+	typo
+super + u
+	wl-paste | uwuify | wl-copy
+super + shift + u
+	wl-paste | tesseract stdin stdout | wl-copy
+super + ,
+	mpv "$(wl-paste)"
+super + shift + ,
+	  emacsclient -e "(emms-play-url \"$(wl-paste)\")"
+super + .
+	  open_clipboard_org_links
+super + n
+	makoctl restore
+super + shift + n
+	makoctl dismiss -a
+super + z
+	hyprpicker -a
+super + /
+	hyprlock
+super + x
+	power_menu
+super + ;
+	firefox
+super + kp1
+	mullvad-browser
+super + kp2
+	chromium --profile-directory="Profile 5"
+super + kp3
+	chromium --profile-directory="Profile 3"
+super + {[,]}
+	pactl set-sink-volume @DEFAULT_SINK@ {-,+}2%
+super + shift + {[,]}
+	pactl set-sink-volume @DEFAULT_SINK@ {-,+}5%
+super + alt + [
+	brightnessctl -d tpacpi::kbd_backlight s 50%-
+super + alt + ]
+	brightnessctl -d tpacpi::kbd_backlight s +50%
+super + alt + shift + [
+	brightnessctl -d intel_backlight s 1%-
+super + alt + shift + ]
+	brightnessctl -d intel_backlight s +1%
+#+end_src
+
+* swappy
+#+begin_src conf :tangle ~/.config/swappy/config
+[Default]
+save_dir=$HOME/Files/socmed/
+save_filename_format=swappy-%Y%m%d-%H%M%S.png
+#+end_src
+
+* Waybar
+** General
+#+begin_src jsonc :tangle ~/.config/waybar/config
+{
+  "layer": "top",
+  "height": 24,
+  "spacing": 4,
+
+  "modules-left": [
+    "tray",
+	"custom/backlight-screen",
+	"custom/backlight-keyboard",
+	"battery",
+    "pulseaudio",
+	"privacy",
+  ],
+  "modules-center": [
+    "hyprland/workspaces",
+    "hyprland/window"
+  ],
+  "modules-right": [
+    "clock#time",
+	"custom/go-pray",
+    "clock#date",
+	"custom/hijri-date",
+  ],
+
+  "tray": {
+    "spacing": 10
+  },
+  "hyprland/workspaces": {
+	"show-special": true
+  },
+  "hyprland/window": {
+	"format": ""
+  },
+  "clock#time": {
+	"interval": 1,
+	"format": " {:%r}",
+	"tooltip-format": " {:%r}",
+  },
+  "clock#date": {
+	"interval": 1,
+	"format": " {:%Y-%m-%d %a}",
+	"tooltip-format": " {:%Y-%m-%d %a}",
+  },
+  "custom/go-pray": {
+	"exec": "go-pray",
+	"format": "{icon} {}",
+	"format-icons": {
+      "default": ""
+	}
+  },
+  "custom/hijri-date": {
+	"exec": "hijri-date",
+	"interval": 1,
+	"format": "{icon} {}",
+	"format-icons": {
+      "default": ""
+	}
+  },
+  "pulseaudio": {
+    "format": "{icon} {volume}%",
+    "format-muted": "{icon} Muted",
+	"format-icons": {
+      "default": ""
+	},
+    "on-click": "pavucontrol"
+  },
+  "custom/backlight-keyboard": {
+	"exec": "brightnessctl -m -d tpacpi::kbd_backlight | awk -F, '{print substr($4, 0, length($4))}'",
+	"interval": 1,
+	"format": "{icon} {}",
+	"format-icons": {
+	  "default": ""
+	},
+	"on-scroll-up": "brightnessctl -d tpacpi::kbd_backlight s +50%",
+	"on-scroll-down": "brightnessctl -d tpacpi::kbd_backlight s 50%-"
+  },
+  "custom/backlight-screen": {
+	"exec": "brightnessctl -m -d intel_backlight | awk -F, '{print substr($4, 0, length($4))}'",
+	"interval": 1,
+	"format": "{icon} {}",
+	"format-icons": {
+	  "default": ""
+	  },
+	"on-scroll-up": "brightnessctl -d intel_backlight s +1%",
+	"on-scroll-down": "brightnessctl -d intel_backlight s 1%-"
+  },
+  "battery": {
+	"format": "{icon} {capacity}%",
+	"format-icons": {
+	  "default": ""
+	  }
+  },
+  "privacy": {
+	"icon-size": 16,
+	"modules": [
+	  {
+		"type": "screenshare",
+	  },
+	  {
+		"type": "audio-out",
+	  },
+	  {
+		"type": "audio-in",
+	  }
+	]
+  },
+}
+#+end_src
+
+** Theme
+#+begin_src css :tangle ~/.config/waybar/style.css
+@import "macchiato.css";
+
+,* {
+    font-family: sans-serif;
+    font-size: 12px;
+}
+
+window#waybar {
+    background-color: @base;
+}
+
+window#waybar.fullscreen box#workspaces {
+    background-color: @crust;
+}
+
+#tray,
+#custom-hijri-date, #clock, #custom-go-pray, #pulseaudio, #custom-backlight-keyboard, #custom-backlight-screen, #battery, #privacy {
+    padding: 0 1rem;
+}
+
+button {
+    border: none;
+    border-radius: 0;
+}
+
+#workspaces button {
+    padding: 0 5px;
+    background-color: transparent;
+	color: @lavender;
+}
+
+#workspaces button.active {
+	background: @lavender;
+	color: @crust;
+}
+
+#workspaces button.urgent {
+    background-color: @red;
+}
+
+
+#custom-hijri-date, #clock, #custom-go-pray, #pulseaudio, #custom-backlight-keyboard, #custom-backlight-screen, #battery, #privacy {
+	color: @crust;
+}
+#custom-hijri-date, #clock, #custom-go-pray {
+	background-color: @mauve;
+}
+#custom-backlight-screen, #custom-backlight-keyboard, #battery, #pulseaudio, #privacy {
+  background-color: @sky;
+}
+#pulseaudio:hover {
+    background-color: @sapphire;
+}
+
+#tray > .passive {
+    -gtk-icon-effect: dim;
+}
+
+#tray > .needs-attention {
+    -gtk-icon-effect: highlight;
+    background-color: @red;
+}
+#+end_src
+
+#+begin_src css :tangle ~/.config/waybar/macchiato.css
+@define-color rosewater #f4dbd6;
+@define-color flamingo #f0c6c6;
+@define-color pink #f5bde6;
+@define-color mauve #c6a0f6;
+@define-color red #ed8796;
+@define-color maroon #ee99a0;
+@define-color peach #f5a97f;
+@define-color yellow #eed49f;
+@define-color green #a6da95;
+@define-color teal #8bd5ca;
+@define-color sky #91d7e3;
+@define-color sapphire #7dc4e4;
+@define-color blue #8aadf4;
+@define-color lavender #b7bdf8;
+@define-color text #cad3f5;
+@define-color subtext1 #b8c0e0;
+@define-color subtext0 #a5adcb;
+@define-color overlay2 #939ab7;
+@define-color overlay1 #8087a2;
+@define-color overlay0 #6e738d;
+@define-color surface2 #5b6078;
+@define-color surface1 #494d64;
+@define-color surface0 #363a4f;
+@define-color base #24273a;
+@define-color mantle #1e2030;
+@define-color crust #181926;
+#+end_src
+
+* Mako
+#+begin_src conf :tangle ~/.config/mako/config
+sort=-time
+max-history=100
+
+on-button-left=invoke-default-action
+on-button-middle=exec makoctl menu -n "$id" wofi -dp 'Action: '
+on-button-right=dismiss
+
+font=sans-serif 10
+text-color=#181926
+background-color=#eed49f
+progress-color=source #f4dbd6
+
+width=384
+height=512
+layer=overlay
+border-radius=0
+border-size=0
+padding=16
+
+default-timeout=10000
+ignore-timeout=0
+max-visible=8
+
+
+[urgency=low]
+background-color=#8bd5ca
+progress-color=source #91d7e3
+
+[urgency=high]
+background-color=#ed8796
+progress-color=source #ee99a0
+default-timeout=0
+#+end_src
+
+* Ianny
+#+begin_src conf-toml :tangle ~/.config/io.github.zefr0x.ianny/config.toml
+[timer]
+idle_timeout = 300
+short_break_timeout = 5400
+long_break_timeout = 16200
+short_break_duration = 120
+long_break_duration = 240
+
+[notification]
+show_progress_bar = true
+minimum_update_delay = 1
+#+end_src
+
+* Zathura
+#+begin_src conf :tangle ~/.config/zathura/zathurarc
+set default-fg                rgba(202,211,245,1)
+set default-bg 			          rgba(36,39,58,1)
+
+set completion-bg		          rgba(54,58,79,1)
+set completion-fg		          rgba(202,211,245,1)
+set completion-highlight-bg	  rgba(87,82,104,1)
+set completion-highlight-fg	  rgba(202,211,245,1)
+set completion-group-bg		    rgba(54,58,79,1)
+set completion-group-fg		    rgba(138,173,244,1)
+
+set statusbar-fg		          rgba(202,211,245,1)
+set statusbar-bg		          rgba(54,58,79,1)
+
+set notification-bg		        rgba(54,58,79,1)
+set notification-fg		        rgba(202,211,245,1)
+set notification-error-bg	    rgba(54,58,79,1)
+set notification-error-fg	    rgba(237,135,150,1)
+set notification-warning-bg	  rgba(54,58,79,1)
+set notification-warning-fg	  rgba(250,227,176,1)
+
+set inputbar-fg			          rgba(202,211,245,1)
+set inputbar-bg 		          rgba(54,58,79,1)
+
+set recolor                   "true"
+set recolor-lightcolor		    rgba(36,39,58,1)
+set recolor-darkcolor		      rgba(202,211,245,1)
+
+set index-fg			            rgba(202,211,245,1)
+set index-bg			            rgba(36,39,58,1)
+set index-active-fg		        rgba(202,211,245,1)
+set index-active-bg		        rgba(54,58,79,1)
+
+set render-loading-bg		      rgba(36,39,58,1)
+set render-loading-fg		      rgba(202,211,245,1)
+
+set highlight-color		        rgba(87,82,104,0.5)
+set highlight-fg              rgba(245,189,230,0.5)
+set highlight-active-color	  rgba(245,189,230,0.5)
+#+end_src
+
+* Neovim
+** Colors
+#+begin_src vimrc :tangle ~/.config/nvim/init.vim
+if (has("nvim"))
+  let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+endif
+
+if (has("termguicolors"))
+  set termguicolors
+endif
+#+end_src
+
+** Basic Configuration
+#+begin_src vimrc :tangle ~/.config/nvim/init.vim
+set number relativenumber
+
+set tabstop=4
+set shiftwidth=4
+
+set clipboard=unnamedplus
+#+end_src
+
+** Theme
+#+begin_src vimrc :tangle ~/.config/nvim/init.vim
+set background=dark
+source /usr/share/nvim/runtime/colors/catppuccin-macchiato.vim
+#+end_src
+
+* yt-dlp
+#+begin_src conf :tangle ~/.config/yt-dlp/config
+-o "%(title)s [%(webpage_url_domain)s][%(id)s].%(ext)s"
+#+end_src
+
+* mpv
+#+begin_src conf :tangle ~/.config/mpv/mpv.conf
+script-opts=ytdl_hook-ytdl_path=yt-dlp
+#+end_src
+
+* imv
+#+begin_src conf :tangle ~/.config/imv/config
+[options]
+background=24273a
+overlay_text_color=cad3f5
+overlay_background_color=181926
+#+end_src
+
+* Pacwall
+#+begin_src conf-colon :tangle ~/.config/pacwall/pacwall.conf
+attributes: {
+    graph: "bgcolor='#181926' ratio=0.625 dpi=150 overlap=false",
+    package: {
+        common:     "shape=point, height=0.1, fontname='JetBrains Mono', fontsize=12 style=filled"
+        implicit:   "color='#eed49f'"
+        explicit:   "color='#a6da95'"
+        orphan:     "color='#91d7e3', fontcolor='#91d7e3', peripheries=2, xlabel='\\N'"
+        unneeded:   "color='#ee99a0', fontcolor='#ee99a0'"
+        outdated:   "color='#f5bde6', fontcolor='#f5bde6', peripheries=3, xlabel='\\N'"
+        unresolved: "color='#c6a0f6', fontcolor='#c6a0f6', peripheries=4, xlabel='\\N'"
+        repository: {
+	        core: ""
+                extra: ""
+                community: ""
+                multilib: ""
+                chaotic-aur: ""
+                *: "color='#8aadf4'"
+        }
+    }
+    dependency: {
+        common:   "color='#b7bdf80d'"
+        hard:     ""
+        optional: "arrowhead=empty, style=dashed"
+    }
+}
+#+end_src
+
+* Wofi
+#+begin_src conf :tangle ~/.config/wofi/config
+insensitive = true
+matching = multi-contains
+location = top
+allow_images=true
+allow_markup=true
+image_size=64
+key_forward=Down,Ctrl-j,Tab
+key_backward=Up,Ctrl-k,Shift+Tab
+key_expand=Ctrl-Tab
+width=480
+height=720
+pre_display_exec=true
+term=footclient
+#+end_src
+
+* Topgrade
+#+begin_src conf-toml :tangle ~/.config/topgrade.toml
+[misc]
+sudo_command = "doas"
+
+assume_yes = true
+no_retry = true
+
+only = [ "system", "firmware", "cargo", "go", "bun_packages", "pnpm", "custom_commands"]
+
+[commands]
+"hyprpm" = "hyprpm update -v"
+
+[linux]
+arch_package_manager = "paru"
+show_arch_news = true
+#+end_src
+
+* Go Pray
+#+begin_src yaml :tangle ~/.config/go-pray/config.yaml
+city: Kamothe
+country: India
+method: "1"
+school: "1"
+#+end_src
+
+* Org Protocol
+#+begin_src desktop :tangle ~/.local/share/applications/org-protocol.desktop
+[Desktop Entry]
+Name=org-protocol
+Exec=emacsclient %u
+Type=Application
+Terminal=false
+Categories=System;
+MimeType=x-scheme-handler/org-protocol;
+#+end_src
+
+* Editor Config
+#+begin_src conf :tangle ~/.editorconfig
+root = true
+
+[*]
+indent_style = tab
+indent_size = 4
+#+end_src
+
+* Logseq Flags
+#+begin_src conf :tangle ~/.config/logseq-flags.conf
+--enable-features=UseOzonePlatform,WaylandWindowDecorations
+--ozone-platform=wayland
+#+end_src
+
+* mbsync
+#+begin_src conf :tangle ~/.config/isyncrc
+IMAPAccount main
+Host mail.rehandaphedar.com
+Port 993
+User mail@rehandaphedar.com
+PassCmd "pass init/mail.rehandaphedar.com/password"
+TLSType IMAPS
+CertificateFile /etc/ssl/certs/ca-certificates.crt
+
+IMAPStore main-remote
+Account main
+
+MaildirStore main-local
+Path ~/Files/mails/
+Inbox ~/Files/mails/INBOX
+Trash ~/Files/mails/Trash
+SubFolders Verbatim
+
+Channel main
+Far :main-remote:
+Near :main-local:
+Patterns *
+Expunge None
+CopyArrivalDate yes
+Sync All
+Create Both
+SyncState *
+#+end_src
+
+* Scripts
+** Get Firefox Tabs
+#+begin_src python :shebang "#! /usr/bin/env python" :tangle ~/.local/bin/get_firefox_tabs
+import sys
+import pathlib
+import lz4.block
+import json
+
+path = pathlib.Path.home().joinpath('.mozilla/firefox')
+files = path.glob('*rehandaphedar*/sessionstore-backups/recovery.js*')
+
+try:
+    template = sys.argv[1]
+except IndexError:
+    template = '%s | %s'
+
+for f in files:
+    b = f.read_bytes()
+    if b[:8] == b'mozLz40\0':
+        b = lz4.block.decompress(b[8:])
+    j = json.loads(b)
+    for w in j['windows']:
+        for t in w['tabs']:
+            i = t['index'] - 1
+            print(template % (
+                t['entries'][i]['url'],
+                t['entries'][i]['title']
+                ))
+#+end_src
+
+** Backup Packages List
+#+begin_src sh :shebang "#! /usr/bin/env sh" :tangle ~/.local/bin/backup_packages_list
+pacman -Qqen > ~/Files/dot/pkglist_native.txt
+pacman -Qqem > ~/Files/dot/pkglist_foreign.txt
+#+end_src
+
+** Startup
+*** swhkd
+#+begin_src sh :shebang "#! /usr/bin/env sh" :tangle ~/.local/bin/startup
+doas killall swhks
+doas killall swhkd
+swhks &
+sleep 1
+pkexec swhkd -c ~/.config/swhkd/swhkdrc &
+#+end_src
+
+*** Wayland
+#+begin_src sh :shebang "#! /usr/bin/env sh" :tangle ~/.local/bin/startup
+dbus-update-activation-environment --systemd HYPRLAND_INSTANCE_SIGNATURE
+dbus-update-activation-environment --systemd --all
+systemctl --user import-environment QT_QPA_PLATFORMTHEME
+systemctl --user start wayland-session.target
+#+end_src
+
+*** Clipboard
+#+begin_src sh :shebang "#! /usr/bin/env sh" :tangle ~/.local/bin/startup
+wl-paste --watch cliphist store &
+wl-clip-persist --clipboard regular &
+#+end_src
+
+*** udiskie
+#+begin_src sh :shebang "#! /usr/bin/env sh" :tangle ~/.local/bin/startup
+udiskie -s &
+#+end_src
+
+*** General
+#+begin_src sh :shebang "#! /usr/bin/env sh" :tangle ~/.local/bin/startup
+/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
+nm-applet &
+blueman-applet &
+swww-daemon &
+
+hyprpm reload -n
+sleep 1
+hyprshade auto &
+ianny &
+
+backup_packages_list
+
+footclient $SHELL -c "mgitstatus -e --flatten -d 1 ~/.password-store; mgitstatus -e --flatten ~/Files; $SHELL" &
+footclient $SHELL -c "topgrade; $SHELL" &
+emacs &
+#+end_src
+
+** Unicode Picker
+Can update from [[https://github.com/Mange/emoji-data/releases/latest][Release Version 2.6 · Mange/emoji-data · GitHub]]
+#+begin_src sh :shebang "#! /usr/bin/env sh" :tangle ~/.local/bin/unicode_picker
+wofi -dp 'Unicode: ' < ~/Files/dot/unicode.txt | awk '{print $1}' | tr -d '\n' | wl-copy
+#+end_src
+
+** Power Menu
+#+begin_src sh :shebang "#!/usr/bin/env sh" :tangle ~/.local/bin/power_menu
+entries="Logout\nSuspend\nHibernate\nReboot\nShutdown"
+
+selected=$(echo -e $entries | wofi -k /dev/null -dp 'Power Menu: ' | awk '{print tolower($1)}')
+
+case $selected in
+	logout)
+		exec systemctl --user stop graphical-session.target; hyprctl dispatch exit;;
+	suspend)
+		exec systemctl suspend;;
+	hibernate)
+		exec systemctl hibernate;;
+	reboot)
+		exec systemctl reboot;;
+	shutdown)
+		exec systemctl poweroff;;
+esac
+#+end_src
+
+** Custom Emoji
+*** Custom Emoji Generate List
+#+begin_src sh :shebang "#!/usr/bin/env sh" :tangle ~/.local/bin/custom_emoji_generate_list
+for i in ~/Files/emojis/*.png ~/Files/emojis/*.gif; do echo "img:$i:text:$(basename $i)"; done > ~/Files/emojis/list.pango
+#+end_src
+
+*** Custom Emoji Main
+#+begin_src sh :shebang "#!/usr/bin/env sh" :tangle ~/.local/bin/custom_emoji_main
+selection=$(wofi -qdp 'Custom Emoji: ' < ~/Files/emojis/list.pango | awk -F: '{print $2}')
+
+if [ -n "$selection" ];
+then
+	wl-copy < $selection
+	sleep 0.5
+	ydotool key 29:1 47:1 29:0 47:0 28:1 28:0
+fi
+#+end_src
+
+*** Custom Emoji Steal
+#+begin_src sh :shebang "#!/usr/bin/env sh" :tangle ~/.local/bin/custom_emoji_steal
+custom_emoji_dir="$HOME/Files/emojis"
+
+link=$(wl-paste)
+name=$(wofi -dp 'Name: ')
+
+wget "$link" -O "/tmp/$name"
+filetype=$(file "/tmp/$name" | awk '{print $2}') 
+
+if [ "$filetype" = "PNG" ] || [ "$filetype" = "JPG" ] || [ "$filetype" = "JPEG" ] || [ "$filetype" = "RIFF" ];
+then
+	extension="png"
+	new_path="/tmp/$name.png"
+	magick "/tmp/$name" "$new_path"
+elif [ "$filetype" = "GIF" ];
+then
+	extension="gif"
+	new_path="/tmp/$name.gif"
+	magick "/tmp/$name" "$new_path"
+elif [ "$filetype" = "ISO" ];
+then
+	extension="gif"
+	new_path="/tmp/$name.gif"
+	ffmpeg -i "/tmp/$name" "$new_path"
+else
+	notify-send "Invalid file type $(file "/tmp/$name")"
+	exit
+fi
+
+if [ -f "$custom_emoji_dir/$name.$extension" ];
+then
+	notify-send "The $extension $name exists"
+	exit
+fi
+
+magick "$new_path" -resize 48x0^ "$custom_emoji_dir/$name.$extension"
+mogrify -strip "$custom_emoji_dir/$name.$extension"
+
+cd "$custom_emoji_dir"
+custom_emoji_generate_list
+
+git add .
+git commit -m "Add $name.$extension"
+git push
+#+end_src
+
+** Snippets
+*** Snippets Data
+#+begin_src pango :tangle ~/.local/share/snippets_data
+Salam;السَّلاَمُ عَلَيْكُمْ وَرَحْمَةُ اللهِ وَبَرَكَاتُهُ
+Wa Alaykum As Salam;وَ عَلَيْكُمَ اَلسَّلَامْ وَ رَحْمَةُ أللهِ وَ بَرَكَاتُه
+As Salamu Ala Man Ittaba Al Huda;السَّلٰمُ عَلٰى مَنِ اتَّبَعَ الۡهُدٰي
+In Sha Allah;إِنْ شَاءَ الله
+Inna Lillahi;إِنَّا لِلّهِ وَإِنَّـا إِلَيْهِ رَاجِعُونَ
+Bismillah;بِسْمِ اللهِ الرَّحْمَـٰنِ الرَّحِيمِ
+Alhamdulillah;ٱلْحَمْدُ لِلَّٰهِ
+Mashallah;مَا شَاءَ اللهُ
+Jazakallahu Khayra;جزاك اللهُ خير 
+Wa Iyyak;وَ إيَّاكَ
+Wa Iyyaki;وَ إيَّاكِ
+Astaghfirullah;اَسْتَغْفِرُ اَللّهَ
+Ramadan Mubarak;رمضان مبارك
+Eid Mubarak;عيد مبارك
+Sallallahu Alayhi Wa Sallam;صَلَّى ٱللَّٰهُ عَلَيْهِ وَسَلَّمَ;SAW
+Alayhis Salam;عَلَيْهِ ٱلسَّلَامُ;AS
+Radi Allahu Anhu;رَضِيَ ٱللَّٰهُ عَنْهُ;RH
+Rahimahullah;رَحِمَهُ ٱللَّٰهُ;RA
+Subhanahu Wa Taala;سُبْحَانَهُ وَتَعَالَىٰ;SWT
+Karramallahu Wajhu;كَرَّمَ الله وَجْهَهُ;KW
+Cute UwU 1;UωU
+Cute UwU 2;ŬwŬ
+Cute UwU 3;UŵU
+Devanagari UwU;उवु
+Arabic UwU;ءُوُ
+Bengali UwU;উওউ
+Ta Smiley;ت
+Cute OwO;OωO
+Angry OwO;ÒwÓ
+Hearts;🥰😍😻💘💝💖💗💓💞💕💟❣️❤️🧡💛💚💙💜🤎🤍♥️
+#+end_src
+
+*** Snippets Main
+#+begin_src sh :shebang "#!/usr/bin/env sh" :tangle ~/.local/bin/snippets_main
+wofi -dp 'Snippet: ' < ~/.local/share/snippets_data | awk '-F;' '{print $2}' | wl-copy
+#+end_src
+
+** Typo
+#+begin_src sh :shebang "#!/usr/bin/env bash" :tangle ~/.local/bin/typo
+sel=$(wl-paste)
+n=$'\n'
+echo "${sel}${n}*${sel}*${n}**${sel}**${n}***${sel}***${n}__***${sel}***__" | wl-copy
+sleep 0.5
+ydotool key 29:1 47:1 29:0 47:0 28:1 28:0
+#+end_src
+
+** Hyprland Workspace Helper
+#+begin_src sh :shebang "#!/usr/bin/env sh" :tangle ~/.local/bin/hyprland_workspace_helper
+current=$(hyprctl activeworkspace -j | jq .id)
+hyprctl dispatch $1 $2
+
+if [ "$current" -gt "$(($2))" ];
+then
+	direction="left"
+elif [ "$current" -lt "$(($2))" ];
+then
+	direction="right"
+fi
+
+swww img --transition-fps 60 --transition-bezier 0.25,1,0.5,1 --transition-duration 0.4  ~/Files/wallpapers/16-9/$(ls ~/Files/wallpapers/16-9 | shuf -n 1)  -t $direction
+#+end_src
+
+** Open Clipboard Org Links
+#+begin_src sh :shebang "#!/usr/bin/env sh" :tangle ~/.local/bin/open_clipboard_org_links
+wl-paste | while IFS= read -r line; do
+	if [ -n "$line" ]; then
+		$BROWSER "$(echo "$line" | awk '{print $2}')"
+	fi
+done
+#+end_src
+
+** Passmenu OTP
+#+begin_src sh :shebang "#! /usr/bin/env bash" :tangle ~/.local/bin/passmenu_otp
+shopt -s nullglob globstar
+
+prefix=${PASSWORD_STORE_DIR-~/.password-store}
+password_files=( "$prefix"/**/*.gpg )
+password_files=( "${password_files[@]#"$prefix"/}" )
+password_files=( "${password_files[@]%.gpg}" )
+
+password=$(printf '%s\n' "${password_files[@]}" | wofi --dmenu "$@")
+
+[[ -n $password ]] || exit
+
+pass_cmd=show
+if pass show "$password" | grep -q '^otpauth://'; then
+    pass_cmd=otp
+fi
+
+pass $pass_cmd -c "$password" 2>/dev/null
+#+end_src
+
+** rehandaphedar Backup Init
+#+begin_src sh :shebang "#! /usr/bin/env bash" :tangle ~/.local/bin/rehandaphedar_backup_init
+backup_name=$(date +%Y-%m-%d)__init
+backup_dir=~/Files/backups/$backup_name
+mkdir $backup_dir
+
+cp -r ~/.gnupg $backup_dir/dotgnupg
+cp -r ~/.ssh $backup_dir/dotssh
+cp -r ~/.password-store $backup_dir/dotpasswordhypenstore
+cp -r ~/Files/mails $backup_dir/Files-mails
+#+end_src
+
+** rehandaphedar Backup Config
+#+begin_src sh :shebang "#! /usr/bin/env bash" :tangle ~/.local/bin/rehandaphedar_backup_config
+backup_name=$(date +%Y-%m-%d)__config
+backup_dir=~/Files/backups/$backup_name
+mkdir $backup_dir
+
+cp -r ~/.mozilla $backup_dir/dotmozilla
+cp -r ~/.config/chromium $backup_dir/dotconfig-chromium
+cp -r ~/.local/share/Anki2 $backup_dir/dotlocal-share-Anki2
+#+end_src
+

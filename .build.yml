@@ -1,0 +1,11 @@
+image: alpine/edge
+secrets:
+  - da2bdd99-4ea0-4290-8e60-6bf7db0efa77
+sources:
+  - git+ssh://git@git.sr.ht/~rehandaphedar/dot
+tasks:
+  - mirror-to-github: |
+      cd ~/dot
+      ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
+      git remote add github git@github.com:rehandaphedar/dot.git
+      git push --mirror github

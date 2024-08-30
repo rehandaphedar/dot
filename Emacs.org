@@ -1,0 +1,1858 @@
+#+TITLE: Emacs Configuration
+#+PROPERTY: header-args:elisp :tangle ~/.config/emacs/init.el :mkdirp yes
+
+* Lexical Binding
+#+begin_src elisp
+
+;; -*- lexical-binding: t; -*-
+
+#+end_src
+
+* Package Management
+#+begin_src elisp
+
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+      (bootstrap-version 5))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
+
+(straight-use-package 'use-package)
+(setq straight-use-package-by-default t)
+
+#+end_src
+
+* Keep Folders Clean
+#+begin_src elisp
+
+(use-package no-littering)
+(setq make-backup-files nil)
+(setq auto-save-default nil)
+(setq create-lockfiles nil)
+
+#+end_src
+
+* Emacs Server
+#+begin_src elisp
+
+(server-start)
+
+#+end_src
+
+* GPG
+#+begin_src elisp
+
+(setq epa-pinentry-mode 'loopback)
+
+#+end_src
+
+* UI
+** Disable Antifeatures
+#+begin_src elisp
+
+(setq inhibit-startup-message t)
+(scroll-bar-mode -1)
+(tool-bar-mode -1)
+(tooltip-mode -1)
+(set-fringe-mode 10)
+(menu-bar-mode -1)
+(electric-indent-mode 0)
+(setq use-dialog-box nil)
+(setq native-comp-async-report-warnings-errors nil)
+
+#+end_src
+
+** Fonts
+#+begin_src elisp
+
+(setq rehandaphedar/default-fixed-font-size 115)
+(setq rehandaphedar/default-variable-font-size 130)
+(setq rehandaphedar/default-fixed-font-face "monospace")
+(setq rehandaphedar/default-variable-font-face "sans-serif")
+(setq rehandaphedar/default-heading-font-face "sans-serif")
+(setq rehandaphedar/default-title-font-face "sans-serif")
+
+(set-face-attribute 'default nil :font rehandaphedar/default-fixed-font-face :height rehandaphedar/default-fixed-font-size)
+(set-face-attribute 'fixed-pitch nil :font rehandaphedar/default-fixed-font-face :height rehandaphedar/default-fixed-font-size)
+(set-face-attribute 'variable-pitch nil :font rehandaphedar/default-variable-font-face :height rehandaphedar/default-variable-font-size)
+
+#+end_src
+
+** Unicode
+Sample Emojis: 😄 🤦 🇵🇸
+Sample Arabic Text:󠁧بِسْمِ ٱللَّهِ ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ
+#+begin_src elisp
+
+(set-fontset-font t 'symbol "Twemoji")
+(set-fontset-font "fontset-default" '(#x600 . #x6ff) (font-spec :family "KFGQPC HAFS Uthmanic Script" :size 28))
+
+#+end_src
+
+** Line Numbers
+#+begin_src elisp
+
+(global-display-line-numbers-mode 1)
+(setq display-line-numbers-type 'relative)
+(column-number-mode)
+
+(dolist (mode '(org-mode-hook
+                org-agenda-mode-hook
+                term-mode-hook
+                vterm-mode-hook
+                shell-mode-hook
+                eshell-mode-hook))
+  (add-hook mode (lambda () (display-line-numbers-mode 0))))
+
+#+end_src
+
+** Theme
+#+begin_src elisp
+
+(setq vc-follow-symlinks nil)
+
+(use-package catppuccin-theme
+  :init
+  (load-theme 'catppuccin :no-confirm)
+  (setq catppuccin-flavor 'macchiato)
+  (catppuccin-reload))
+
+#+end_src
+
+** Modeline
+The first time you load your configuration on a new machine, you'll
+need to run the following command interactively so that mode line icons
+display correctly:
+~M-x all-the-icons-install-fonts~
+#+begin_src elisp
+
+(use-package all-the-icons)
+
+(use-package doom-modeline
+  :init
+  (doom-modeline-mode 1)
+  :config
+  (setq doom-modeline-height 40))
+
+#+end_src
+
+** Diminish
+#+begin_src elisp
+
+(use-package diminish)
+
+#+end_src
+
+** Indentation
+#+begin_src elisp
+
+(setq-default tab-width 4)
+
+#+end_src
+
+* Calendar
+#+begin_src elisp
+
+(setq calendar-date-style 'iso)
+
+(setq holiday-solar-holidays nil)
+(setq holiday-bahai-holidays nil)
+(setq holiday-hebrew-holidays nil)
+(setq holiday-oriental-holidays nil)
+(setq holiday-christian-holidays nil)
+(setq calendar-islamic-all-holidays-flag t)
+
+(setq holiday-general-holidays '((holiday-fixed 1 1 "New Year's Day")
+								 (holiday-fixed 1 26 "Republic Day")
+								 (holiday-fixed 2 14 "Valentine's Day")
+								 (holiday-fixed 3 8 "Women's Day")
+								 (holiday-fixed 4 1 "April Fools' Day")
+								 (holiday-fixed 8 15 "Independance Day")
+								 (holiday-fixed 11 20 "Men's Day")))
+
+#+end_src
+
+* QoL
+** Confirm with ~y~
+#+begin_src elisp
+
+(defalias 'yes-or-no-p 'y-or-n-p)
+
+#+end_src
+
+** Recent Files
+#+begin_src elisp
+
+(use-package recentf
+  :config
+  (setq auto-save-file-name-transforms
+        `((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
+  (recentf-mode)
+  (add-to-list 'recentf-exclude no-littering-var-directory)
+  (add-to-list 'recentf-exclude no-littering-etc-directory))
+
+#+end_src
+
+** Word Count
+#+begin_src elisp
+
+(use-package wc)
+
+#+end_src
+
+** Remember Place
+#+begin_src elisp
+
+(save-place-mode)
+
+#+end_src
+
+** Environment Variables From Shell
+#+begin_src elisp
+
+(use-package exec-path-from-shell
+  :config
+  (exec-path-from-shell-initialize))
+
+#+end_src
+
+** Scratch Buffer
+#+begin_src elisp
+
+(require 'ielm)
+(setq initial-major-mode 'inferior-emacs-lisp-mode)
+
+#+end_src
+
+* Keybinds
+** Evil
+*** Basic Configuration
+#+begin_src elisp
+
+(use-package evil
+  :init
+  (setq evil-want-integration t)
+  (setq evil-want-keybinding nil)
+  (setq evil-want-C-u-scroll t)
+  (setq evil-want-C-i-jump nil)
+  (setq evil-want-minibuffer t)
+
+  :config
+  (evil-set-undo-system 'undo-redo)
+  (evil-mode 1)
+
+  (evil-global-set-key 'motion "j" 'evil-next-visual-line)
+  (evil-global-set-key 'motion "k" 'evil-previous-visual-line)
+
+  (define-key evil-normal-state-map [escape] 'keyboard-escape-quit)
+  (define-key evil-visual-state-map [escape] 'keyboard-escape-quit)
+  (define-key minibuffer-local-map [escape] 'keyboard-escape-quit)
+  (define-key minibuffer-local-ns-map [escape] 'keyboard-escape-quit)
+  (define-key minibuffer-local-completion-map [escape] 'keyboard-escape-quit)
+  (define-key minibuffer-local-must-match-map [escape] 'keyboard-escape-quit)
+  (define-key minibuffer-local-isearch-map [escape] 'keyboard-escape-quit)
+
+  (evil-define-key 'normal vertico-map "j" 'vertico-next)
+  (evil-define-key 'normal vertico-map "k" 'vertico-previous)
+  (evil-define-key 'normal vertico-map "gg" 'vertico-first)
+  (evil-define-key 'normal vertico-map "G" 'vertico-last)
+  (evil-define-key 'normal vertico-map (kbd "RET") 'vertico-exit)
+
+  (evil-set-initial-state 'messages-buffer-mode 'normal))
+
+#+end_src
+
+*** Evil Collection
+#+begin_src elisp
+
+(use-package evil-collection
+  :init
+  (evil-collection-init)
+  :config
+  (setq evil-collection-setup-minibuffer t))
+
+#+end_src
+
+* Completions
+** Vertico
+#+begin_src elisp
+
+(use-package vertico
+  :config
+  (setq vertico-cycle t)
+  :init
+  (vertico-mode)
+  (vertico-mouse-mode))
+
+#+end_src
+
+** Save History
+#+begin_src elisp
+
+(use-package savehist
+  :init
+  (savehist-mode))
+
+#+end_src
+
+** Marginalia
+#+begin_src elisp
+
+(use-package marginalia
+  :after vertico
+  :init
+  (marginalia-mode))
+
+#+end_src
+
+** All The Icons Completion
+#+begin_src elisp
+
+(use-package all-the-icons-completion
+  :init
+  (all-the-icons-completion-mode)
+  (add-hook 'marginalia-mode-hook #'all-the-icons-completion-marginalia-setup))
+
+#+end_src
+
+** Which Key
+#+begin_src elisp
+
+(use-package which-key
+  :init (which-key-mode)
+  (which-key-setup-minibuffer)
+  :custom
+  (which-key-idle-delay 0.5)
+  (which-key-allow-evil-operators t))
+
+#+end_src
+
+** Helpful
+#+begin_src elisp
+
+(use-package helpful
+  :bind
+  ([remap describe-command] . helpful-command)
+  ([remap describe-key] . helpful-key)
+  ([remap describe-function] . helpful-function)
+  ([remap describe-symbol] . helpful-symbol)
+  ([remap describe-variable] . helpful-variable))
+
+#+end_src
+
+** Corfu
+*** Basic Configuration
+#+begin_src elisp
+
+(use-package corfu
+  :straight (corfu :files (:defaults "extensions/*")
+                   :includes (corfu-info corfu-history))
+  :custom
+  (corfu-cycle t)
+  ;; (corfu-auto t)
+  (corfu-auto-prefix 0.5)
+  (corfu-auto-delay 0.25)
+  (corfu-popupinfo-delay '(0.5 . 0.5))
+  :bind
+  (:map corfu-map
+		("TAB" . corfu-next)
+		([tab] . corfu-next)
+		("S-TAB" . corfu-previous)
+		([backtab] . corfu-previous))
+  :init
+  (global-corfu-mode)
+  (corfu-popupinfo-mode))
+
+(add-hook 'eshell-mode-hook
+          (lambda ()
+            (corfu-mode)))
+#+end_src
+
+*** Cape
+#+begin_src elisp
+
+(use-package cape
+  :bind (("C-c p p" . completion-at-point)
+		 ("C-c p t" . complete-tag)
+		 ("C-c p d" . cape-dabbrev)
+		 ("C-c p h" . cape-history)
+		 ("C-c p f" . cape-file)
+		 ("C-c p k" . cape-keyword)
+		 ("C-c p s" . cape-elisp-symbol)
+		 ("C-c p e" . cape-elisp-block)
+		 ("C-c p a" . cape-abbrev)
+		 ("C-c p l" . cape-line)
+		 ("C-c p w" . cape-dict)
+		 ("C-c p :" . cape-emoji)
+		 ("C-c p \\" . cape-tex)
+		 ("C-c p _" . cape-tex)
+		 ("C-c p ^" . cape-tex)
+		 ("C-c p &" . cape-sgml)
+		 ("C-c p r" . cape-rfc1345))
+  :init
+  (add-hook 'completion-at-point-functions #'cape-line)
+  (add-hook 'completion-at-point-functions #'cape-keyword)
+  (add-hook 'completion-at-point-functions #'cape-tex)
+  (add-hook 'completion-at-point-functions #'cape-sgml)
+  (add-hook 'completion-at-point-functions #'cape-rfc1345)
+  (add-hook 'completion-at-point-functions #'cape-history)
+  (add-hook 'completion-at-point-functions #'cape-abbrev)
+  (add-hook 'completion-at-point-functions #'cape-dabbrev)
+  (add-hook 'completion-at-point-functions #'cape-dict)
+  (add-hook 'completion-at-point-functions #'cape-file)
+  (add-hook 'completion-at-point-functions #'cape-elisp-symbol)
+  (add-hook 'completion-at-point-functions #'cape-elisp-block))
+
+#+end_src
+
+*** Kind Icon
+#+begin_src elisp
+
+(use-package kind-icon
+  :ensure t
+  :after corfu
+  :custom
+  (kind-icon-default-face 'corfu-default)
+  :config
+  (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
+
+#+end_src
+
+** Consult
+#+begin_src elisp
+
+(use-package consult
+  :bind (("C-c M-x" . consult-mode-command)
+		 ("C-x M-:" . consult-complex-command)
+		 ("C-c c s" . consult-line)
+		 ("C-c c r" . consult-ripgrep)
+		 ("C-c c o" . consult-imenu)
+		 ("C-c c f" . consult-recent-file)
+		 ("C-c h" . consult-history)
+		 ("C-c k" . consult-kmacro)
+		 ("C-c m" . consult-man)
+		 ("C-c i" . consult-info)
+		 ([remap Info-search] . consult-info)
+		 ("C-x b" . consult-buffer)
+		 ("C-x 4 b" . consult-buffer-other-window)
+		 ("C-x 5 b" . consult-buffer-other-frame)
+		 ("C-x t b" . consult-buffer-other-tab)
+		 ("C-x r b" . consult-bookmark)
+		 ("C-x p b" . consult-project-buffer)
+		 ("M-#" . consult-register-load)
+		 ("M-'" . consult-register-store)
+		 ("C-M-#" . consult-register)
+		 ("M-y" . consult-yank-pop)
+		 ("M-g e" . consult-compile-error)
+		 ("M-g f" . consult-flymake)
+		 ("M-g g" . consult-goto-line)
+		 ("M-g M-g" . consult-goto-line)
+		 ("M-g o" . consult-outline)
+		 ("M-g m" . consult-mark)
+		 ("M-g k" . consult-global-mark)
+		 ("M-g i" . consult-imenu)
+		 ("M-g I" . consult-imenu-multi)
+		 ("M-s d" . consult-fd)
+		 ("M-s c" . consult-locate)
+		 ("M-s g" . consult-grep)
+		 ("M-s G" . consult-git-grep)
+		 ("M-s r" . consult-ripgrep)
+		 ("M-s l" . consult-line)
+		 ("M-s L" . consult-line-multi)
+		 ("M-s k" . consult-keep-lines)
+		 ("M-s u" . consult-focus-lines)
+		 ("M-s e" . consult-isearch-history)
+		 :map isearch-mode-map
+		 ("M-e" . consult-isearch-history)
+		 ("M-s e" . consult-isearch-history)
+		 ("M-s l" . consult-line)
+		 ("M-s L" . consult-line-multi)
+		 :map minibuffer-local-map
+		 ("M-s" . consult-history)
+		 ("M-r" . consult-history))
+  :hook (completion-list-mode . consult-preview-at-point-mode)
+  :init
+  (setq register-preview-delay 0.5
+		register-preview-function #'consult-register-format)
+  (advice-add #'register-preview :override #'consult-register-window)
+  (setq xref-show-xrefs-function #'consult-xref
+		xref-show-definitions-function #'consult-xref)
+  :config
+  (setq consult-narrow-key "<")
+  (define-key consult-narrow-map (vconcat consult-narrow-key "?") #'consult-narrow-help))
+
+#+end_src
+
+** Embark
+#+begin_src elisp
+
+(use-package embark
+  :ensure t
+  :bind (("C-;" . embark-act)
+		 ("M-." . embark-dwim)
+		 ("C-h B" . embark-bindings))
+  :init
+  (setq prefix-help-command #'embark-prefix-help-command))
+
+(use-package embark-consult)
+
+#+end_src
+
+** Prescient
+#+begin_src elisp
+
+(use-package prescient
+  :config
+  (prescient-persist-mode 1))
+
+(use-package vertico-prescient
+  :init
+  (vertico-prescient-mode))
+
+(use-package corfu-prescient
+  :init
+  (corfu-prescient-mode))
+
+#+end_src
+
+* Org Mode
+** Org ID
+#+begin_src elisp
+
+(defun rehandaphedar/org-roam-update-ids ()
+  "Update all org-ids in org-roam-directory."
+  (interactive)
+  (org-id-update-id-locations
+   (directory-files-recursively org-roam-directory "\\.org$")))
+
+(use-package org-id
+  :after org-roam
+  :straight (:type built-in))
+
+#+end_src
+
+** Evil Org
+#+begin_src elisp
+
+(use-package evil-org
+  :after org
+  :hook
+  (org-mode . evil-org-mode)
+  :config
+  (setq org-super-agenda-header-map nil)
+  (require 'evil-org-agenda)
+  (evil-org-agenda-set-keys))
+
+#+end_src
+
+** Initialisation
+#+begin_src elisp
+
+(defun rehandaphedar/org-mode-setup ()
+  (org-visual-indent-mode)
+  (variable-pitch-mode)
+  (org-indent-mode)
+  (visual-line-mode 1)
+  (rehandaphedar/org-font-setup))
+
+#+end_src
+
+** Fonts
+#+begin_src elisp
+
+(defun rehandaphedar/org-font-setup ()
+  (dolist (face '((org-level-1 . 1.2)
+                  (org-level-2 . 1.175)
+                  (org-level-3 . 1.15)
+                  (org-level-4 . 1.125)
+                  (org-level-5 . 1.1)
+                  (org-level-6 . 1.1)
+                  (org-level-7 . 1.1)
+                  (org-level-8 . 1.1)))
+    (set-face-attribute (car face) nil :font rehandaphedar/default-heading-font-face :height 1.1 :weight 'normal))
+  (set-face-attribute 'org-document-title nil :font rehandaphedar/default-title-font-face :height 3.0 :slant 'normal :weight 'regular)
+  (set-face-attribute 'org-block nil    :foreground nil :inherit 'fixed-pitch)
+  (set-face-attribute 'org-drawer nil    :inherit 'fixed-pitch)
+  (set-face-attribute 'org-formula nil  :inherit 'fixed-pitch)
+  (set-face-attribute 'org-code nil     :inherit '(shadow fixed-pitch))
+  (set-face-attribute 'org-verbatim nil :inherit '(shadow fixed-pitch))
+  (set-face-attribute 'org-special-keyword nil :inherit '(font-lock-comment-face fixed-pitch))
+  (set-face-attribute 'org-meta-line nil :inherit '(font-lock-comment-face fixed-pitch))
+  (set-face-attribute 'org-checkbox nil  :inherit 'fixed-pitch)
+  (set-face-attribute 'line-number nil :inherit 'fixed-pitch)
+  (set-face-attribute 'line-number-current-line nil :inherit 'fixed-pitch)
+  (set-face-attribute 'org-block-begin-line nil :height 0.9)
+  (set-face-attribute 'org-quote nil :font rehandaphedar/default-variable-font-face)
+  (set-face-attribute 'org-verse nil :font rehandaphedar/default-variable-font-face))
+
+(defun rehandaphedar/org-agenda-faces-setup ()
+  (set-face-attribute 'org-agenda-structure nil :inherit 'variable-pitch :font rehandaphedar/default-title-font-face :weight 'ultraheavy :height 1.35)
+  (set-face-attribute 'org-agenda-date nil :inherit 'variable-pitch :font rehandaphedar/default-title-font-face :weight 'semibold :height 1.025)
+  (set-face-attribute 'org-agenda-date-weekend nil :inherit 'variable-pitch :font rehandaphedar/default-title-font-face :weight 'semibold :height 1.025)
+  (set-face-attribute 'org-agenda-date-today nil :inherit 'variable-pitch :font rehandaphedar/default-title-font-face :weight 'semibold :height 1.025)
+  (set-face-attribute 'org-agenda-date-weekend nil :inherit 'variable-pitch :font rehandaphedar/default-title-font-face :weight 'semibold :height 1.025)
+  (set-face-attribute 'org-super-agenda-header nil :inherit 'variable-pitch :font rehandaphedar/default-title-font-face :weight 'normal :height 0.95)
+  (dolist (face '(org-agenda-done
+                  org-time-grid
+                  org-scheduled-today
+                  org-habit-alert-face
+                  org-habit-clear-face
+                  org-habit-ready-face
+                  org-habit-overdue-face
+                  org-habit-alert-future-face
+                  org-habit-clear-future-face
+                  org-habit-ready-future-face
+                  org-habit-overdue-future-face))
+    (set-face-attribute face nil :font rehandaphedar/default-fixed-font-face)))
+
+#+end_src
+
+** Basic Configuration
+#+begin_src elisp
+
+(use-package org
+  :straight (:type built-in)
+
+  :init
+  (setq org-return-follows-link t)
+  (setq org-agenda-remove-tags-when-in-prefix t)
+
+  :hook
+  (org-mode . rehandaphedar/org-mode-setup)
+  (org-timer-set . org-clock-in)
+
+  :config
+  ;; Misc
+  (require 'org-compat)
+  (require 'org-tempo)
+  (setq org-link-elisp-confirm-function nil)
+
+  ;; Basic Org Mode
+  (setq org-hide-emphasis-markers t)
+  (setq org-ellipsis " ▾")
+  (setq org-startup-with-inline-images t)
+  (setq org-edit-src-content-indentation 0)
+  (setq org-fontify-quote-and-verse-blocks t)
+  (setq org-image-actual-width 500)
+  
+  ;; Open Links
+  (defun org-force-open-current-window ()
+	(interactive)
+	(let ((org-link-frame-setup (quote
+								 ((vm . vm-visit-folder)
+                                  (vm-imap . vm-visit-imap-folder)
+                                  (gnus . gnus)
+                                  (file . find-file)
+                                  (wl . wl)))
+								))
+      (org-open-at-point)))
+  ;; Depending on universal argument try opening link
+  (defun org-open-maybe (&optional arg)
+	(interactive "P")
+	(if arg
+		(org-open-at-point)
+      (org-force-open-current-window)
+      )
+	)
+  ;; Redefine file opening without clobbering universal argumnet
+  (define-key org-mode-map "\C-c\C-o" 'org-open-maybe)
+  
+  
+  ;; Save org buffers after refiling
+  (advice-add 'org-refile :after 'org-save-all-org-buffers)
+
+  (rehandaphedar/org-agenda-config)
+  (evil-define-key '(normal insert visual motion) org-agenda-mode-map "h" 'org-habit-toggle-habits)
+
+  :bind
+  ("C-c o a" . rehandaphedar/org-agenda-gtd)
+  ("C-c o d" . rehandaphedar/org-agenda-archive)
+  ("C-c o r" . rehandaphedar/org-agenda-review)
+  ("C-c o h" . rehandaphedar/org-agenda-hifz)
+
+  (:map org-mode-map
+		("C-c c o" . consult-org-heading))
+
+  (:map org-agenda-mode-map
+		("C-c a" . consult-org-agenda)))
+
+#+end_src
+
+** Org Agenda
+*** Initialisation
+#+begin_src elisp
+
+(defun rehandaphedar/org-agenda-config ()
+  (setq org-agenda-start-with-log-mode t)
+  (setq org-log-done 'time)
+  (setq org-log-into-drawer t)
+  (setq org-agenda-window-setup 'only-window)
+  (setq org-agenda-search-headline-for-time nil)
+  (setq org-deadline-warning-days 45)
+  (setq org-agenda-skip-deadline-if-done t)
+  (setq org-agenda-skip-scheduled-if-done t)
+  (setq org-agenda-skip-timestamp-if-done t)
+  (setq org-agenda-remove-tags-when-in-prefix t)
+  
+  (setq org-todo-keywords
+		'((sequence "TODO(t)" "NEXT(n)" "WAIT(w)" "SOMEDAY(s)" "MAYBE(m)" "|" "DONE(d)" "CANC(c)")))
+  
+  (setq org-tag-alist
+		'((:startgroup . nil)
+		  ("para/project" . ?m)
+		  ("para/area" . ?m)
+		  ("para/resource" . ?m)
+		  (:endgroup . nil)))
+  (setq org-tags-exclude-from-inheritance
+		'("para/project" "para/area" "para/resource"))
+  
+  (setq org-agenda-prefix-format
+		'((agenda . "    %?-12t% s")
+		  (todo . "    ")
+		  (tags . "    ")
+		  (search . "    ")))
+  (setq org-agenda-block-separator "")
+
+  (setq org-super-agenda-groups '((:discard (:habit t))
+								  (:auto-ts reverse)
+								  (:name "General"
+										 :anything t)))
+
+  (setq rehandaphedar/org-super-agenda-timegrid-groups
+		'((:name "Today"
+				 :and (:time-grid t)
+				 :and (:scheduled t :date today)
+				 :and (:deadline t :date today))
+		  (:name "Upcoming"
+				 :deadline t)
+
+		  (:anything "Other")
+		  (:auto-tags t)))
+
+  (setq rehandaphedar/org-super-agenda-hifz-groups
+		'((:auto-ts t)
+		  (:auto-priority t)))
+
+  (setq org-agenda-custom-commands
+		'(("g" "GTD View"
+		   ((agenda "" ((org-super-agenda-groups rehandaphedar/org-super-agenda-timegrid-groups)))
+			(todo "NEXT" ((org-agenda-overriding-header "Next Actions")))
+			(todo "WAIT" ((org-agenda-overriding-header "Waiting On")))
+			(todo "SOMEDAY" ((org-agenda-overriding-header "Someday")))
+			(todo "MAYBE" ((org-agenda-overriding-header "Maybe")))) "" ("~/Files/roam/agenda.html"))
+		  ("r" "Review View"
+		   ((todo "WAIT")
+			(todo "SOMEDAY")
+			(todo "MAYBE")))
+		  ("h" "Hifz View"
+		   ((tags "+hifz+PRIORITY>0" ((org-super-agenda-groups rehandaphedar/org-super-agenda-hifz-groups)))))))
+
+  (setq org-columns-default-format "%40ITEM(Task) %Effort(Effort){:} %CLOCKSUM(Time Taken) %PRIORITY(Priority)")
+  (setq org-agenda-view-columns-initially nil)
+  ;; (setq org-agenda-start-with-clockreport-mode t)
+  (setq org-priority-highest 1)
+  (setq org-priority-default 4)
+  (setq org-priority-lowest 5)
+
+  (require 'org-habit)
+  (add-to-list 'org-modules 'org-habit)
+  (setq org-habit-graph-column 80)
+  (setq org-habit-show-habits-only-for-today nil))
+
+#+end_src
+
+*** Helpers
+#+begin_src elisp
+
+(defun rehandaphedar/org-agenda-gtd ()
+  (interactive)
+  (org-store-agenda-views)
+  (org-agenda nil "g")
+  (org-agenda-week-view)
+  (org-agenda-goto-today))
+
+(defun rehandaphedar/org-agenda-archive ()
+  (interactive)
+  (org-agenda "DONE" "T"))
+
+(defun rehandaphedar/org-agenda-review ()
+  (interactive)
+  (org-agenda nil "r"))
+
+(defun rehandaphedar/org-agenda-hifz ()
+  (interactive)
+  (org-agenda nil "h"))
+
+#+end_src
+
+** Org Super Agenda
+#+begin_src elisp
+
+(use-package org-super-agenda
+  :config
+  (org-super-agenda-mode)
+  (rehandaphedar/org-agenda-faces-setup))
+
+#+end_src
+
+** Org Roam
+*** Capture Templates
+**** One Off
+#+begin_src org :tangle ~/.config/emacs/roam-templates/one_off.org :mkdirp yes
+,* ${One Off Name} %^G
+#+end_src
+
+**** Daily
+#+begin_src org :tangle ~/.config/emacs/roam-templates/daily.org :mkdirp yes
+,* Note At %U
+
+%?
+#+end_src
+
+**** Omnivore
+#+begin_src org :tangle ~/.config/emacs/roam-templates/omnivore.org :mkdirp yes
+,* [[%:link][%:description]]
+
+%i
+%?
+#+end_src
+
+*** Setup
+**** Capture Templates
+#+begin_src elisp
+
+(defun rehandaphedar/org-roam/one-off ()
+  (interactive)
+  (org-roam-capture- :node (org-roam-node-from-title-or-alias "One Off")
+                     :templates '(("o"
+								   "one_off"
+								   entry
+								   (file "~/.config/emacs/roam-templates/one_off.org")
+								   :target (node "One Off")))))
+
+#+end_src
+
+*** Basic Configuration
+#+begin_src elisp
+
+(use-package org-roam
+  :defer nil
+  :init
+  (setq org-roam-v2-ack t)
+
+
+  :config
+  (setq org-roam-directory "~/Files/roam"
+        org-roam-completion-everywhere t
+        org-roam-node-display-template
+        (concat "${title:80} " (propertize "${tags:20}" 'face 'org-tag))
+        org-roam-node-annotation-function
+        (lambda (node) (marginalia--time (org-roam-node-file-mtime node))))
+
+  (setq org-roam-capture-templates
+		'(("d" "default" plain
+           "%?"
+           :if-new (file+head "${slug}.org" "#+TITLE: ${title}\n")
+           :unnarrowed t)
+		  ("e" "encrypted" plain
+           "%?"
+           :if-new (file+head "${slug}.org.gpg" "#+TITLE: ${title}\n")
+           :unnarrowed t)
+		  ("p" "project" plain
+           "#+filetags: :para/project:\n\n%?"
+           :if-new (file+head "${slug}.org" "#+TITLE: ${title}\n")
+           :unnarrowed t)
+		  ("a" "area" plain
+           "#+filetags: :para/area:\n\n%?"
+           :if-new (file+head "${slug}.org" "#+TITLE: ${title}\n")
+           :unnarrowed t)
+		  ("r" "resource" plain
+           "#+filetags: :para/resource:\n\n%?"
+           :if-new (file+head "${slug}.org" "#+TITLE: ${title}\n")
+           :unnarrowed t)))
+  (setq org-roam-dailies-capture-templates
+        '(("d" "default" entry (file "~/.config/emacs/roam-templates/daily.org")
+           :if-new
+           (file+head "%<%Y-%m>.org.gpg" "#+TITLE: %<%Y-%m>\n\n"))))
+
+  (require 'org-protocol)
+  (setq org-capture-templates
+		`(("o" "Omnivore" entry (file+headline ,(expand-file-name (file-name-concat org-roam-directory "inbox.org")) "Omnivore") (file "~/.config/emacs/roam-templates/omnivore.org") :immediate-finish t)))
+  
+  (add-to-list 'display-buffer-alist
+               '("\\*org-roam\\*"
+                 (display-buffer-in-direction)
+                 (direction . left)
+                 (window-width . 0.2)
+                 (window-height . fit-window-to-buffer)))
+
+  (require 'org-roam-dailies)
+  (org-roam-db-autosync-mode)
+
+  (setq org-agenda-files '("~/Files/roam/"))
+
+  (evil-define-key '(normal insert visual) org-roam-node-map (kbd "RET") (lambda () (universal-argument org-roam-node-visit)))
+
+  :bind (("C-c n f" . org-roam-node-find)
+         ("C-c n t a" . org-roam-tag-add)
+         ("C-c n t r" . org-roam-tag-remove)
+         ("C-c n r" . org-roam-refile)
+         ("C-c n l" . org-roam-buffer-toggle)
+         ("C-c n c o" . rehandaphedar/org-roam/one-off)
+         :map org-mode-map
+         ("C-M-i"    . completion-at-point)
+         :map org-roam-node-map
+         ("RET"    . (lambda () (interactive) (universal-argument) (org-roam-node-visit (org-roam-node-at-point) t)))
+		 :map org-roam-grep-map
+         ("RET"    . (lambda () (interactive) (universal-argument) (org-roam-grep-visit (org-roam-buffer-file-at-point) t))))
+
+
+  :bind-keymap
+  ("C-c n d" . org-roam-dailies-map))
+
+#+end_src
+
+*** Org Roam UI
+#+begin_src elisp
+
+(use-package org-roam-ui
+  :straight
+  (:host github :repo "org-roam/org-roam-ui" :branch "main" :files ("*.el" "out"))
+  :after org-roam
+  :config
+  (setq org-roam-ui-sync-theme t)
+  (setq org-roam-ui-follow t)
+  (setq org-roam-ui-update-on-save t)
+  (setq org-roam-ui-open-on-start t))
+
+#+end_src
+
+** Consult Org Roam
+#+begin_src elisp
+
+(use-package consult-org-roam
+  :after org-roam
+  :init
+  (require 'consult-org-roam)
+  (consult-org-roam-mode 1)
+  :custom
+  (consult-org-roam-grep-func #'consult-ripgrep)
+  :bind
+  ("C-c n b" . consult-org-roam-backlinks)
+  ("C-c n B" . consult-org-roam-backlinks-recursive)
+  ("C-c n i" . consult-org-roam-forward-links)
+  ("C-c n g" . consult-org-roam-search))
+
+#+end_src
+
+** Org Modern
+#+begin_src elisp
+
+(use-package org-modern
+  :init
+  (global-org-modern-mode)
+  :custom
+  (org-modern-star 'replace)
+  (org-modern-replace-stars '("●" "◉" "◎"))
+  (org-modern-checkbox '((88 . "") (45 . "") (32 . "")))
+  (org-modern-list '((43 . "■") (45 . "■") (42 . "■")))
+  (org-modern-internal-target '("    " t " "))
+  (org-modern-radio-target '("   " t " "))
+  (org-modern-progress 32)
+  (org-modern-table nil)
+  :config
+  (set-face-attribute 'org-checkbox nil :font "Font Awesome 6 Free" :inherit 'fixed-pitch))
+
+#+end_src
+
+** VAlign
+#+begin_src elisp
+(use-package valign
+  :custom
+  (valign-fancy-bar t)
+  :hook
+  (org-mode . valign-mode))
+#+end_src
+
+** Show Markup
+#+begin_src elisp
+
+(use-package org-appear
+  :straight
+  (:type git :host github :repo "awth13/org-appear")
+  :hook
+  (org-mode . org-appear-mode)
+  :config
+  (setq org-appear-autolinks t)
+  (setq org-appear-autosubmarkers t)
+  (setq org-appear-autoentities t)
+  (setq org-appear-autokeywords t))
+
+#+end_src
+
+** Org Visual Indent
+#+begin_src elisp
+
+(use-package org-visual-indent
+  :straight
+  (org-visual-indent :type git :host github :repo "legalnonsense/org-visual-outline")
+  :config
+  (setq org-visual-indent-span "        ")
+  (set-face-foreground 'org-visual-indent-pipe-face (face-foreground 'fringe))
+  (set-face-background 'org-visual-indent-pipe-face (face-foreground 'fringe)))
+
+#+end_src
+
+** Visual Fill Column
+#+begin_src elisp
+
+(defun rehandaphedar/visual-fill ()
+  (setq visual-fill-column-width 100
+        visual-fill-column-center-text t)
+  (visual-fill-column-mode 1))
+
+(use-package visual-fill-column
+  :hook (org-mode . rehandaphedar/visual-fill)
+  :hook (org-agenda-mode . rehandaphedar/visual-fill))
+
+#+end_src
+
+** Org Tree Slide
+*** Hide Modeline
+We will be using this to hide the modeline while presenting.
+#+begin_src elisp
+
+(use-package hide-mode-line)
+
+#+end_src
+
+#+RESULTS:
+
+*** Presentation Start
+#+begin_src elisp
+
+(defun rehandaphedar/presentation-start ()
+  (org-visual-indent-mode 0)
+  (org-indent-mode 1)
+  (hide-mode-line-mode 1)
+  (toggle-frame-fullscreen)
+  ;; Arabic font
+  (set-fontset-font "fontset-default" '(#x600 . #x6ff) (font-spec :family "KFGQPC HAFS Uthmanic Script" :size 48))
+  ;; Turn on text scaling
+  (setq-local face-remapping-alist '((default (:height 200) variable-pitch)
+                                     (fixed-pitch (:height 150) fixed-pitch)))
+  (dolist (face '((org-level-1 . 1.2)
+                  (org-level-2 . 1.175)
+                  (org-level-3 . 1.15)
+                  (org-level-4 . 1.125)
+                  (org-level-5 . 1.1)
+                  (org-level-6 . 1.1)
+                  (org-level-7 . 1.1)
+                  (org-level-8 . 1.1)))
+    (set-face-attribute (car face) nil :height 1.25 :weight 'bold)))
+
+#+end_src
+
+*** Presentation End
+#+begin_src elisp
+
+(defun rehandaphedar/presentation-end ()
+  (org-visual-indent-mode 1)
+  (hide-mode-line-mode 0)
+  (toggle-frame-fullscreen)
+  ;; Arabic font
+  (set-fontset-font "fontset-default" '(#x600 . #x6ff) (font-spec :family "KFGQPC HAFS Uthmanic Script" :size 32))
+  ;; Turn off text scaling
+  (setq-local face-remapping-alist '((default variable-pitch)
+                                     (fixed-pitch fixed-pitch)))
+  ;; For some reason I get messed up line height, which is fixed by this.
+  (org-mode-restart))
+
+#+end_src
+
+*** Configuration
+#+begin_src elisp
+
+(use-package org-tree-slide
+  :hook ((org-tree-slide-play . rehandaphedar/presentation-start)
+         (org-tree-slide-stop . rehandaphedar/presentation-end))
+  :config
+  (setq org-tree-slide-slide-in-effect t)
+  (setq org-tree-slide-activate-message "Presentation started!")
+  (setq org-tree-slide-deactivate-message "Presentation finished!")
+  (setq org-tree-slide-header t)
+  (setq org-tree-slide-breadcrumbs " > ")
+  :bind
+  ("C-c o p" . 'org-tree-slide-mode))
+
+#+end_src
+
+** Org Download
+#+begin_src elisp
+
+(use-package org-download
+  :after org
+  :hook
+  (dired-mode . org-download-enable)
+  :custom
+  (org-download-method 'attach)
+  :bind
+  (:map org-mode-map
+        ("C-c o c" . org-download-clipboard)
+        ("C-c o C" . org-download-yank)))
+
+#+end_src
+
+** Org Config
+#+begin_src elisp
+
+(use-package org-config
+  :straight
+  (:type git
+         :host gitlab
+         :repo "barocio/org-config.el")
+  :after org
+  :demand t
+  :bind
+  (("C-c o f" . org-config-visit-file)   
+   ("C-c o t" . org-config-tangle-file)) 
+  :init
+  (setq org-config-directory "~/Files/dot")
+  :hook
+  (org-mode . (lambda ()
+                (add-hook
+                 'after-save-hook
+                 #'org-config-tangle-and-compile-maybe)))
+  :config
+  (setq org-config-autotangle t
+		org-config-recurse-directory t
+		org-config-el-autocompile nil))
+
+#+end_src
+
+** Org Web Tools
+#+begin_src elisp
+
+(use-package org-web-tools
+  :bind
+  ("C-c o w" . org-web-tools-insert-link-for-url))
+
+#+end_src
+
+** Org Similarity
+#+begin_src elisp
+
+(use-package org-similarity
+  :straight
+  (:host github
+		 :repo "brunoarine/org-similarity"
+		 :branch "main")
+  :custom
+  (org-similarity-custom-python-interpreter "~/.local/share/findlike-venv/bin/python")
+  (org-similarity-directory org-roam-directory)
+  (org-similarity-algorithm "bm25")
+  (org-similarity-show-scores t)
+  (org-similarity-use-id-links t)
+  (org-similarity-remove-first t)
+  (org-similarity-heading "* Org Similarity")
+  (org-similarity-prefix "- "))
+
+#+end_src
+
+* HTMLize
+#+begin_src elisp
+
+(use-package htmlize)
+
+#+end_src
+
+* PDF
+** PDF Tools
+#+begin_src elisp
+
+(use-package pdf-tools
+  :init
+  (pdf-tools-install)
+  :hook
+  (pdf-view-mode . (lambda () (display-line-numbers-mode -1)))
+  :custom
+  (pdf-view-resize-factor 1.05)
+  (pdf-annot-default-annotation-properties
+   '((t (label . ""))
+	 (text (icon . "Comment") (color . "aquamarine1"))
+	 (highlight (color . "aquamarine1"))
+	 (squiggly (color . "aquamarine1"))
+	 (strike-out (color . "aquamarine1"))
+	 (underline (color . "aquamarine1")))))
+
+#+end_src
+
+** Org Noter
+#+begin_src elisp
+
+(use-package org-noter
+  :straight
+  (:repo "org-noter/org-noter"
+         :host github
+         :type git
+         :files ("*.el" "modules/*.el")))
+
+#+end_src
+
+* Hyperbole
+#+begin_src elisp
+
+(use-package hyperbole)
+
+#+end_src
+
+* Buffer Management
+** Bufler
+#+begin_src elisp
+
+(use-package bufler
+  :bind
+  ("C-x C-b" . bufler)
+  :config
+  (evil-define-key 'normal bufler-list-mode-map "d" 'bufler-list-buffer-kill))
+
+#+end_src
+
+* Project Management
+** Project
+*** Basic Configuration
+#+begin_src elisp
+
+(use-package project
+  :straight (:type built-in)
+  :config
+  (project-remember-projects-under "~/Files/dot/")
+  (project-remember-projects-under "~/Files/roam/")
+  (project-remember-projects-under "~/Files/code/" t)
+  (project-forget-zombie-projects))
+
+#+end_src
+
+** Magit
+*** Basic Configuration
+#+begin_src elisp
+
+(use-package magit
+  :config
+  (require 'magit-extras)
+  (setq magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1))
+
+#+end_src
+
+*** Magit Todos
+#+begin_src elisp
+
+(use-package magit-todos
+  :config
+  (magit-todos-mode))
+
+#+end_src
+
+*** Orgit
+#+begin_src elisp
+
+(use-package orgit)
+
+#+end_src
+
+* Terminals
+** Eshell
+*** Initialisation
+#+begin_src elisp
+
+(defun rehandaphedar/eshell-configure ()
+  (require 'evil-collection-eshell)
+  (evil-collection-eshell-setup)
+  (define-key eshell-mode-map (kbd "<tab>") 'completion-at-point)
+  (evil-define-key '(normal insert visual) eshell-mode-map (kbd "C-r") 'consult-history)
+  (evil-define-key '(normal insert visual) eshell-mode-map (kbd "<home>") 'eshell-bol)
+  (evil-normalize-keymaps)
+  (add-hook 'eshell-pre-command-hook 'eshell-save-some-history)
+  (eshell-hist-initialize)
+  (setq eshell-history-size         10000
+        eshell-buffer-maximum-lines 10000
+        eshell-hist-ignoredups t
+        eshell-highlight-prompt t
+        eshell-scroll-to-bottom-on-input t
+        eshell-prefer-lisp-functions t))
+
+(defun rehandaphedar/eshell-prompt ()
+  (setq eshell-prompt-regexp "^$: ")
+  (format "%s\n$: " (abbreviate-file-name (eshell/pwd))))
+
+#+end_src
+
+*** Basic Configuration
+#+begin_src elisp
+
+(use-package eshell
+  :hook
+  (eshell-first-time-mode . rehandaphedar/eshell-configure)
+  :config
+  (setq eshell-prompt-function #'rehandaphedar/eshell-prompt)
+  :bind
+  ("s-<return>" . (lambda () (interactive) (eshell t))))
+
+#+end_src
+
+*** Syntax Highlighting
+#+begin_src elisp
+
+(use-package eshell-syntax-highlighting
+  :after eshell-mode
+  :config
+  (eshell-syntax-highlighting-global-mode +1))
+
+#+end_src
+
+** VTerm
+#+begin_src elisp
+
+(use-package vterm)
+
+(use-package eshell-vterm
+  :after eshell
+  :config
+  (eshell-vterm-mode)
+  (defalias 'eshell/v 'eshell-exec-visual))
+
+#+end_src
+
+* IDE
+** Formatting
+*** Apheleia
+#+begin_src elisp
+
+(use-package apheleia
+  :config
+  (apheleia-global-mode +1))
+
+#+end_src
+
+*** Editor Config
+#+begin_src elisp
+
+(use-package editorconfig
+  :config
+  (editorconfig-mode 1))
+
+#+end_src
+
+** Eglot
+#+begin_src elisp
+
+(use-package eglot
+  :straight (:type built-in)
+  :hook
+  (prog-mode . eglot-ensure)
+  :bind
+  (:map eglot-mode-map
+        ("C-c l r" . eglot-rename)
+        ("C-c l o" . eglot-code-action-organize-imports)
+        ("C-c l g" . eglot-code-actions)
+        ("C-c l h" . eldoc)
+        ("C-c l d" . xref-find-definitions))
+  :custom
+  (eglot-confirm-server-initiated-edits nil))
+
+#+end_src
+
+** Languages
+*** Code Folding
+#+begin_src elisp
+
+(use-package fold-dwim
+  :bind
+  ("<backtab>" . fold-dwim-toggle)
+  :hook
+  (prog-mode . hs-minor-mode))
+
+#+end_src
+
+*** TypeScript
+#+begin_src elisp
+
+(use-package typescript-mode
+  :mode "\\.ts\\'"
+  :config
+  (setq typescript-indent-level 4))
+
+#+end_src
+
+*** Svelte
+#+begin_src elisp
+
+(use-package svelte-mode
+  :config
+  (setq svelte-basic-offset 4)
+  (add-to-list 'eglot-server-programs (cons 'svelte-mode '("svelteserver" "--stdio"))))
+
+#+end_src
+
+*** Vue
+#+begin_src elisp
+
+(use-package vue-mode)
+
+#+end_src
+
+*** Golang
+#+begin_src elisp
+
+(use-package go-mode)
+
+#+end_src
+
+*** JSON
+#+begin_src elisp
+
+(use-package json-mode)
+
+#+end_src
+
+*** YAML
+#+begin_src elisp
+
+(use-package yaml-mode)
+
+#+end_src
+
+*** OpenAPI YAML
+#+begin_src elisp
+
+(use-package openapi-yaml-mode
+  :straight
+  (:type git :host github :repo "magoyette/openapi-yaml-mode"))
+
+#+end_src
+
+*** VIMRC
+#+begin_src elisp
+
+(use-package vimrc-mode)
+
+#+end_src
+
+*** Nix
+#+begin_src elisp
+
+(use-package nix-mode)
+
+#+end_src
+
+*** Web
+#+begin_src elisp
+
+(use-package web-mode
+  :config
+  (add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.[agj]sp\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.as[cp]x\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.ejs\\'" . web-mode)))
+
+#+end_src
+
+*** Markdown
+#+begin_src elisp
+
+(use-package markdown-mode)
+
+#+end_src
+
+*** CSV
+#+begin_src elisp
+
+(use-package csv-mode
+  :hook
+  (csv-mode . csv-guess-set-separator))
+
+#+end_src
+
+** Docker
+*** ~Dockerfile~ files
+#+begin_src elisp
+
+(use-package dockerfile-mode)
+
+#+end_src
+
+*** ~docker-compose~ files
+#+begin_src elisp
+
+(use-package docker-compose-mode)
+
+#+end_src
+
+** Commenting
+#+begin_src elisp
+
+(use-package evil-nerd-commenter
+  :bind ("M-/" . evilnc-comment-or-uncomment-lines))
+
+#+end_src
+
+** Colored Parentheses
+#+begin_src elisp
+
+(use-package rainbow-delimiters
+  :hook (prog-mode . rainbow-delimiters-mode))
+
+#+end_src
+
+** Hex Colors 
+#+begin_src elisp
+
+(use-package rainbow-mode
+  :hook
+  (prog-mode . rainbow-mode))
+
+#+end_src
+
+** Pairs
+#+begin_src elisp
+
+(use-package electric
+  :straight (:type built-in)
+  :config
+  (setq electric-pair-inhibit-predicate (lambda (c) (char-equal c ?\<)))
+  (electric-pair-mode 1))
+
+#+end_src
+
+** Smart Tabs
+#+begin_src elisp
+
+(use-package smart-tab
+  :config
+  (global-smart-tab-mode 1))
+
+#+end_src
+
+** Emmet
+*** Smart Tabs
+#+begin_src elisp
+
+(defun add-emmet-expand-to-smart-tab-completions ()
+  (add-to-list 'smart-tab-completion-functions-alist
+               (cons major-mode #'emmet-expand-yas)))
+
+#+end_src
+
+*** Initialisation
+#+begin_src elisp
+
+(use-package emmet-mode
+  :defer t
+  :init
+  (add-hook 'css-mode-hook 'emmet-mode)
+  (add-hook 'sgml-mode-hook 'emmet-mode)
+  (add-hook 'web-mode-hook 'emmet-mode)
+  (add-hook 'css-mode-hook 'add-emmet-expand-to-smart-tab-completions)
+  (add-hook 'sgml-mode-hook 'add-emmet-expand-to-smart-tab-completions)
+  (add-hook 'web-mode-hook 'add-emmet-expand-to-smart-tab-completions)
+  :config
+  (setq-default emmet-move-cursor-between-quote t)
+  (unbind-key "<C-return>" emmet-mode-keymap)
+  (unbind-key "C-M-<left>" emmet-mode-keymap)
+  (unbind-key "C-M-<right>" emmet-mode-keymap))
+
+#+end_src
+
+** Snippets
+#+begin_src elisp
+
+(use-package yasnippet
+  :config
+  (yas-global-mode))
+
+#+end_src
+
+** Indent Guides
+#+begin_src elisp
+
+(use-package highlight-indent-guides
+  :hook
+  (prog-mode . highlight-indent-guides-mode)
+  (yaml-mode . highlight-indent-guides-mode)
+  (openapi-yaml-mode . highlight-indent-guides-mode)
+  :config
+  (setq highlight-indent-guides-method 'character))
+
+#+end_src
+
+** Indent Tools
+#+begin_src elisp
+
+(use-package indent-tools)
+
+#+end_src
+
+** Codeium
+#+begin_src elisp
+
+(use-package codeium
+  :straight
+  (:type git :host github :repo "Exafunction/codeium.el")
+  :init
+  (add-to-list 'completion-at-point-functions #'codeium-completion-at-point)
+  (add-hook 'completion-at-point-functions #'codeium-completion-at-point))
+
+#+end_src
+
+* Dired
+** Basic Configuration
+#+begin_src elisp
+
+(use-package dired
+  :straight nil
+  :commands (dired dired-jump)
+  :config
+  (setq dired-listing-switches "-lah --group-directories-first")
+  (evil-collection-define-key 'normal 'dired-mode-map
+    "h" 'dired-up-directory
+    "l" 'dired-find-file))
+
+#+end_src
+
+** Dired X
+#+begin_src elisp
+
+(use-package dired-x
+  :straight nil)
+
+#+end_src
+
+** All The Icons
+#+begin_src elisp
+
+(use-package all-the-icons-dired
+  :hook (dired-mode . all-the-icons-dired-mode))
+
+#+end_src
+
+** Dired FL
+#+begin_src elisp
+
+(use-package diredfl
+  :config
+  (diredfl-global-mode))
+
+#+end_src
+
+** Image Previews
+#+begin_src elisp
+
+(use-package peep-dired
+  :bind (:map dired-mode-map
+              ("M-p" . peep-dired))
+  :config
+  (evil-define-key 'normal peep-dired-mode-map (kbd "<SPC>") 'peep-dired-scroll-page-down
+    (kbd "C-<SPC>") 'peep-dired-scroll-page-up
+    (kbd "<backspace>") 'peep-dired-scroll-page-up
+    (kbd "j") 'peep-dired-next-file
+    (kbd "k") 'peep-dired-prev-file)
+  (evil-define-key 'normal dired-mode-map
+    (kbd "j") 'peep-dired-next-file
+    (kbd "k") 'peep-dired-prev-file)
+  :hook
+  (peep-dired-hook . evil-normalize-keymaps))
+
+#+end_src
+
+** Dired Hide Dotfiles
+#+begin_src elisp
+
+(use-package dired-hide-dotfiles
+  :hook (dired-mode . dired-hide-dotfiles-mode)
+  :config
+  (evil-collection-define-key 'normal 'dired-mode-map
+    "H" 'dired-hide-dotfiles-mode))
+
+#+end_src
+
+** Dired Auto Readme
+#+begin_src elisp
+
+(use-package dired-auto-readme)
+
+#+end_src
+
+** Dired Open
+#+begin_src elisp
+
+(use-package dired-open
+  :config
+  (dolist (extension '("gif"
+                       "svg"
+                       "epub"
+                       "mp4"
+                       "ogg"
+                       "mp3"
+                       "m4a"
+                       "webm"
+                       "webp"
+                       "mov"
+                       "ods"
+                       "docx"
+                       "opus"
+                       "mkv"))
+    (add-to-list 'dired-open-extensions (cons extension "xdg-open")))
+  (dolist (extension '("pptx"))
+    (add-to-list 'dired-open-extensions (cons extension "libreoffice"))))
+
+#+end_src
+
+* Email
+** mu4e
+#+begin_src elisp
+
+(use-package mu4e
+  :straight nil
+  :init
+  (mu4e t)
+  :config
+  ;; This is set to 't' to avoid mail syncing issues when using mbsync
+  (setq mu4e-change-filenames-when-moving t)
+  ;; Refresh mail using isync every 12 hours
+  (setq mu4e-update-interval (* 12 3600))
+  (setq mu4e-get-mail-command "mbsync -a")
+  (setq mu4e-maildir "~/Files/mails/")
+  (setq mu4e-attachment-dir "~/Downloads/")
+  (setq mu4e-context-policy 'pick-first)
+  (setq mu4e-compose-context-policy 'pick-first)
+  (setq mu4e-use-fancy-chars 't)
+  (setq mu4e-headers-fields
+		'((:human-date . 12)
+		  (:flags . 6)
+		  (:mailing-list . 10)
+		  (:from-or-to . 22)
+		  (:subject)))
+
+  (setq mu4e-maildir-shortcuts
+		'((:name "Inbox" :maildir "/INBOX"    :key ?i)
+		  (:name "Drafts" :maildir "/Drafts"    :key ?d)
+		  (:name "Sent" :maildir "/Sent" :key ?s)
+		  (:name "Junk" :maildir "/Junk" :key ?j)
+		  (:name "Trash" :maildir "/Trash"     :key ?t)
+		  (:name "Archive" :maildir "/Archive"  :key ?a)))
+
+  (setq mu4e-bookmarks
+		'((:name "Unread" :query "flag:unread AND NOT flag:trashed" :key ?u)
+		  (:name "All" :query "" :key ?a)))
+
+  (setq user-mail-address "mail@rehandaphedar.com")
+  (setq user-full-name "Rehan Daphedar")
+  (setq smtpmail-smtp-server "mail.rehandaphedar.com")
+  (setq smtpmail-smtp-service 465)
+  (setq smtpmail-stream-type 'tls)
+  (setq mu4e-drafts-folder "/Drafts")
+  (setq mu4e-sent-folder "/Sent")
+  (setq mu4e-trash-folder "/Trash")
+  (setq mu4e-refile-folder "/Archive")
+
+  (setq message-send-mail-function 'smtpmail-send-it)
+  (setq mu4e-compose-format-flowed t)
+
+  (setq mu4e-notification-support 't)
+  (setq mu4e-eldoc-support 't)
+  :bind
+  ("C-c c m" . mu4e))
+
+#+end_src
+
+** Org Mime
+#+begin_src elisp
+
+(use-package org-mime
+  :config
+  (setq mail-user-agent #'mu4e-user-agent)
+  (setq message-mail-user-agent t)
+  (set-variable 'read-mail-command 'mu4e))
+
+(add-hook 'message-send-hook 'org-mime-confirm-when-no-multipart)
+
+#+end_src
+
+* Web Browser
+** Elpher
+#+begin_src elisp
+
+(use-package elpher
+  :config
+  (setq elpher-default-url-type "gemini")
+  :bind
+  ("C-c g" . elpher-go))
+
+#+end_src
+
+* Contacts
+#+begin_src elisp
+
+(use-package org-vcard)
+
+#+end_src
+
+* HLedger
+#+begin_src elisp
+
+(use-package hledger-mode
+  :after htmlize
+  :mode ("\\.journal\\'" "\\.hledger\\'")
+  :bind (("C-c j c" . hledger-capture)
+         ("C-c j r" . hledger-run-command)
+         ("C-c j j" . hledger-jentry)
+         :map hledger-mode-map
+         ("C-c e" . hledger-jentry))
+  :init
+  (require 'hledger-input)
+  (setq hledger-jfile
+        (expand-file-name "~/Files/finance/hledger.journal")))
+
+#+end_src
+
+* Audio Player
+#+begin_src elisp
+
+(use-package emms
+  :config
+  (emms-all)
+  (setq emms-player-list '(emms-player-mpv))
+  (setq emms-player-mpv-parameters '("--quiet" "--really-quiet" "--no-audio-display" "--no-video"))
+  (setq emms-info-functions '(emms-info-native))
+  (setq emms-source-file-default-directory "~/Files/audio/")
+  :bind
+  ("C-c c e e" . 'emms)
+  ("C-c c e f" . 'emms-add-file)
+  ("C-c c e d" . 'emms-add-directory)
+  ("C-c c e p" . 'emms-pause))
+
+#+end_src
+
+* File Sharing
+#+begin_src elisp
+
+(use-package 0x0)
+
+#+end_src
+
+* Org Agenda Cache
+#+begin_src elisp
+
+(org-store-agenda-views)
+
+#+end_src

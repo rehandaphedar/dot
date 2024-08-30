@@ -1,0 +1,160 @@
+#+TITLE: Installation Guide
+#+PROPERTY: header-args:sh :shebang "#!/usr/bin/env sh"
+#+PROPERTY: header-args :mkdirp yes
+
+* Bootstrap
+#+begin_src sh :tangle /tmp/install/bootstrap.sh
+sudo pacman -S opendoas emacs-wayland reflector
+echo "permit nopass keepenv rehandaphedar as root" | sudo tee /etc/doas.conf
+#+end_src
+
+Tangle all files. Comment Chaotic AUR from ~/etc/pacman.conf~.
+
+* Tangle
+#+begin_src sh :tangle /tmp/install/tangle.sh
+emacs --batch --eval "(require 'org)" --eval '(org-babel-tangle-file "~/Files/dot/Install.org")'
+emacs --batch --eval "(require 'org)" --eval '(org-babel-tangle-file "~/Files/dot/Emacs.org")'
+emacs --batch --eval "(require 'org)" --eval '(org-babel-tangle-file "~/Files/dot/Desktop.org")'
+#+end_src
+
+* AUR
+#+begin_src sh :tangle /tmp/install/aur.sh
+cd /tmp
+doas pacman -S --needed base-devel
+git clone https://aur.archlinux.org/paru.git
+cd paru
+makepkg -si
+#+end_src
+
+* Chaotic AUR
+#+begin_src sh :tangle /tmp/install/chaotic_aur.sh
+doas pacman-key --recv-key 3056513887B78AEB --keyserver keyserver.ubuntu.com
+doas pacman-key --lsign-key 3056513887B78AEB
+doas pacman -U 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst'
+doas pacman -U 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst'
+#+end_src
+
+Tangle all files again.
+
+* Packages
+#+begin_src sh :tangle /tmp/install/packages.sh
+paru -Syu
+paru -S --needed - < ~/Files/dot/pkglist_native.txt
+paru -S --needed - < ~/Files/dot/pkglist_foreign.txt
+#+end_src
+
+* Shell
+#+begin_src sh :tangle /tmp/install/shell.sh
+chsh
+#+end_src
+
+* Systemd
+#+begin_src sh :tangle /tmp/install/systemd.sh
+doas systemctl enable reflector
+doas systemctl enable sddm
+doas systemctl enable tlp
+doas systemctl enable bluetooth
+doas systemctl enable docker.socket
+doas systemctl enable tor
+
+systemctl enable --user mako
+systemctl enable --user waybar
+systemctl enable --user syncthing
+systemctl enable --user ydotool
+
+systemctl enable --user foot-server.socket
+systemctl enable --user hyprshade.timer
+#+end_src
+
+* Ydotool
+#+begin_src sh :tangle /tmp/install/ydotool.sh
+doas usermod -aG input $USER
+#+end_src
+
+* Hyprpm
+#+begin_src sh :tangle /tmp/install/hyprpm.sh
+hyprpm update -v
+hyprpm add https://github.com/hyprwm/hyprland-plugins
+hyprpm enable hyprtrails
+
+hyprshade install
+systemctl enable --user hyprshade.timer
+#+end_src
+
+* Go Programs
+#+begin_src sh :tangle /tmp/install/go_programs.sh
+go install github.com/pdf/cliphist-wofi-img@latest
+
+go install git.sr.ht/~rehandaphedar/go-pray@latest
+go install git.sr.ht/~rehandaphedar/hijri-date@latest
+#+end_src
+
+* Org Similarity
+#+begin_src sh :tangle /tmp/install/org_similarity.sh
+mkdir -p ~/.local/share/findlike-venv
+python3.10 -m venv ~/.local/share/findlike-venv
+~/.local/share/findlike-venv/bin/pip install findlike
+ln -s ~/.local/share/findlike-venv/bin/findlike ~/.local/bin/findlike
+#+end_src
+
+* YT Clipper
+#+begin_src sh :tangle /tmp/install/yt_clipper.sh
+mkdir -p ~/.local/share
+cd ~/.local/share
+git clone https://github.com/exwm/yt_clipper yt-clipper
+cd yt-clipper
+python3.8 -m venv venv
+venv/bin/pip install -e .
+ln -s ~/.local/share/yt-clipper/venv/bin/yt_clipper ~/.local/bin/yt_clipper
+#+end_src
+
+* GRUB
+#+begin_src sh :tangle /tmp/install/grub.sh
+cd /tmp
+git clone https://github.com/catppuccin/grub.git
+cd grub
+doas cp -r src/* /usr/share/grub/themes/
+echo 'GRUB_THEME="/usr/share/grub/themes/catppuccin-macchiato-grub-theme/theme.txt"' | doas tee -a /etc/default/grub
+doas grub-mkconfig -o /boot/grub/grub.cfg
+#+end_src
+
+* SDDM
+#+begin_src sh :tangle /tmp/install/sddm.sh
+cd /tmp
+wget 'https://github.com/catppuccin/sddm/releases/latest/download/catppuccin-macchiato.zip'
+cd /usr/share/sddm/themes
+doas unzip /tmp/catppuccin-macchiato.zip
+echo "[Theme]
+Current=catppuccin-macchiato" | doas tee /etc/sddm.conf
+#+end_src
+ 
+Edit as necessary.
+
+* Manual
+** [[https://wiki.archlinux.org/title/Power_management/Suspend_and_hibernate#Hibernation][Hibernation]]
+** OBS
+- https://github.com/catppuccin/obs/issues/7
+
+** GTK
+** [[https://github.com/catppuccin/Kvantum][Qt]]
+** Firefox
+Copy ~~/.mozilla~ while Firefox is closed.
+
+** Chromium
+Copy ~~/.config/chromium~ while Chromium is closed.
+
+** Syncthing
+** Anki
+Copy ~~/.local/share/Anki2~ while Anki is closed.
+
+** LogSeq
+- https://github.com/pengx17/logseq-plugin-bullet-threading
+- https://github.com/yoyurec/logseq-awesome-content
+- https://github.com/yoyurec/logseq-sticky-headers
+- https://github.com/yoyurec/logseq-awesome-links
+- https://github.com/trashhalo/logseq-graph-analysis
+- https://github.com/vipzhicheng/logseq-plugin-mark-map
+- https://github.com/omagdy7/ollama-logseq
+- https://github.com/debanjandhar12/logseq-anki-sync
+
+** DNS
