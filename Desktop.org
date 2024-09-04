@@ -1364,7 +1364,7 @@ super + alt + shift + ]
 * swappy
 #+begin_src conf :tangle ~/.config/swappy/config
 [Default]
-save_dir=$HOME/Files/socmed/
+save_dir=$HOME/Files/shared/
 save_filename_format=swappy-%Y%m%d-%H%M%S.png
 #+end_src
 
@@ -2121,6 +2121,7 @@ cp -r ~/.gnupg $backup_dir/dotgnupg
 cp -r ~/.ssh $backup_dir/dotssh
 cp -r ~/.password-store $backup_dir/dotpasswordhypenstore
 cp -r ~/Files/mails $backup_dir/Files-mails
+cp -r ~/Files/roam $backup_dir/Files-roam
 #+end_src
 
 ** rehandaphedar Backup Config

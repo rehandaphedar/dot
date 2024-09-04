@@ -18,6 +18,8 @@ chaotic-keyring
 chaotic-mirrorlist
 cliphist
 cpio
+cups
+cups-pdf
 d2
 dart-sass
 dnsmasq
@@ -25,13 +27,16 @@ docker
 docker-compose
 efibootmgr
 emacs-wayland
+enscript
 exfatprogs
+fastfetch
 fd
 ffmpeg
 font-manager
 foot
 gcr
 git
+github-cli
 go
 gopls
 gparted
@@ -41,6 +46,7 @@ gst-plugin-pipewire
 gvfs
 heimdall
 helvum
+hugo
 hyprcursor-git
 hyprland-git
 hyprlang-git
@@ -99,6 +105,7 @@ pipewire
 pipewire-alsa
 pipewire-jack
 pipewire-pulse
+pnpm
 polkit-gnome
 polkit-kde-agent
 poppler-glib
@@ -147,6 +154,7 @@ tumbler
 typescript-language-server
 udiskie
 ungoogled-chromium
+unoconv
 unzip
 vde2
 virt-manager
