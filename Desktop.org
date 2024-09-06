@@ -1063,6 +1063,8 @@ source = ~/.config/hypr/macchiato.conf
 
 *** Environment
 #+begin_src conf :tangle ~/.config/hypr/hyprland.conf
+monitor=Unknown-1,disabled
+
 exec-once = startup
 
 env = HYPRCURSOR_SIZE,24
