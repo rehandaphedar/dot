@@ -25,6 +25,7 @@ dart-sass
 dnsmasq
 docker
 docker-compose
+easyeffects
 efibootmgr
 emacs-wayland
 enscript
@@ -61,6 +62,7 @@ intel-media-driver
 intel-ucode
 isync
 jdk-openjdk
+kdenlive
 kguiaddons
 kguiaddons5
 kitty

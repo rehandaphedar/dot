@@ -71,6 +71,12 @@ export BROWSER=firefox
 #+begin_src sh :tangle ~/.profile
 export PATH=$PATH:$HOME/.local/bin
 export PATH="$PATH:$(go env GOBIN):$(go env GOPATH)/bin"
+
+export PNPM_HOME="/home/rehandaphedar/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
 #+end_src
 
 ** GPG Agent As SSH Agent
@@ -2061,7 +2067,7 @@ wofi -dp 'Snippet: ' < ~/.local/share/snippets_data | awk '-F;' '{print $2}' | w
 #+end_src
 
 ** Typo
-#+begin_src sh :shebang "#!/usr/bin/env bash" :tangle ~/.local/bin/typo
+#+begin_src bash :shebang "#!/usr/bin/env bash" :tangle ~/.local/bin/typo
 sel=$(wl-paste)
 n=$'\n'
 echo "${sel}${n}*${sel}*${n}**${sel}**${n}***${sel}***${n}__***${sel}***__" | wl-copy
@@ -2095,7 +2101,7 @@ done
 #+end_src
 
 ** Passmenu OTP
-#+begin_src sh :shebang "#! /usr/bin/env bash" :tangle ~/.local/bin/passmenu_otp
+#+begin_src bash :shebang "#! /usr/bin/env bash" :tangle ~/.local/bin/passmenu_otp
 shopt -s nullglob globstar
 
 prefix=${PASSWORD_STORE_DIR-~/.password-store}
@@ -2116,7 +2122,7 @@ pass $pass_cmd -c "$password" 2>/dev/null
 #+end_src
 
 ** rehandaphedar Backup Init
-#+begin_src sh :shebang "#! /usr/bin/env bash" :tangle ~/.local/bin/rehandaphedar_backup_init
+#+begin_src bash :shebang "#! /usr/bin/env bash" :tangle ~/.local/bin/rehandaphedar_backup_init
 backup_name=$(date +%Y-%m-%d)__init
 backup_dir=~/Files/backups/$backup_name
 mkdir $backup_dir
@@ -2129,7 +2135,7 @@ cp -r ~/Files/roam $backup_dir/Files-roam
 #+end_src
 
 ** rehandaphedar Backup Config
-#+begin_src sh :shebang "#! /usr/bin/env bash" :tangle ~/.local/bin/rehandaphedar_backup_config
+#+begin_src bash :shebang "#! /usr/bin/env bash" :tangle ~/.local/bin/rehandaphedar_backup_config
 backup_name=$(date +%Y-%m-%d)__config
 backup_dir=~/Files/backups/$backup_name
 mkdir $backup_dir

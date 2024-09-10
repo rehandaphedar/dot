@@ -132,9 +132,7 @@ Edit as necessary.
 
 * Manual
 ** [[https://wiki.archlinux.org/title/Power_management/Suspend_and_hibernate#Hibernation][Hibernation]]
-** OBS
-- https://github.com/catppuccin/obs/issues/7
-
+** [[https://github.com/catppuccin/obs][OBS]]
 ** GTK
 ** [[https://github.com/catppuccin/Kvantum][Qt]]
 ** Firefox
