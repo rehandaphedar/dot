@@ -1707,7 +1707,7 @@ source /usr/share/nvim/runtime/colors/catppuccin-macchiato.vim
 
 * yt-dlp
 #+begin_src conf :tangle ~/.config/yt-dlp/config
--o "%(title)s [%(webpage_url_domain)s][%(id)s].%(ext)s"
+-o "%(title)s [%(webpage_url)s].%(ext)s"
 #+end_src
 
 * mpv
@@ -2119,6 +2119,19 @@ if pass show "$password" | grep -q '^otpauth://'; then
 fi
 
 pass $pass_cmd -c "$password" 2>/dev/null
+#+end_src
+
+** Extract Youtube URL
+#+begin_src bash :shebang "#! /usr/bin/env bash" :tangle ~/.local/bin/extract_youtube_url
+filename="$1"
+
+title="${filename% \[*}"
+url="${filename#*\[}"
+url="${url%]*}"
+
+url=$(echo "$url" | sed 's/：/:/g; s/⧸/\//g; s/？/?/g')
+
+echo "yt-dlp -x -o \"$title [%(webpage_url)s].%(ext)s\" \"$url\""
 #+end_src
 
 ** rehandaphedar Backup Init
