@@ -1238,7 +1238,7 @@ input-field {
     dots_spacing = 0.5
     dots_center = true
 
-    outer_color = rgb(a6da95)
+    # outer_color = rgb(a6da95)
     inner_color = rgb(181926)
     font_color = rgb(cad3f5)
     fade_on_empty = true
@@ -1426,7 +1426,7 @@ save_filename_format=swappy-%Y%m%d-%H%M%S.png
   },
   "custom/go-pray": {
 	"exec": "go-pray",
-	"format": "{icon} {}",
+	"format": "{0} {1}",
 	"format-icons": {
       "default": ""
 	}
@@ -1434,7 +1434,7 @@ save_filename_format=swappy-%Y%m%d-%H%M%S.png
   "custom/hijri-date": {
 	"exec": "hijri-date",
 	"interval": 1,
-	"format": "{icon} {}",
+	"format": "{0} {1}",
 	"format-icons": {
       "default": ""
 	}
@@ -1450,7 +1450,7 @@ save_filename_format=swappy-%Y%m%d-%H%M%S.png
   "custom/backlight-keyboard": {
 	"exec": "brightnessctl -m -d tpacpi::kbd_backlight | awk -F, '{print substr($4, 0, length($4))}'",
 	"interval": 1,
-	"format": "{icon} {}",
+	"format": "{0} {1}",
 	"format-icons": {
 	  "default": ""
 	},
@@ -1460,7 +1460,7 @@ save_filename_format=swappy-%Y%m%d-%H%M%S.png
   "custom/backlight-screen": {
 	"exec": "brightnessctl -m -d intel_backlight | awk -F, '{print substr($4, 0, length($4))}'",
 	"interval": 1,
-	"format": "{icon} {}",
+	"format": "{0} {1}",
 	"format-icons": {
 	  "default": ""
 	  },
@@ -1893,7 +1893,7 @@ pacman -Qqem > ~/Files/dot/pkglist_foreign.txt
 doas killall swhks
 doas killall swhkd
 swhks &
-sleep 1
+sleep 2
 pkexec swhkd -c ~/.config/swhkd/swhkdrc &
 #+end_src
 

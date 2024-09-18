@@ -1654,7 +1654,9 @@ We will be using this to hide the modeline while presenting.
 
 #+end_src
 
-** Image Previews
+** COMMENT Image Previews
+Move to [[https://protesilaos.com/emacs/dired-preview][dired-preview]]
+
 #+begin_src elisp
 
 (use-package peep-dired

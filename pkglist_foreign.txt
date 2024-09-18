@@ -27,4 +27,3 @@ uwuify
 vimv
 wayland-logout
 wvkbd
-zen-browser-bin

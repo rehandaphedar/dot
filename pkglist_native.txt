@@ -98,6 +98,8 @@ pandoc-bin
 paru
 pass-otp
 pavucontrol
+pdfcpu
+pdftk
 perl-authen-sasl
 perl-file-which
 perl-io-socket-ssl
@@ -118,6 +120,7 @@ python-lz4
 python-pip
 python-pipx
 python-poetry
+qbittorrent
 qemu-full
 qt6-wayland
 qt6ct
@@ -157,6 +160,7 @@ typescript-language-server
 udiskie
 ungoogled-chromium
 unoconv
+unrar
 unzip
 vde2
 virt-manager
@@ -169,6 +173,8 @@ waybar
 wev
 wget
 whois
+wine
+wine-mono
 wireplumber
 wl-clip-persist
 wofi
@@ -180,6 +186,7 @@ yt-dlp
 zathura
 zathura-pdf-mupdf
 zbar
+zen-browser-bin
 zram-generator
 zsh
 zsh-autosuggestions
