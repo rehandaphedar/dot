@@ -721,6 +721,7 @@ display correctly:
 
   (setq org-super-agenda-groups '((:discard (:habit t))
 								  (:auto-ts reverse)
+								  (:auto-priority t)
 								  (:name "General"
 										 :anything t)))
 
@@ -779,7 +780,7 @@ display correctly:
 
 (defun rehandaphedar/org-agenda-archive ()
   (interactive)
-  (org-agenda "DONE" "T"))
+  (org-agenda "DONE|CANC" "T"))
 
 (defun rehandaphedar/org-agenda-review ()
   (interactive)

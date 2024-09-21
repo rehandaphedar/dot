@@ -84,6 +84,7 @@ systemctl enable --user hyprshade.timer
 * Go Programs
 #+begin_src sh :tangle /tmp/install/go_programs.sh
 go install github.com/pdf/cliphist-wofi-img@latest
+go install github.com/mikefarah/yq/v4@latest
 
 go install git.sr.ht/~rehandaphedar/go-pray@latest
 go install git.sr.ht/~rehandaphedar/hijri-date@latest

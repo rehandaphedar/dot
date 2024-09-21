@@ -1357,6 +1357,8 @@ super + kp2
 	chromium --profile-directory="Profile 5"
 super + kp3
 	chromium --profile-directory="Profile 3"
+super + kp4
+	chromium --profile-directory="Profile 8"
 super + {[,]}
 	pactl set-sink-volume @DEFAULT_SINK@ {-,+}2%
 super + shift + {[,]}
@@ -1426,7 +1428,7 @@ save_filename_format=swappy-%Y%m%d-%H%M%S.png
   },
   "custom/go-pray": {
 	"exec": "go-pray",
-	"format": "{0} {1}",
+	"format": "{icon} {0}",
 	"format-icons": {
       "default": ""
 	}
@@ -1434,7 +1436,7 @@ save_filename_format=swappy-%Y%m%d-%H%M%S.png
   "custom/hijri-date": {
 	"exec": "hijri-date",
 	"interval": 1,
-	"format": "{0} {1}",
+	"format": "{icon} {0}",
 	"format-icons": {
       "default": ""
 	}
@@ -1450,7 +1452,7 @@ save_filename_format=swappy-%Y%m%d-%H%M%S.png
   "custom/backlight-keyboard": {
 	"exec": "brightnessctl -m -d tpacpi::kbd_backlight | awk -F, '{print substr($4, 0, length($4))}'",
 	"interval": 1,
-	"format": "{0} {1}",
+	"format": "{icon} {0}",
 	"format-icons": {
 	  "default": ""
 	},
@@ -1460,7 +1462,7 @@ save_filename_format=swappy-%Y%m%d-%H%M%S.png
   "custom/backlight-screen": {
 	"exec": "brightnessctl -m -d intel_backlight | awk -F, '{print substr($4, 0, length($4))}'",
 	"interval": 1,
-	"format": "{0} {1}",
+	"format": "{icon} {0}",
 	"format-icons": {
 	  "default": ""
 	  },

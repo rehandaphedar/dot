@@ -181,7 +181,6 @@ wofi
 xdg-desktop-portal-gtk
 xdg-desktop-portal-hyprland-git
 ydotool
-yq
 yt-dlp
 zathura
 zathura-pdf-mupdf
