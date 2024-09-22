@@ -857,6 +857,7 @@ text/mml=firefox.desktop
 x-scheme-handler/http=firefox.desktop
 x-scheme-handler/https=firefox.desktop
 
+x-scheme-handler/mailto=emacsclient-mail-helper.desktop
 application/pdf=emacsclient.desktop
 x-scheme-handler/mpv=mpv-scheme-handler.desktop
 #+end_src
@@ -1808,6 +1809,22 @@ Categories=System;
 MimeType=x-scheme-handler/org-protocol;
 #+end_src
 
+* Emacsclient Mail Helper
+#+begin_src desktop :tangle ~/.local/share/applications/emacsclient-mail-helper.desktop
+[Desktop Entry]
+Categories=Network;Email;
+Comment=GNU Emacs is an extensible, customizable text editor - and more
+Exec=emacsclient_mail_helper %u
+Icon=emacs
+Name=Emacs (Mail, Client)
+MimeType=x-scheme-handler/mailto;
+NoDisplay=true
+Terminal=false
+Type=Application
+Keywords=emacsclient;
+Actions=new-window;new-instance;
+#+end_src
+
 * Editor Config
 #+begin_src conf :tangle ~/.editorconfig
 root = true
@@ -2134,6 +2151,11 @@ url="${url%]*}"
 url=$(echo "$url" | sed 's/：/:/g; s/⧸/\//g; s/？/?/g')
 
 echo "yt-dlp -x -o \"$title [%(webpage_url)s].%(ext)s\" \"$url\""
+#+end_src
+
+** Emacsclient Mail Helper
+#+begin_src sh :shebang "#! /usr/bin/env sh" :tangle ~/.local/bin/emacsclient_mail_helper
+u=$(echo "$1" | sed 's/[\"]/\\&/g'); exec emacsclient --alternate-editor= --reuse-frame --eval "(message-mailto \"$u\")"
 #+end_src
 
 ** rehandaphedar Backup Init
