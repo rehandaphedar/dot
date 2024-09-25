@@ -92,21 +92,12 @@ go install git.sr.ht/~rehandaphedar/hijri-date@latest
 
 * Org Similarity
 #+begin_src sh :tangle /tmp/install/org_similarity.sh
-mkdir -p ~/.local/share/findlike-venv
-python3.10 -m venv ~/.local/share/findlike-venv
-~/.local/share/findlike-venv/bin/pip install findlike
-ln -s ~/.local/share/findlike-venv/bin/findlike ~/.local/bin/findlike
+pipx install findlike --python 3.10 --fetch-missing-python
 #+end_src
 
 * YT Clipper
 #+begin_src sh :tangle /tmp/install/yt_clipper.sh
-mkdir -p ~/.local/share
-cd ~/.local/share
-git clone https://github.com/exwm/yt_clipper yt-clipper
-cd yt-clipper
-python3.8 -m venv venv
-venv/bin/pip install -e .
-ln -s ~/.local/share/yt-clipper/venv/bin/yt_clipper ~/.local/bin/yt_clipper
+pipx install git+https://github.com/exwm/yt_clipper --python 3.8 --fetch-missing-python
 #+end_src
 
 * GRUB
