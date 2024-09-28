@@ -1,3 +1,4 @@
+aegisub
 android-tools
 anki
 arch-install-scripts
@@ -45,6 +46,7 @@ grim
 grub
 gst-plugin-pipewire
 gvfs
+handbrake
 heimdall
 helvum
 hugo
@@ -98,6 +100,7 @@ pandoc-bin
 paru
 pass-otp
 pavucontrol
+pavucontrol-qt
 pdfcpu
 pdftk
 perl-authen-sasl
@@ -115,8 +118,10 @@ polkit-kde-agent
 poppler-glib
 prettier
 pup
+pyright
 python-distutils-extra
 python-lz4
+python-pandas
 python-pip
 python-pipx
 python-poetry

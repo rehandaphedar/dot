@@ -2,6 +2,7 @@ catppuccin-cursors-macchiato
 catppuccinifier-cli-bin
 catppuccinifier-gui-bin
 cbatticon-gtk2
+davinci-resolve
 doasedit
 ebgaramond-otf
 firefox-bin
@@ -17,6 +18,7 @@ papirus-folders-catppuccin-git
 paps
 paru-debug
 pass-git-helper
+pocketbase-bin
 python310
 python38
 swhkd-bin

@@ -355,7 +355,7 @@ display correctly:
                    :includes (corfu-info corfu-history))
   :custom
   (corfu-cycle t)
-  ;; (corfu-auto t)
+  (corfu-auto t)
   (corfu-auto-prefix 0.5)
   (corfu-auto-delay 0.25)
   (corfu-popupinfo-delay '(0.5 . 0.5))
@@ -1842,7 +1842,8 @@ Move to [[https://protesilaos.com/emacs/dired-preview][dired-preview]]
   ("C-c c e e" . 'emms)
   ("C-c c e f" . 'emms-add-file)
   ("C-c c e d" . 'emms-add-directory)
-  ("C-c c e p" . 'emms-pause))
+  ("C-c c e p" . 'emms-pause)
+  ("C-c c e P" . 'emms-add-playlist))
 
 #+end_src
 
