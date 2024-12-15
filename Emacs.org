@@ -1484,6 +1484,15 @@ We will be using this to hide the modeline while presenting.
 
 #+end_src
 
+*** SQL
+#+begin_src elisp
+
+(use-package sqlite-mode
+  :config
+  (add-to-list 'auto-mode-alist '("\\.sqlite\\'" . sqlite-mode)))
+
+#+end_src
+
 ** Docker
 *** ~Dockerfile~ files
 #+begin_src elisp

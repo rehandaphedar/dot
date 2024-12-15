@@ -1,6 +1,7 @@
 aegisub
 android-tools
 anki
+anydesk-bin
 arch-install-scripts
 archinstall
 base
@@ -13,6 +14,7 @@ bluez-utils
 brave-bin
 brightnessctl
 btop
+caddy
 calibre
 catppuccin-gtk-theme-macchiato
 chaotic-keyring
@@ -23,9 +25,12 @@ cups
 cups-pdf
 d2
 dart-sass
+delve
+deno
 dnsmasq
 docker
 docker-compose
+duplicity
 easyeffects
 efibootmgr
 emacs-wayland
@@ -49,6 +54,7 @@ gvfs
 handbrake
 heimdall
 helvum
+httpie
 hugo
 hyprcursor-git
 hyprland-git
@@ -61,6 +67,7 @@ imv
 inetutils
 intel-gpu-tools
 intel-media-driver
+intel-npu-driver-bin
 intel-ucode
 isync
 jdk-openjdk
@@ -68,6 +75,8 @@ kdenlive
 kguiaddons
 kguiaddons5
 kitty
+kopia-bin
+krita
 kvantum
 libappindicator-gtk3
 libdbusmenu-gtk3
@@ -96,7 +105,9 @@ openbsd-netcat
 opendoas
 os-prober
 otf-font-awesome
+p7zip
 pandoc-bin
+parallel
 paru
 pass-otp
 pavucontrol
@@ -122,6 +133,7 @@ pyright
 python-distutils-extra
 python-lz4
 python-pandas
+python-paramiko
 python-pip
 python-pipx
 python-poetry
@@ -138,6 +150,7 @@ sddm
 slurp
 sof-firmware
 speedtest-cli
+sqlitebrowser
 starship
 swappy
 swww
@@ -163,7 +176,6 @@ ttf-twemoji
 tumbler
 typescript-language-server
 udiskie
-ungoogled-chromium
 unoconv
 unrar
 unzip
@@ -185,12 +197,14 @@ wl-clip-persist
 wofi
 xdg-desktop-portal-gtk
 xdg-desktop-portal-hyprland-git
+xh
 ydotool
 yt-dlp
 zathura
 zathura-pdf-mupdf
 zbar
 zen-browser-bin
+zola
 zram-generator
 zsh
 zsh-autosuggestions

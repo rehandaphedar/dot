@@ -829,6 +829,7 @@ custom_gpu_name5 = ""
 video/mp4=mpv.desktop
 video/ogg=mpv.desktop
 video/webm=mpv.desktop
+audio/mpeg=mpv.desktop
 
 image/bmp=imv.desktop
 image/gif=imv.desktop
@@ -1119,7 +1120,10 @@ decoration {
     dim_strength = 0.35
 
     rounding = 0
-    drop_shadow = false
+
+    shadow {
+        enabled = false
+    }
 
     blur {
     enabled = true
@@ -1147,9 +1151,15 @@ animations {
 }
 
 master {
-    no_gaps_when_only = 1
     mfact = 0.6
 }
+
+workspace = w[tv1], gapsout:0, gapsin:0
+workspace = f[1], gapsout:0, gapsin:0
+windowrulev2 = bordersize 0, floating:0, onworkspace:w[tv1]
+windowrulev2 = rounding 0, floating:0, onworkspace:w[tv1]
+windowrulev2 = bordersize 0, floating:0, onworkspace:f[1]
+windowrulev2 = rounding 0, floating:0, onworkspace:f[1]
 
 misc { 
     force_default_wallpaper = 0
@@ -1352,6 +1362,8 @@ super + x
 	power_menu
 super + ;
 	firefox
+super + shift + ;
+	chromium --profile-directory="Profile 1"
 super + kp1
 	mullvad-browser
 super + kp2
@@ -2182,3 +2194,20 @@ cp -r ~/.config/chromium $backup_dir/dotconfig-chromium
 cp -r ~/.local/share/Anki2 $backup_dir/dotlocal-share-Anki2
 #+end_src
 
+** rehandaphedar Backup Data
+#+begin_src bash :shebang "#! /usr/bin/env bash" :tangle ~/.local/bin/rehandaphedar_backup_data
+export PASSPHRASE="$(pass init/backup/home)" 
+
+duplicity ~/Files/audio sftp://rehandaphedar@localhost:8008/Files/audio
+duplicity ~/Files/backups sftp://rehandaphedar@localhost:8008/Files/backups
+duplicity ~/Files/calls sftp://rehandaphedar@localhost:8008/Files/calls
+duplicity ~/Files/dcim sftp://rehandaphedar@localhost:8008/Files/dcim
+duplicity ~/Files/documents sftp://rehandaphedar@localhost:8008/Files/documents
+duplicity ~/Files/emojis sftp://rehandaphedar@localhost:8008/Files/emojis
+duplicity ~/Files/finance sftp://rehandaphedar@localhost:8008/Files/finance
+duplicity ~/Files/media sftp://rehandaphedar@localhost:8008/Files/media
+duplicity ~/Files/pdfs sftp://rehandaphedar@localhost:8008/Files/pdfs
+duplicity ~/Files/roam sftp://rehandaphedar@localhost:8008/Files/roam
+duplicity ~/Files/mbbs sftp://rehandaphedar@localhost:8008/Files/mbbs
+duplicity ~/Files/wallpapers sftp://rehandaphedar@localhost:8008/Files/wallpapers
+#+end_src
