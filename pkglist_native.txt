@@ -1,12 +1,15 @@
+7zip
 aegisub
 android-tools
 anki
 anydesk-bin
 arch-install-scripts
 archinstall
+audacious
 base
 base-devel
 bind
+blender
 blueman
 bluetooth-autoconnect
 bluez
@@ -29,6 +32,7 @@ delve
 deno
 dnsmasq
 docker
+docker-buildx
 docker-compose
 duplicity
 easyeffects
@@ -36,6 +40,7 @@ efibootmgr
 emacs-wayland
 enscript
 exfatprogs
+f3d
 fastfetch
 fd
 ffmpeg
@@ -57,11 +62,10 @@ helvum
 httpie
 hugo
 hyprcursor-git
+hyprgraphics-git
 hyprland-git
-hyprlang-git
 hyprlock-git
 hyprpicker-git
-hyprwayland-scanner-git
 imagemagick
 imv
 inetutils
@@ -100,12 +104,12 @@ noto-fonts
 nwg-look
 obs-studio
 ocrmypdf
+okular
 ollama
 openbsd-netcat
 opendoas
 os-prober
 otf-font-awesome
-p7zip
 pandoc-bin
 parallel
 paru
@@ -155,6 +159,7 @@ starship
 swappy
 swww
 syncthing
+tenacity
 tesseract-data-eng
 testdisk
 texlive-fontsextra

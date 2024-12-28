@@ -1188,8 +1188,8 @@ gestures {
 }
 
 
-bind=SUPER,R,pass,^(com\.obsproject\.Studio)$
-bind=SUPER+SHIFT,R,pass,^(com\.obsproject\.Studio)$
+bind=SUPER,R,pass, class:^(com\.obsproject\.Studio)$
+bind=SUPER+SHIFT,R,pass, class:^(com\.obsproject\.Studio)$
 
 bind = SUPER, mouse_down, workspace, e+1
 bind = SUPER, mouse_up, workspace, e-1

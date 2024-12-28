@@ -8,7 +8,7 @@ firefox-bin
 hledger-bin
 hoppscotch-bin
 httpie-desktop-bin
-hyprshade
+hyprshade-git
 ianny-git
 jdtls
 lbry-desktop-bin
@@ -20,6 +20,7 @@ papirus-folders-catppuccin-git
 paps
 paru-debug
 pass-git-helper
+pdfmerger
 pocketbase-bin
 pwvucontrol
 python310
