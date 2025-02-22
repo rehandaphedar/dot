@@ -15,6 +15,7 @@ lbry-desktop-bin
 mu
 multi-git-status
 neovim-catppuccin
+otf-texgyre-pagella-math
 pacwall-git
 papirus-folders-catppuccin-git
 paps
@@ -26,12 +27,12 @@ pwvucontrol
 python310
 python38
 swhkd-bin
+tex-gyre-math-fonts
 ttf-arabeyes-fonts
 ttf-inter
 ttf-qurancomplex-fonts
 ttf-urdufonts
 tweego
-ungoogled-chromium-bin
 uwuify
 vimv
 wayland-logout
