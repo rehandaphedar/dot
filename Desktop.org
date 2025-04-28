@@ -1219,8 +1219,8 @@ plugin {
 #+begin_src conf :tangle ~/.config/hypr/hyprlock.conf
 general {
     hide_cursor = true
-    no_fade_in = true
-    no_fade_out = true
+    # fade_in = true
+    # fade_out = true
 }
 
 background {
@@ -1258,7 +1258,7 @@ input-field {
     check_color = rgb(8aadf4)
     fail_color = rgb(ed8796)
     fail_text =
-    fail_transition = 0
+    # fail_transition = 0
 
     position = 0, -150
     halign = center
@@ -1282,18 +1282,18 @@ super + q
 super + t
 	hyprctl dispatch togglefloating
 
-super + {_, shift, ctrl} + {h, j, k, l}
+super + {_, shift +, ctrl +} {h, j, k, l}
 	hyprctl dispatch {movefocus, movewindow, swapwindow} {l, d, u, r}
 super + alt + {h, j, k, l}
-	hyprctl dispatch resizeactive {-10 0, 0 10, 0 -10, 10 0}
-super + {_, shift} + tab
+	hyprctl dispatch resizeactive {\-10 0, 0 10, 0 \-10, 10 0}
+super + {_, shift +} tab
 	hyprctl dispatch layoutmsg {cyclenext, cycleprev}
-super + {_, shift} + m
+super + {_, shift +} m
 	hyprctl dispatch layoutmsg {addmaster, removemaster}
-super + {, shift + } o
+super + {_, shift + } o
 	hyprctl dispatch layoutmsg {rollnext, orientationnext}
 
-super + {_, shift} + {1, 2, 3, 4, 5, 6, 7, 8, 9, 0}
+super + {_, shift +} {1, 2, 3, 4, 5, 6, 7, 8, 9, 0}
 	hyprland_workspace_helper {workspace, movetoworkspace} {1,2,3,4,5,6,7,8,9,10}
 # super + s
 # 	hyprctl dispatch togglespecialworkspace scratchpad
@@ -1302,7 +1302,7 @@ super + {_, shift} + {1, 2, 3, 4, 5, 6, 7, 8, 9, 0}
 super + alt + s
 	  hyprshade toggle
 
-super + {_, shift} + f
+super + {_, shift +} f
 	hyprctl dispatch fullscreen {1, 0}
 #+end_src
 
@@ -1325,7 +1325,7 @@ super + b
 super + shift + b
 	  rfkill toggle wlan
 F12
-	grim - | wl-copy
+	grim - | swappy -f - -o - | wl-copy
 F11
 	grim -g "$(slurp)" - | swappy -f - -o - | wl-copy
 F10
@@ -1365,17 +1365,17 @@ super + ;
 super + shift + ;
 	chromium --profile-directory="Profile 1"
 super + kp1
-	mullvad-browser
+	chromium --profile-directory="Profile 17"
 super + kp2
-	chromium --profile-directory="Profile 5"
-super + kp3
 	chromium --profile-directory="Profile 3"
+super + kp3
+	chromium --profile-directory="Profile 13"
 super + kp4
 	chromium --profile-directory="Profile 8"
 super + {[,]}
-	pactl set-sink-volume @DEFAULT_SINK@ {-,+}2%
+	pactl set-sink-volume @DEFAULT_SINK@ {\-,+}2%
 super + shift + {[,]}
-	pactl set-sink-volume @DEFAULT_SINK@ {-,+}5%
+	pactl set-sink-volume @DEFAULT_SINK@ {\-,+}5%
 super + alt + [
 	brightnessctl -d tpacpi::kbd_backlight s 50%-
 super + alt + ]
@@ -1510,7 +1510,7 @@ save_filename_format=swappy-%Y%m%d-%H%M%S.png
 @import "macchiato.css";
 
 ,* {
-    font-family: sans-serif;
+    font-family: sans-serif, 'FontAwesome';
     font-size: 12px;
 }
 
@@ -1924,8 +1924,11 @@ pacman -Qqem > ~/Files/dot/pkglist_foreign.txt
 doas killall swhks
 doas killall swhkd
 swhks &
-sleep 2
-pkexec swhkd -c ~/.config/swhkd/swhkdrc &
+sleep 5
+doas swhkd -c ~/.config/swhkd/swhkdrc &
+
+# Fix
+rfkill unblock wifi
 #+end_src
 
 *** Wayland

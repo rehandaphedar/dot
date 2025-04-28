@@ -22,6 +22,7 @@ calibre
 catppuccin-gtk-theme-macchiato
 chaotic-keyring
 chaotic-mirrorlist
+cheese
 cliphist
 cpio
 cups
@@ -47,9 +48,11 @@ ffmpeg
 font-manager
 foot
 gcr
+gimp
 git
 github-cli
 go
+google-chrome
 gopls
 gparted
 grim
@@ -97,6 +100,7 @@ man-db
 monero-gui
 mpv
 mullvad-browser-bin
+neofetch
 neovim
 network-manager-applet
 networkmanager
@@ -110,6 +114,7 @@ openbsd-netcat
 opendoas
 os-prober
 otf-font-awesome
+otf-latin-modern
 pandoc-bin
 parallel
 paru
@@ -150,6 +155,7 @@ qt6ct
 reflector
 ripgrep
 ripgrep-all
+rnote
 rsync
 rustdesk-bin
 sddm
@@ -179,6 +185,7 @@ ttc-iosevka-aile
 ttc-iosevka-etoile
 ttf-jetbrains-mono
 ttf-jetbrains-mono-nerd
+ttf-ms-fonts
 ttf-roboto
 ttf-twemoji
 tumbler
@@ -188,7 +195,9 @@ ungoogled-chromium-bin
 unoconv
 unrar
 unzip
+uwufetch
 vde2
+veracrypt
 virt-manager
 virt-viewer
 vpl-gpu-rt
@@ -196,6 +205,7 @@ vscodium
 vulkan-intel
 vulkan-tools
 waybar
+webcamoid
 wev
 wget
 whois

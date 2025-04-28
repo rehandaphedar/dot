@@ -24,9 +24,10 @@ pass-git-helper
 pdfmerger
 pocketbase-bin
 pwvucontrol
+python2-bin
 python310
 python38
-swhkd-bin
+swhkd-git
 tex-gyre-math-fonts
 ttf-arabeyes-fonts
 ttf-inter
@@ -36,5 +37,6 @@ tweego
 uwuify
 vimv
 wayland-logout
+wkhtmltopdf-static
 wvkbd
 yaak-bin

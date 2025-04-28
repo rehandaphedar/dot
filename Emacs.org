@@ -559,6 +559,7 @@ display correctly:
   (variable-pitch-mode)
   (org-indent-mode)
   (visual-line-mode 1)
+  (setq tab-width 8) ;; Fix error
   (rehandaphedar/org-font-setup))
 
 #+end_src
@@ -1346,6 +1347,7 @@ We will be using this to hide the modeline while presenting.
 
 (use-package editorconfig
   :config
+  (setq editorconfig-exclude-modes '(org-mode))
   (editorconfig-mode 1))
 
 #+end_src
