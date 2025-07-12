@@ -1388,6 +1388,21 @@ super + alt + shift + ]
 	brightnessctl -d intel_backlight s +1%
 #+end_src
 
+** AI
+#+begin_src conf :tangle ~/.config/swhkd/swhkdrc
+super + shift + a
+    footclient $SHELL -c 'rehandaphedar_fabric_print_pattern | nvim'
+super + a
+    footclient $SHELL -c 'rehandaphedar_fabric_run_pattern | nvim'
+
+super + shift + y
+    footclient $SHELL -c 'rehandaphedar_fabric_print_youtube_transcript | nvim'
+super + y
+    footclient $SHELL -c 'rehandaphedar_fabric_run_youtube_transcript_pattern | nvim'
+super + alt + y
+    footclient $SHELL -c 'rehandaphedar_fabric_print_youtube_transcript_pattern | nvim'
+#+end_src
+
 * swappy
 #+begin_src conf :tangle ~/.config/swappy/config
 [Default]
@@ -2131,7 +2146,7 @@ swww img --transition-fps 60 --transition-bezier 0.25,1,0.5,1 --transition-durat
 #+begin_src sh :shebang "#!/usr/bin/env sh" :tangle ~/.local/bin/open_clipboard_org_links
 wl-paste | while IFS= read -r line; do
 	if [ -n "$line" ]; then
-		$BROWSER "$(echo "$line" | awk '{print $2}')"
+		$BROWSER "$(echo "$line" | awk '{print $2}' | awk -F'\\[\\[|\\]\\[|\\]\\]' '{print $2}')"
 	fi
 done
 #+end_src
@@ -2216,3 +2231,44 @@ duplicity ~/Files/roam sftp://rehandaphedar@localhost:8008/Files/roam
 duplicity ~/Files/mbbs sftp://rehandaphedar@localhost:8008/Files/mbbs
 duplicity ~/Files/wallpapers sftp://rehandaphedar@localhost:8008/Files/wallpapers
 #+end_src
+
+** rehandaphedar Fabric Run Pattern
+#+begin_src bash :shebang "#! /usr/bin/env bash" :tangle ~/.local/bin/rehandaphedar_fabric_run_pattern
+pattern="$(fabric -l | wofi -dp 'Pattern: ')"
+if [ ! -z "${pattern}" ];
+then
+	wl-paste | fabric --pattern "$pattern"
+fi
+#+end_src
+
+** rehandaphedar Fabric Print Pattern
+#+begin_src bash :shebang "#! /usr/bin/env bash" :tangle ~/.local/bin/rehandaphedar_fabric_print_pattern
+pattern="$(fabric -l | wofi -dp 'Pattern: ')"
+if [ ! -z "${pattern}" ];
+then
+	wl-paste | fabric --pattern "$pattern" --dry-run
+fi
+#+end_src
+
+** rehandaphedar Fabric Print YouTube Transcript
+#+begin_src bash :shebang "#! /usr/bin/env bash" :tangle ~/.local/bin/rehandaphedar_fabric_print_youtube_transcript
+youtube_transcript_api --format text "$(wl-paste)" | fabric --pattern "clean_text"
+#+end_src
+
+** rehandaphedar Fabric Run YouTube Transcript Pattern
+#+begin_src bash :shebang "#! /usr/bin/env bash" :tangle ~/.local/bin/rehandaphedar_fabric_run_youtube_transcript_pattern
+pattern="$(fabric -l | wofi -dp 'Pattern: ')"
+if [ ! -z "${pattern}" ];
+then
+	rehandaphedar_fabric_print_youtube_transcript | fabric --pattern "$pattern"
+fi
+#+end_src
+** rehandaphedar Fabric Print YouTube Transcript Pattern
+#+begin_src bash :shebang "#! /usr/bin/env bash" :tangle ~/.local/bin/rehandaphedar_fabric_print_youtube_transcript_pattern
+pattern="$(fabric -l | wofi -dp 'Pattern: ')"
+if [ ! -z "${pattern}" ];
+then
+	rehandaphedar_fabric_print_youtube_transcript | fabric --pattern "$pattern" --dry-run
+fi
+#+end_src
+

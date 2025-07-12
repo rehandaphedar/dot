@@ -156,6 +156,20 @@ display correctly:
 
 #+end_src
 
+** Ultra Scroll
+#+begin_src elisp
+
+(use-package ultra-scroll
+  :straight
+  (:type git :host github :repo "jdtsmith/ultra-scroll")
+  :init
+  (setq scroll-conservatively 3
+        scroll-margin 0)
+  :config
+  (ultra-scroll-mode 1))
+
+#+end_src
+
 * Calendar
 #+begin_src elisp
 
@@ -1614,7 +1628,7 @@ We will be using this to hide the modeline while presenting.
 
 #+end_src
 
-** Codeium
+** COMMENT Codeium
 #+begin_src elisp
 
 (use-package codeium

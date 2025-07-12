@@ -24,6 +24,7 @@ chaotic-keyring
 chaotic-mirrorlist
 cheese
 cliphist
+cmatrix
 cpio
 cups
 cups-pdf
@@ -78,6 +79,7 @@ intel-npu-driver-bin
 intel-ucode
 isync
 jdk-openjdk
+jre21-openjdk
 kdenlive
 kguiaddons
 kguiaddons5
@@ -97,10 +99,10 @@ logseq-desktop-bin
 lsb-release
 mako
 man-db
+mariadb
 monero-gui
 mpv
 mullvad-browser-bin
-neofetch
 neovim
 network-manager-applet
 networkmanager
@@ -139,6 +141,7 @@ polkit-kde-agent
 poppler-glib
 prettier
 pup
+pwvucontrol
 pyright
 python-distutils-extra
 python-lz4
@@ -170,6 +173,7 @@ syncthing
 tenacity
 tesseract-data-eng
 testdisk
+texlive-binextra
 texlive-fontsextra
 texlive-fontsrecommended
 texlive-latexextra
@@ -222,6 +226,7 @@ yt-dlp
 zathura
 zathura-pdf-mupdf
 zbar
+zed
 zen-browser-bin
 zola
 zram-generator
