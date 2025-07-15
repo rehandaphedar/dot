@@ -8,6 +8,7 @@ archinstall
 audacious
 base
 base-devel
+bc
 bind
 blender
 blueman
@@ -141,6 +142,7 @@ polkit-kde-agent
 poppler-glib
 prettier
 pup
+pv
 pwvucontrol
 pyright
 python-distutils-extra

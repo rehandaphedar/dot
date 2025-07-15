@@ -783,6 +783,9 @@ custom_gpu_name5 = ""
     <edit name="family" mode="prepend" binding="strong">
       <string>KFGQPC HAFS Uthmanic Script</string>
     </edit>
+    <edit name="family" mode="prepend" binding="strong">
+      <string>Amiri</string>
+    </edit>
   </match>
   <match target="pattern">
     <test name="lang" compare="contains">
@@ -794,6 +797,9 @@ custom_gpu_name5 = ""
     <edit name="family" mode="prepend" binding="strong">
       <string>KFGQPC HAFS Uthmanic Script</string>
     </edit>
+    <edit name="family" mode="prepend" binding="strong">
+      <string>Amiri</string>
+    </edit>
   </match>
   <!-- Setting Default Fonts-->
   <alias>
@@ -802,6 +808,7 @@ custom_gpu_name5 = ""
       <family>Roboto</family>
       <family>Twemoji</family>
       <family>KFGQPC HAFS Uthmanic Script</family>
+      <family>Amiri</family>
     </prefer>
   </alias>
   <alias>
@@ -810,6 +817,7 @@ custom_gpu_name5 = ""
       <family>EB Garamond</family>
       <family>Twemoji</family>
       <family>KFGQPC HAFS Uthmanic Script</family>
+      <family>Amiri</family>
     </prefer>
   </alias>
   <alias>
@@ -818,6 +826,7 @@ custom_gpu_name5 = ""
       <family>JetBrains Mono</family>
       <family>Twemoji</family>
       <family>KFGQPC HAFS Uthmanic Script</family>
+      <family>Amiri</family>
     </prefer>
   </alias>
 </fontconfig>
