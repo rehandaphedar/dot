@@ -983,7 +983,7 @@ display correctly:
   (org-modern-progress 32)
   (org-modern-table nil)
   :config
-  (set-face-attribute 'org-checkbox nil :font "Font Awesome 6 Free" :inherit 'fixed-pitch))
+  (set-face-attribute 'org-checkbox nil :font "Font Awesome 7 Free" :inherit 'fixed-pitch))
 
 #+end_src
 
@@ -1170,7 +1170,7 @@ We will be using this to hide the modeline while presenting.
 		 :repo "brunoarine/org-similarity"
 		 :branch "main")
   :custom
-  (org-similarity-custom-python-interpreter "~/.local/share/findlike-venv/bin/python")
+  (org-similarity-custom-python-interpreter "~/.local/share/pipx/venvs/findlike")
   (org-similarity-directory org-roam-directory)
   (org-similarity-algorithm "bm25")
   (org-similarity-show-scores t)

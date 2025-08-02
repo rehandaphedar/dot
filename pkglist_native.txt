@@ -48,11 +48,14 @@ fastfetch
 fd
 ffmpeg
 font-manager
+fontforge
 foot
 gcr
 gimp
 git
 github-cli
+gnome-sound-recorder
+gnuplot
 go
 google-chrome
 gopls
@@ -69,7 +72,7 @@ hugo
 hyprcursor-git
 hyprgraphics-git
 hyprland-git
-hyprlock-git
+hyprlock
 hyprpicker-git
 imagemagick
 imv
@@ -108,11 +111,13 @@ neovim
 network-manager-applet
 networkmanager
 noto-fonts
+nvm
 nwg-look
 obs-studio
 ocrmypdf
 okular
 ollama
+onefetch
 openbsd-netcat
 opendoas
 os-prober
@@ -189,6 +194,7 @@ torbrowser-launcher
 traceroute
 ttc-iosevka-aile
 ttc-iosevka-etoile
+ttf-dejavu
 ttf-jetbrains-mono
 ttf-jetbrains-mono-nerd
 ttf-ms-fonts

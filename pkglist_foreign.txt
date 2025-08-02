@@ -29,11 +29,13 @@ pass-git-helper
 pdfmerger
 pocketbase-bin
 pollymc-qt5-bin
+python-svgutils
 python2-bin
 python310
 python38
 swhkd-git
 tex-gyre-math-fonts
+ttf-amiri
 ttf-arabeyes-fonts
 ttf-inter
 ttf-qurancomplex-fonts
