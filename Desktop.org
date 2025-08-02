@@ -229,6 +229,11 @@ source /usr/share/zsh/plugins/zsh-vi-mode/zsh-vi-mode.zsh 2>/dev/null
 eval "$(starship init zsh)"
 #+end_src
 
+** NVM
+#+begin_src sh :tangle ~/.zshrc
+source /usr/share/nvm/init-nvm.sh
+#+end_src
+
 * Starship
 #+begin_src toml :tangle ~/.config/starship.toml
 palette = "catppuccin_macchiato"
