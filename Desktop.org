@@ -786,9 +786,6 @@ custom_gpu_name5 = ""
       <string>serif</string>
     </test>
     <edit name="family" mode="prepend" binding="strong">
-      <string>KFGQPC HAFS Uthmanic Script</string>
-    </edit>
-    <edit name="family" mode="prepend" binding="strong">
       <string>Amiri</string>
     </edit>
   </match>
@@ -800,9 +797,6 @@ custom_gpu_name5 = ""
       <string>sans-serif</string>
     </test>
     <edit name="family" mode="prepend" binding="strong">
-      <string>KFGQPC HAFS Uthmanic Script</string>
-    </edit>
-    <edit name="family" mode="prepend" binding="strong">
       <string>Amiri</string>
     </edit>
   </match>
@@ -812,7 +806,6 @@ custom_gpu_name5 = ""
     <prefer>
       <family>Roboto</family>
       <family>Twemoji</family>
-      <family>KFGQPC HAFS Uthmanic Script</family>
       <family>Amiri</family>
     </prefer>
   </alias>
@@ -821,7 +814,6 @@ custom_gpu_name5 = ""
     <prefer>
       <family>EB Garamond</family>
       <family>Twemoji</family>
-      <family>KFGQPC HAFS Uthmanic Script</family>
       <family>Amiri</family>
     </prefer>
   </alias>
@@ -830,7 +822,6 @@ custom_gpu_name5 = ""
     <prefer>
       <family>JetBrains Mono</family>
       <family>Twemoji</family>
-      <family>KFGQPC HAFS Uthmanic Script</family>
       <family>Amiri</family>
     </prefer>
   </alias>
@@ -1874,6 +1865,10 @@ root = true
 
 [*]
 indent_style = tab
+indent_size = 4
+
+[*.py]
+indent_style = space
 indent_size = 4
 #+end_src
 

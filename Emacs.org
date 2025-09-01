@@ -1407,6 +1407,14 @@ We will be using this to hide the modeline while presenting.
 
 #+end_src
 
+*** Python
+#+begin_src elisp
+
+(use-package python-mode
+  :mode "\\.py\\'")
+
+#+end_src
+
 *** Svelte
 #+begin_src elisp
 

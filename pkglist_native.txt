@@ -6,6 +6,7 @@ anydesk-bin
 arch-install-scripts
 archinstall
 audacious
+ayugram-desktop-git
 base
 base-devel
 bc
@@ -50,6 +51,7 @@ ffmpeg
 font-manager
 fontforge
 foot
+gallery-dl
 gcr
 gimp
 git
@@ -110,6 +112,7 @@ mullvad-browser-bin
 neovim
 network-manager-applet
 networkmanager
+nmap
 noto-fonts
 nvm
 nwg-look
@@ -118,6 +121,7 @@ ocrmypdf
 okular
 ollama
 onefetch
+openapi-generator
 openbsd-netcat
 opendoas
 os-prober
@@ -129,6 +133,7 @@ paru
 pass-otp
 pavucontrol
 pavucontrol-qt
+pcmanfm
 pdfcpu
 pdftk
 perl-authen-sasl
@@ -140,6 +145,7 @@ php
 pipewire
 pipewire-alsa
 pipewire-jack
+pipewire-libcamera
 pipewire-pulse
 pnpm
 polkit-gnome
@@ -150,7 +156,9 @@ pup
 pv
 pwvucontrol
 pyright
+python-black
 python-distutils-extra
+python-isort
 python-lz4
 python-openai-whisper
 python-pandas
@@ -174,6 +182,7 @@ sof-firmware
 speedtest-cli
 sqlitebrowser
 starship
+strace
 swappy
 swww
 syncthing
@@ -195,6 +204,7 @@ traceroute
 ttc-iosevka-aile
 ttc-iosevka-etoile
 ttf-dejavu
+ttf-ibm-plex
 ttf-jetbrains-mono
 ttf-jetbrains-mono-nerd
 ttf-ms-fonts
@@ -207,6 +217,7 @@ ungoogled-chromium-bin
 unoconv
 unrar
 unzip
+uvicorn
 uwufetch
 vde2
 veracrypt
@@ -229,6 +240,8 @@ wofi
 xdg-desktop-portal-gtk
 xdg-desktop-portal-hyprland-git
 xh
+yaml-language-server
+yamlfmt
 ydotool
 yt-dlp
 zathura

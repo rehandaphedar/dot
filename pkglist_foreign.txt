@@ -1,4 +1,5 @@
 arnis-bin
+basedpyright-bin
 catppuccin-cursors-macchiato
 catppuccinifier-cli-bin
 catppuccinifier-gui-bin
