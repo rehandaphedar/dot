@@ -1359,7 +1359,8 @@ super + shift + n
 super + z
 	hyprpicker -a
 super + /
-	hyprlock
+	# hyprlock
+	footclient $SHELL -c 'hyprlock'
 super + x
 	power_menu
 super + ;
