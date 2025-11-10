@@ -720,7 +720,7 @@ display correctly:
   (setq org-agenda-remove-tags-when-in-prefix t)
   
   (setq org-todo-keywords
-		'((sequence "TODO(t)" "NEXT(n)" "WAIT(w)" "SOMEDAY(s)" "MAYBE(m)" "|" "DONE(d)" "CANC(c)")))
+		'((sequence "TODO(t)" "NEXT(n)" "QUEUED(q)" "WAIT(w)" "SOMEDAY(s)" "MAYBE(m)" "|" "DONE(d)" "CANC(c)")))
   
   (setq org-tag-alist
 		'((:startgroup . nil)
@@ -765,11 +765,13 @@ display correctly:
 			(todo "NEXT" ((org-agenda-overriding-header "Next Actions")))
 			(todo "WAIT" ((org-agenda-overriding-header "Waiting On")))
 			(todo "SOMEDAY" ((org-agenda-overriding-header "Someday")))
-			(todo "MAYBE" ((org-agenda-overriding-header "Maybe")))) "" ("~/Files/roam/agenda.html"))
+			(todo "MAYBE" ((org-agenda-overriding-header "Maybe")))
+			(todo "QUEUED" ((org-agenda-overriding-header "Queued")))) "" ("~/Files/roam/agenda.html"))
 		  ("r" "Review View"
 		   ((todo "WAIT")
 			(todo "SOMEDAY")
-			(todo "MAYBE")))
+			(todo "MAYBE")
+			(todo "QUEUED")))
 		  ("h" "Hifz View"
 		   ((tags "+hifz+PRIORITY>0" ((org-super-agenda-groups rehandaphedar/org-super-agenda-hifz-groups)))))))
 
