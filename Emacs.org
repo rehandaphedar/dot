@@ -656,6 +656,10 @@ display correctly:
   (setq org-fontify-quote-and-verse-blocks t)
   (setq org-image-actual-width 500)
   
+  ;; Org Attach
+  (setq org-attach-use-inheritance t)
+  (setq org-attach-auto-tag nil)
+
   ;; Open Links
   (defun org-force-open-current-window ()
 	(interactive)
