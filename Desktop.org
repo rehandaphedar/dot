@@ -1812,7 +1812,7 @@ sudo_command = "doas"
 assume_yes = true
 no_retry = true
 
-only = [ "system", "firmware", "cargo", "go", "bun_packages", "pnpm", "custom_commands"]
+only = [ "system", "firmware", "cargo", "go", "bun_packages", "pnpm", "pipx", "custom_commands"]
 
 [commands]
 "hyprpm" = "hyprpm update -v"
