@@ -1899,3 +1899,30 @@ Move to [[https://protesilaos.com/emacs/dired-preview][dired-preview]]
 (org-store-agenda-views)
 
 #+end_src
+
+* Clipboard Fix
+#+begin_src elisp
+
+(setq select-enable-clipboard t)
+(setq select-enable-primary t)
+
+(setq interprogram-cut-function
+      (lambda (text &optional push)
+        (let ((process-connection-type nil))
+          (let ((proc (start-process "wl-copy" "*Messages*" "wl-copy")))
+            (process-send-string proc text)
+            (process-send-eof proc)))))
+
+(setq interprogram-paste-function
+      (lambda ()
+        (condition-case nil
+            (with-temp-buffer
+              (call-process "wl-paste" nil t nil "-n")
+              (and (> (buffer-size) 0)
+                   (let ((text (buffer-substring-no-properties (point-min) (point-max))))
+                     (when (string-suffix-p "\n" text)
+                       (put-text-property 0 (length text) 'yank-handler '(evil-yank-line-handler) text))
+                     text)))
+          (error nil))))
+
+#+end_src
