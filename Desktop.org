@@ -1186,15 +1186,12 @@ input {
     accel_profile = flat
 }
 
-gestures {
-    workspace_swipe = true
-    workspace_swipe_direction_lock = false
-    workspace_swipe_forever = true
-}
+gesture = 3, horizontal, workspace
 
-
-bind=SUPER,R,pass, class:^(com\.obsproject\.Studio)$
-bind=SUPER+SHIFT,R,pass, class:^(com\.obsproject\.Studio)$
+bind = SUPER, R, global, :OBSBasic.StartRecording
+bind = SUPER, R, global, :OBSBasic.StopRecording
+bind = SUPER+SHIFT, R, global, :OBSBasic.PauseRecording
+bind = SUPER+SHIFT, R, global, :OBSBasic.UnpauseRecording
 
 bind = SUPER, mouse_down, workspace, e+1
 bind = SUPER, mouse_up, workspace, e-1
