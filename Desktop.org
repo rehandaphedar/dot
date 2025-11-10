@@ -1906,6 +1906,30 @@ Create Both
 SyncState *
 #+end_src
 
+* mpv Cut
+#+begin_src lua :tangle ~/.config/mpv-cut/config.lua
+
+ACTIONS.ENCODE = function(d)
+	local args = {
+		"ffmpeg",
+		"-nostdin", "-y",
+		"-loglevel", "error",
+		"-ss", d.start_time,
+		"-t", d.duration,
+		"-i", d.inpath,
+		"-c:v", "h264_qsv",
+		"-global_quality", "25",
+		utils.join_path(d.indir, "ENCODE_" .. d.channel .. "_" .. d.infile_noext .. "_FROM_" .. d.start_time_hms .. "_TO_" .. d.end_time_hms .. ".mp4")
+	}
+	mp.command_native_async({
+		name = "subprocess",
+		args = args,
+		playback_only = false,
+	}, function() print("Done") end)
+end
+
+#+end_src
+
 * Scripts
 ** Get Firefox Tabs
 #+begin_src python :shebang "#! /usr/bin/env python" :tangle ~/.local/bin/get_firefox_tabs
