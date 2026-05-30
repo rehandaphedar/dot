@@ -2298,6 +2298,7 @@ then
 	rehandaphedar_fabric_print_youtube_transcript | fabric --pattern "$pattern"
 fi
 #+end_src
+
 ** rehandaphedar Fabric Print YouTube Transcript Pattern
 #+begin_src bash :shebang "#! /usr/bin/env bash" :tangle ~/.local/bin/rehandaphedar_fabric_print_youtube_transcript_pattern
 pattern="$(fabric -l | wofi -dp 'Pattern: ')"
@@ -2307,3 +2308,80 @@ then
 fi
 #+end_src
 
+** Vid Length
+#+begin_src bash :shebang "#! /usr/bin/env bash" :tangle ~/.local/bin/vid_length
+duration=$(ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 "$1")
+printf '%02d:%02d:%02d\n' $((${duration%.*}/3600)) $((${duration%.*}%3600/60)) $((${duration%.*}%60))
+#+end_src
+
+** Vid Length All
+#+begin_src bash :shebang "#! /usr/bin/env bash" :tangle ~/.local/bin/vid_length_all
+format_duration() {
+  local seconds=${1%.*}
+  printf '%02d:%02d:%02d' \
+    $((seconds/3600)) \
+    $((seconds%3600/60)) \
+    $((seconds%60))
+}
+
+get_duration() {
+  ffprobe -v error -show_entries format=duration \
+    -of default=noprint_wrappers=1:nokey=1 "$1" 2>/dev/null
+}
+
+output_csv_row() {
+  local file=$1
+  local duration=$2
+  jq -rn --arg f "${file:0:120}" --arg t "$duration" '[$f,$t]|@csv'
+}
+{
+echo "File,Duration"
+
+total=0
+shopt -s globstar nullglob
+
+for f in $1; do
+  [[ -f "$f" ]] || continue
+
+  dur=$(get_duration "$f") || continue
+  [[ "$dur" == "N/A" ]] && continue
+  
+  formatted_dur=$(format_duration "$dur")
+  output_csv_row "$f" "$formatted_dur"
+  
+  total=$(awk "BEGIN {print $total + $dur}")
+done
+
+formatted_total=$(format_duration "$total")
+output_csv_row "Total" "$formatted_total"
+} | gum table --print
+#+end_src
+
+** Instaify
+#+begin_src bash :shebang "#! /usr/bin/env bash" :tangle ~/.local/bin/instaify
+for filepath in "$@"; do
+    dir=$(dirname "$filepath")
+    base=$(basename "$filepath")
+    name="${base%.*}"
+    ext="${base##*.}"
+	output="$dir/${name}_insta.$ext"
+	
+    magick "$filepath" -resize "1080x1080" -gravity center -background white -extent 1080x1080 "$output"
+done
+#+end_src
+
+** YTify
+#+begin_src bash :shebang "#! /usr/bin/env bash" :tangle ~/.local/bin/ytify
+ext=".mp4"
+base="$(basename "$1" ".mp4")"
+
+ffmpeg -i "$1" -t 00:14:30 -c copy "${base}_youtube${ext}"
+(printf 'This video has been truncated due to YouTube upload length limits. The full video is available on other platforms at rehandaphedar.com.\n\n'; cat description.md) | tee /dev/tty | wl-copy
+#+end_src
+
+** Get Links Content
+#+begin_src bash :shebang "#! /usr/bin/env bash" :tangle ~/.local/bin/get_links_content
+wl-paste | while IFS= read -r line; do
+    curl -s "$line" | html2text
+done
+#+end_src

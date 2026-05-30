@@ -148,3 +148,5 @@ Copy ~~/.local/share/Anki2~ while Anki is closed.
 - https://github.com/debanjandhar12/logseq-anki-sync
 
 ** DNS
+
+** Instaify Script
