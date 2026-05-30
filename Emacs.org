@@ -1387,7 +1387,10 @@ We will be using this to hide the modeline while presenting.
         ("C-c l h" . eldoc)
         ("C-c l d" . xref-find-definitions))
   :custom
-  (eglot-confirm-server-initiated-edits nil))
+  (eglot-confirm-server-initiated-edits nil)
+  :config
+  (setq-default eglot-workspace-configuration
+  '((:gopls . (:templateExtensions ["gohtml" "html"])))))
 
 #+end_src
 
@@ -1441,7 +1444,10 @@ We will be using this to hide the modeline while presenting.
 *** Golang
 #+begin_src elisp
 
-(use-package go-mode)
+(use-package go-mode
+  :config
+  (add-to-list 'eglot-server-programs '(web-mode . ("gopls"))))
+
 
 #+end_src
 
@@ -1494,7 +1500,10 @@ We will be using this to hide the modeline while presenting.
   (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
-  (add-to-list 'auto-mode-alist '("\\.ejs\\'" . web-mode)))
+  (add-to-list 'auto-mode-alist '("\\.ejs\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.gohtml\\'" . web-mode))
+  
+  (add-to-list 'web-mode-engines-alist '("go" . "\\.gohtml\\'")))
 
 #+end_src
 
