@@ -79,6 +79,10 @@ case ":$PATH:" in
 esac
 #+end_src
 
+** Secrets
+#+begin_src sh :tangle ~/.profile
+source ~/.secrets
+#+end_src
 ** GPG Agent As SSH Agent
 #+begin_src sh :tangle ~/.profile
 export SSH_AGENT_PID=""
