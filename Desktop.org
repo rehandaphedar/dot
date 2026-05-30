@@ -870,7 +870,17 @@ x-scheme-handler/https=firefox.desktop
 x-scheme-handler/mailto=emacsclient-mail-helper.desktop
 application/pdf=emacsclient.desktop
 x-scheme-handler/mpv=mpv-scheme-handler.desktop
+
+[Added Associations]
+video/x-matroska=mpv.desktop;
+application/vnd.openxmlformats-officedocument.wordprocessingml.document=libreoffice-writer.desktop;
+text/csv=libreoffice-calc.desktop;libreoffice-writer.desktop;
+application/json=emacsclient.desktop;
+image/heif=gimp.desktop;
+text/markdown=emacsclient.desktop;
+image/webp=imv.desktop;
 #+end_src
+
 
 * GPG Agent
 #+begin_src conf :tangle ~/.gnupg/gpg-agent.conf
@@ -928,7 +938,7 @@ unfocused-style=hollow
 
 ** Theme
 #+begin_src conf :tangle ~/.config/foot/foot.ini
-[colors]
+[colors-dark]
 foreground=cad3f5
 background=24273a
 
@@ -1165,10 +1175,10 @@ master {
 
 workspace = w[tv1], gapsout:0, gapsin:0
 workspace = f[1], gapsout:0, gapsin:0
-windowrulev2 = bordersize 0, floating:0, onworkspace:w[tv1]
-windowrulev2 = rounding 0, floating:0, onworkspace:w[tv1]
-windowrulev2 = bordersize 0, floating:0, onworkspace:f[1]
-windowrulev2 = rounding 0, floating:0, onworkspace:f[1]
+windowrule = border_size 0, match:float 0, match:workspace w[tv1]
+windowrule = rounding 0, match:float 0, match:workspace w[tv1]
+windowrule = border_size 0, match:float 0, match:workspace f[1]
+windowrule = rounding 0, match:float 0, match:workspace f[1]
 
 misc { 
     force_default_wallpaper = 0
@@ -1203,13 +1213,16 @@ bind = SUPER, mouse_up, workspace, e-1
 bindm = SUPER, mouse:272, movewindow
 bindm = SUPER, mouse:273, resizewindow
 
-windowrulev2 = workspace 1,class:(emacs)
-windowrulev2 = workspace 3,class:(Firefox)
-windowrulev2 = workspace 4,class:(Mullvad Browser)
+windowrule = workspace = 1,match:class emacs
+windowrule = workspace = 3,match:class Firefox
 
-layerrule = animation slide, wofi
-layerrule = dimaround, wofi
-layerrule = animation slide, notifications
+layerrule = animation slide, match:namespace wofi
+layerrule = dim_around on, match:namespace wofi
+layerrule = animation slide, match:namespace notifications
+
+binds {
+    movefocus_cycles_fullscreen = false
+}
 #+end_src
 
 *** Hyprtrails
@@ -1378,9 +1391,11 @@ super + kp2
 super + kp3
 	chromium --profile-directory="Profile 13"
 super + kp4
-	chromium --profile-directory="Profile 8"
+	chromium --profile-directory="Profile 26"
 super + kp5
 	chromium --profile-directory="Profile 23"
+super + kp6
+	chromium --profile-directory="Profile 8"
 super + {[,]}
 	pactl set-sink-volume @DEFAULT_SINK@ {\-,+}2%
 super + shift + {[,]}
@@ -1401,6 +1416,8 @@ super + shift + a
     footclient $SHELL -c 'rehandaphedar_fabric_print_pattern | nvim'
 super + a
     footclient $SHELL -c 'rehandaphedar_fabric_run_pattern | nvim'
+super + alt + a
+    footclient $SHELL -c 'get_links_content | nvim'
 
 super + shift + y
     footclient $SHELL -c 'rehandaphedar_fabric_print_youtube_transcript | nvim'
@@ -1431,6 +1448,7 @@ save_filename_format=swappy-%Y%m%d-%H%M%S.png
 	"custom/backlight-keyboard",
 	"battery",
     "pulseaudio",
+	"custom/crypto",
 	"privacy",
   ],
   "modules-center": [
@@ -1455,13 +1473,25 @@ save_filename_format=swappy-%Y%m%d-%H%M%S.png
   },
   "clock#time": {
 	"interval": 1,
+	"timezones": ["Asia/Kolkata", "Asia/Dubai"],
 	"format": " {:%r}",
 	"tooltip-format": " {:%r}",
+    "actions":  {
+      "on-click": "tz_up",
+      "on-scroll-up": "tz_up",
+      "on-scroll-down": "tz_down",
+    }
   },
   "clock#date": {
 	"interval": 1,
+	"timezones": ["Asia/Kolkata", "Asia/Dubai"],
 	"format": " {:%Y-%m-%d %a}",
 	"tooltip-format": " {:%Y-%m-%d %a}",
+	"actions":  {
+      "on-click": "tz_up",
+      "on-scroll-up": "tz_up",
+      "on-scroll-down": "tz_down",
+    }
   },
   "custom/go-pray": {
 	"exec": "go-pray",
@@ -1502,7 +1532,7 @@ save_filename_format=swappy-%Y%m%d-%H%M%S.png
 	"format": "{icon} {0}",
 	"format-icons": {
 	  "default": ""
-	  },
+	},
 	"on-scroll-up": "brightnessctl -d intel_backlight s +1%",
 	"on-scroll-down": "brightnessctl -d intel_backlight s 1%-"
   },
@@ -1510,7 +1540,7 @@ save_filename_format=swappy-%Y%m%d-%H%M%S.png
 	"format": "{icon} {capacity}%",
 	"format-icons": {
 	  "default": ""
-	  }
+	}
   },
   "privacy": {
 	"icon-size": 16,
@@ -1526,6 +1556,12 @@ save_filename_format=swappy-%Y%m%d-%H%M%S.png
 	  }
 	]
   },
+  "custom/crypto": {
+    "format": "{}",
+    "interval": 600,
+    "return-type": "json",
+    "exec": "waybar-crypto"
+  }
 }
 #+end_src
 
@@ -1547,7 +1583,7 @@ window#waybar.fullscreen box#workspaces {
 }
 
 #tray,
-#custom-hijri-date, #clock, #custom-go-pray, #pulseaudio, #custom-backlight-keyboard, #custom-backlight-screen, #battery, #privacy {
+#custom-hijri-date, #clock, #custom-go-pray, #pulseaudio, #custom-backlight-keyboard, #custom-backlight-screen, #battery, #privacy, #custom-crypto {
     padding: 0 1rem;
 }
 
@@ -1572,13 +1608,13 @@ button {
 }
 
 
-#custom-hijri-date, #clock, #custom-go-pray, #pulseaudio, #custom-backlight-keyboard, #custom-backlight-screen, #battery, #privacy {
+#custom-hijri-date, #clock, #custom-go-pray, #pulseaudio, #custom-backlight-keyboard, #custom-backlight-screen, #battery, #privacy, #custom-crypto {
 	color: @crust;
 }
 #custom-hijri-date, #clock, #custom-go-pray {
 	background-color: @mauve;
 }
-#custom-backlight-screen, #custom-backlight-keyboard, #battery, #pulseaudio, #privacy {
+#custom-backlight-screen, #custom-backlight-keyboard, #battery, #pulseaudio, #privacy, #custom-crypto {
   background-color: @sky;
 }
 #pulseaudio:hover {
@@ -1592,6 +1628,10 @@ button {
 #tray > .needs-attention {
     -gtk-icon-effect: highlight;
     background-color: @red;
+}
+
+#custom-crypto {
+    font-family: cryptofont;
 }
 #+end_src
 
@@ -1622,6 +1662,24 @@ button {
 @define-color base #24273a;
 @define-color mantle #1e2030;
 @define-color crust #181926;
+#+end_src
+
+* Waybar Crypto
+#+begin_src conf :tangle ~/.config/waybar-crypto/config.ini
+[general]
+currency = usd
+currency_symbol = $
+display = price,percent_change_7d
+spacer_symbol = |
+
+format_percent_change_7d = {val:+.{dp}f}%
+
+[xmr]
+icon = 
+in_tooltip = false
+price_precision = 0
+change_precision = 0
+volume_precision = 0
 #+end_src
 
 * Mako
@@ -1741,7 +1799,7 @@ set clipboard=unnamedplus
 ** Theme
 #+begin_src vimrc :tangle ~/.config/nvim/init.vim
 set background=dark
-source /usr/share/nvim/runtime/colors/catppuccin-macchiato.vim
+source /usr/share/nvim/runtime/colors/catppuccin-macchiato.lua
 #+end_src
 
 * yt-dlp
@@ -1750,8 +1808,25 @@ source /usr/share/nvim/runtime/colors/catppuccin-macchiato.vim
 #+end_src
 
 * mpv
+** Main Configuration
 #+begin_src conf :tangle ~/.config/mpv/mpv.conf
 script-opts=ytdl_hook-ytdl_path=yt-dlp
+target-colorspace-hint=no
+#+end_src
+
+** Keybinds
+#+begin_src conf :tangle ~/.config/mpv/input.conf
+UP          seek  5 exact
+DOWN        seek -5 exact
+
+RIGHT       seek  4 exact
+LEFT        seek -4 exact
+
+Shift+UP    seek  3 exact
+Shift+DOWN  seek -3 exact
+
+Shift+RIGHT seek  2 exact
+Shift+LEFT  seek -2 exact
 #+end_src
 
 * imv
@@ -1934,6 +2009,12 @@ end
 
 #+end_src
 
+* Lid Action
+#+begin_src conf-toml :tangle /doas::/etc/systemd/logind.conf
+[Login]
+HandleLidSwitch=hybrid-sleep
+#+end_src
+
 * Scripts
 ** Get Firefox Tabs
 #+begin_src python :shebang "#! /usr/bin/env python" :tangle ~/.local/bin/get_firefox_tabs
@@ -2007,7 +2088,7 @@ udiskie -s &
 /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
 nm-applet &
 blueman-applet &
-swww-daemon &
+awww-daemon &
 
 hyprpm reload -n
 sleep 1
@@ -2174,7 +2255,7 @@ then
 	direction="right"
 fi
 
-swww img --transition-fps 60 --transition-bezier 0.25,1,0.5,1 --transition-duration 0.4  ~/Files/wallpapers/16-9/$(ls ~/Files/wallpapers/16-9 | shuf -n 1)  -t $direction
+awww img --transition-fps 60 --transition-bezier 0.25,1,0.5,1 --transition-duration 0.4  ~/Files/wallpapers/16-9/$(ls ~/Files/wallpapers/16-9 | shuf -n 1)  -t $direction
 #+end_src
 
 ** Open Clipboard Org Links
