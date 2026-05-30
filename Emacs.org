@@ -693,7 +693,7 @@ display correctly:
   ("C-c o a" . rehandaphedar/org-agenda-gtd)
   ("C-c o d" . rehandaphedar/org-agenda-archive)
   ("C-c o r" . rehandaphedar/org-agenda-review)
-  ("C-c o h" . rehandaphedar/org-agenda-hifz)
+  ("C-c o i" . rehandaphedar/org-agenda-inbox)
 
   (:map org-mode-map
 		("C-c c o" . consult-org-heading))
@@ -739,13 +739,29 @@ display correctly:
   (setq org-agenda-block-separator "")
 
   (setq org-super-agenda-groups '((:discard (:habit t))
+								  (:discard (:tag "inbox"))
 								  (:auto-ts reverse)
 								  (:auto-priority t)
 								  (:name "General"
 										 :anything t)))
 
   (setq rehandaphedar/org-super-agenda-timegrid-groups
-		'((:name "Today"
+		'(
+		  (:discard (:tag "inbox"))
+		  (:name "Today"
+				 :and (:time-grid t)
+				 :and (:scheduled t :date today)
+				 :and (:deadline t :date today))
+		  (:name "Upcoming"
+				 :deadline t)
+
+		  (:anything "Other")
+		  (:auto-tags t)))
+  
+  (setq rehandaphedar/org-super-agenda-inbox-groups
+		'(
+		  (:tag "inbox")
+		  (:name "Today"
 				 :and (:time-grid t)
 				 :and (:scheduled t :date today)
 				 :and (:deadline t :date today))
@@ -755,7 +771,7 @@ display correctly:
 		  (:anything "Other")
 		  (:auto-tags t)))
 
-  (setq rehandaphedar/org-super-agenda-hifz-groups
+  (setq rehandaphedar/org-super-agenda-inbox-groups
 		'((:auto-ts t)
 		  (:auto-priority t)))
 
@@ -772,8 +788,9 @@ display correctly:
 			(todo "SOMEDAY")
 			(todo "MAYBE")
 			(todo "QUEUED")))
-		  ("h" "Hifz View"
-		   ((tags "+hifz+PRIORITY>0" ((org-super-agenda-groups rehandaphedar/org-super-agenda-hifz-groups)))))))
+		  ("i" "Inbox View"
+		   ((agenda "" ((org-super-agenda-groups rehandaphedar/org-super-agenda-inbox-groups)))
+(tags "+inbox" ((org-super-agenda-groups rehandaphedar/org-super-agenda-inbox-groups)))))))
 
   (setq org-columns-default-format "%40ITEM(Task) %Effort(Effort){:} %CLOCKSUM(Time Taken) %PRIORITY(Priority)")
   (setq org-agenda-view-columns-initially nil)
@@ -807,9 +824,9 @@ display correctly:
   (interactive)
   (org-agenda nil "r"))
 
-(defun rehandaphedar/org-agenda-hifz ()
+(defun rehandaphedar/org-agenda-inbox ()
   (interactive)
-  (org-agenda nil "h"))
+  (org-agenda nil "i"))
 
 #+end_src
 
