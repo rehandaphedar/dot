@@ -1523,6 +1523,18 @@ We will be using this to hide the modeline while presenting.
 
 #+end_src
 
+*** TOML
+#+begin_src elisp
+
+(use-package toml-mode
+  :config
+  (setq svelte-basic-offset 4)
+  (add-to-list 'eglot-server-programs (cons 'toml-mode '("tombi" "lsp")))
+  (add-to-list 'eglot-server-programs (cons 'conf-toml-mode '("tombi" "lsp"))))
+
+#+end_src
+
+
 ** Docker
 *** ~Dockerfile~ files
 #+begin_src elisp
