@@ -91,7 +91,7 @@ Sample Arabic Text:󠁧بِسْمِ ٱللَّهِ ٱلرَّحْمَـٰنِ ٱ
 #+begin_src elisp
 
 (set-fontset-font t 'symbol "Twemoji")
-(set-fontset-font "fontset-default" '(#x600 . #x6ff) (font-spec :family "KFGQPC HAFS Uthmanic Script" :size 28))
+(set-fontset-font "fontset-default" '(#x600 . #x6ff) (font-spec :family "Scheherazade New" :size 28))
 
 #+end_src
 
@@ -1065,7 +1065,7 @@ We will be using this to hide the modeline while presenting.
   (hide-mode-line-mode 1)
   (toggle-frame-fullscreen)
   ;; Arabic font
-  (set-fontset-font "fontset-default" '(#x600 . #x6ff) (font-spec :family "KFGQPC HAFS Uthmanic Script" :size 48))
+  (set-fontset-font "fontset-default" '(#x600 . #x6ff) (font-spec :family "Scheherazade New" :size 48))
   ;; Turn on text scaling
   (setq-local face-remapping-alist '((default (:height 200) variable-pitch)
                                      (fixed-pitch (:height 150) fixed-pitch)))
@@ -1089,7 +1089,7 @@ We will be using this to hide the modeline while presenting.
   (hide-mode-line-mode 0)
   (toggle-frame-fullscreen)
   ;; Arabic font
-  (set-fontset-font "fontset-default" '(#x600 . #x6ff) (font-spec :family "KFGQPC HAFS Uthmanic Script" :size 32))
+  (set-fontset-font "fontset-default" '(#x600 . #x6ff) (font-spec :family "Scheherazade New" :size 32))
   ;; Turn off text scaling
   (setq-local face-remapping-alist '((default variable-pitch)
                                      (fixed-pitch fixed-pitch)))

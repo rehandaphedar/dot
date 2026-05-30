@@ -790,7 +790,7 @@ custom_gpu_name5 = ""
       <string>serif</string>
     </test>
     <edit name="family" mode="prepend" binding="strong">
-      <string>Amiri</string>
+      <string>Scheherazade New</string>
     </edit>
   </match>
   <match target="pattern">
