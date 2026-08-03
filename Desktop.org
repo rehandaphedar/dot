@@ -2097,7 +2097,7 @@ ianny &
 
 backup_packages_list
 
-footclient $SHELL -c "mgitstatus -e --flatten -d 1 ~/.password-store; mgitstatus -e --flatten ~/Files; $SHELL" &
+footclient $SHELL -c "mgitstatus -f -e --flatten -d 1 ~/.password-store; mgitstatus -f -e --flatten ~/Files; $SHELL" &
 footclient $SHELL -c "topgrade; $SHELL" &
 emacs &
 #+end_src
