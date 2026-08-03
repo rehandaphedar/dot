@@ -1396,6 +1396,10 @@ We will be using this to hide the modeline while presenting.
   :straight (:type built-in)
   :hook
   (prog-mode . eglot-ensure)
+  (eglot-managed-mode . (lambda ()
+                          (add-hook 'before-save-hook
+                                    #'eglot-format-buffer
+                                    nil t)))
   :bind
   (:map eglot-mode-map
         ("C-c l r" . eglot-rename)
