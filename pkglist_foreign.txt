@@ -1,7 +1,6 @@
 arnis-bin
 ayugram-desktop-bin
 basedpyright-bin
-bcftools
 catppuccin-cursors-macchiato
 catppuccin-gtk-theme-macchiato
 catppuccinifier-cli-bin
@@ -15,7 +14,6 @@ firefox-bin
 httpie-desktop-bin
 hyprshade-git
 ianny-git
-intel-npu-driver-bin
 jdtls
 lbry-desktop-bin
 logseq-desktop-bin
@@ -24,6 +22,7 @@ multi-git-status
 neofetch
 neovim-catppuccin
 oauth2c
+obs-cmd-bin
 obs-source-record
 obs-wayland-hotkeys-git
 otf-texgyre-pagella-math
