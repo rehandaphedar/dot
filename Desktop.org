@@ -781,6 +781,33 @@ custom_gpu_name5 = ""
 <?xml version="1.0"?>
 <!DOCTYPE fontconfig SYSTEM "fonts.dtd">
 <fontconfig>
+  <match target="pattern">
+    <test qual="any" name="family">
+      <string>sans-serif</string>
+    </test>
+    <edit name="family" mode="prepend" binding="strong">
+      <string>Roboto</string>
+      <string>Twemoji</string>
+    </edit>
+  </match>
+  <match target="pattern">
+    <test qual="any" name="family">
+      <string>serif</string>
+    </test>
+    <edit name="family" mode="prepend" binding="strong">
+      <string>EB Garamond</string>
+      <string>Twemoji</string>
+    </edit>
+  </match>
+  <match target="pattern">
+    <test qual="any" name="family">
+      <string>monospace</string>
+    </test>
+    <edit name="family" mode="prepend" binding="strong">
+      <string>JetBrains Mono</string>
+      <string>Twemoji</string>
+    </edit>
+  </match>
   <!-- Arabic -->
   <match target="pattern">
     <test name="lang" compare="contains">
@@ -801,7 +828,7 @@ custom_gpu_name5 = ""
       <string>sans-serif</string>
     </test>
     <edit name="family" mode="prepend" binding="strong">
-      <string>Amiri</string>
+      <string>Scheherazade New</string>
     </edit>
   </match>
   <!-- Setting Default Fonts-->
@@ -810,7 +837,7 @@ custom_gpu_name5 = ""
     <prefer>
       <family>Roboto</family>
       <family>Twemoji</family>
-      <family>Amiri</family>
+      <family>Scheherazade New</family>
     </prefer>
   </alias>
   <alias>
@@ -818,7 +845,7 @@ custom_gpu_name5 = ""
     <prefer>
       <family>EB Garamond</family>
       <family>Twemoji</family>
-      <family>Amiri</family>
+      <family>Scheherazade New</family>
     </prefer>
   </alias>
   <alias>
@@ -826,7 +853,7 @@ custom_gpu_name5 = ""
     <prefer>
       <family>JetBrains Mono</family>
       <family>Twemoji</family>
-      <family>Amiri</family>
+      <family>Scheherazade New</family>
     </prefer>
   </alias>
 </fontconfig>
