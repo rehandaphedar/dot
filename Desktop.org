@@ -1229,10 +1229,10 @@ input {
 
 gesture = 3, horizontal, workspace
 
-bind = SUPER, R, global, :OBSBasic.StartRecording
-bind = SUPER, R, global, :OBSBasic.StopRecording
-bind = SUPER+SHIFT, R, global, :OBSBasic.PauseRecording
-bind = SUPER+SHIFT, R, global, :OBSBasic.UnpauseRecording
+bind = SUPER, R, global, com.obsproject.Studio:OBSBasic.StartRecording
+bind = SUPER, R, global, com.obsproject.Studio:OBSBasic.StopRecording
+bind = SUPER+SHIFT, R, global, com.obsproject.Studio:OBSBasic.PauseRecording
+bind = SUPER+SHIFT, R, global, com.obsproject.Studio:OBSBasic.UnpauseRecording
 
 bind = SUPER, mouse_down, workspace, e+1
 bind = SUPER, mouse_up, workspace, e-1
