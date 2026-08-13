@@ -758,18 +758,37 @@ display correctly:
 		  (:anything "Other")
 		  (:auto-tags t)))
   
-  (setq rehandaphedar/org-super-agenda-inbox-groups
-		'(
-		  (:tag "inbox")
-		  (:name "Today"
-				 :and (:time-grid t)
-				 :and (:scheduled t :date today)
-				 :and (:deadline t :date today))
-		  (:name "Upcoming"
-				 :deadline t)
+  (setq rehandaphedar/org-super-agenda-inbox-timegrid-groups
+      '(
+		(:discard (:not (:tag "inbox")))
+		(:name "Today"
+			   :and (:time-grid t)
+			   :and (:scheduled t :date today)
+			   :and (:deadline t :date today))
+		(:name "Upcoming"
+			   :deadline t)
 
-		  (:anything "Other")
-		  (:auto-tags t)))
+		(:anything "Other")
+		(:auto-tags t)))
+
+        ;; (:name "Upcoming"
+        ;;  :and (:tag "inbox" :deadline future))
+
+        ;; (:name "Other"
+        ;;  :tag "inbox")))
+
+		;; '(
+		;;   (:tag "inbox")
+		;;   (:name "Today"
+		;; 		 :and (:tag "inbox")
+		;; 		 :and (:time-grid t)
+		;; 		 :and (:scheduled t :date today)
+		;; 		 :and (:deadline t :date today))
+		;;   (:name "Upcoming"
+		;; 		 :deadline t)
+
+		;;   (:anything "Other")
+		;;   (:auto-tags t)))
 
   (setq rehandaphedar/org-super-agenda-inbox-groups
 		'((:auto-ts t)
@@ -789,7 +808,7 @@ display correctly:
 			(todo "MAYBE")
 			(todo "QUEUED")))
 		  ("i" "Inbox View"
-		   ((agenda "" ((org-super-agenda-groups rehandaphedar/org-super-agenda-inbox-groups)))
+		   ((agenda "" ((org-super-agenda-groups rehandaphedar/org-super-agenda-inbox-timegrid-groups)))
 (tags "+inbox" ((org-super-agenda-groups rehandaphedar/org-super-agenda-inbox-groups)))))))
 
   (setq org-columns-default-format "%40ITEM(Task) %Effort(Effort){:} %CLOCKSUM(Time Taken) %PRIORITY(Priority)")
