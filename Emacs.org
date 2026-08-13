@@ -1375,7 +1375,9 @@ We will be using this to hide the modeline while presenting.
 
 (use-package apheleia
   :config
-  (apheleia-global-mode +1))
+  (apheleia-global-mode +1)
+  (setf (alist-get 'python-mode apheleia-mode-alist)
+        '(ruff ruff-isort)))
 
 #+end_src
 
