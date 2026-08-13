@@ -8,6 +8,7 @@ anki
 anydesk-bin
 arch-install-scripts
 archinstall
+aria2
 audacious
 avidemux-cli
 avidemux-qt
@@ -213,6 +214,7 @@ python-black
 python-distutils-extra
 python-fpdf2
 python-isort
+python-llfuse
 python-lsp-jsonrpc
 python-lz4
 python-openai-whisper
@@ -332,6 +334,7 @@ zathura-pdf-mupdf
 zbar
 zed
 zen-browser-bin
+zip
 zola
 zram-generator
 zsh
