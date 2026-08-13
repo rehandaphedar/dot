@@ -1423,6 +1423,14 @@ super + kp5
 	chromium --profile-directory="Profile 23"
 super + kp6
 	chromium --profile-directory="Profile 8"
+super + kp7
+	chromium --profile-directory="Profile 28"
+super + kp8
+	chromium --profile-directory="Profile 29"
+super + kp9
+	chromium --profile-directory="Profile 27"
+super + shift + kp1
+	chromium --profile-directory="Profile 30"
 super + {[,]}
 	pactl set-sink-volume @DEFAULT_SINK@ {\-,+}2%
 super + shift + {[,]}
