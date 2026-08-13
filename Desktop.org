@@ -2343,44 +2343,47 @@ u=$(echo "$1" | sed 's/[\"]/\\&/g'); exec emacsclient --alternate-editor= --reus
 
 ** rehandaphedar Backup Init
 #+begin_src bash :shebang "#! /usr/bin/env bash" :tangle ~/.local/bin/rehandaphedar_backup_init
-backup_name=$(date +%Y-%m-%d)__init
-backup_dir=~/Files/backups/$backup_name
-mkdir $backup_dir
+backup_dir=/run/media/rehandaphedar/hdd/backups/init/$(date +%F)
+mkdir -p $backup_dir
 
-cp -r ~/.gnupg $backup_dir/dotgnupg
-cp -r ~/.ssh $backup_dir/dotssh
-cp -r ~/.password-store $backup_dir/dotpasswordhypenstore
-cp -r ~/Files/mails $backup_dir/Files-mails
-cp -r ~/Files/roam $backup_dir/Files-roam
+cp -r --parents ~/.gnupg $backup_dir
+cp -r --parents ~/.ssh $backup_dir
+cp -r --parents ~/.password-store $backup_dir
+cp -r --parents ~/Files/mails $backup_dir
+cp -r --parents ~/Files/roam $backup_dir
 #+end_src
 
 ** rehandaphedar Backup Config
 #+begin_src bash :shebang "#! /usr/bin/env bash" :tangle ~/.local/bin/rehandaphedar_backup_config
-backup_name=$(date +%Y-%m-%d)__config
-backup_dir=~/Files/backups/$backup_name
-mkdir $backup_dir
+backup_dir=/run/media/rehandaphedar/hdd/backups/config/$(date +%F)
+mkdir -p $backup_dir
 
-cp -r ~/.mozilla $backup_dir/dotmozilla
-cp -r ~/.config/chromium $backup_dir/dotconfig-chromium
-cp -r ~/.local/share/Anki2 $backup_dir/dotlocal-share-Anki2
+cp -r --parents ~/.mozilla $backup_dir
+cp -r --parents ~/.config/chromium $backup_dir
+cp -r --parents ~/.local/share/Anki2 $backup_dir
 #+end_src
 
 ** rehandaphedar Backup Data
 #+begin_src bash :shebang "#! /usr/bin/env bash" :tangle ~/.local/bin/rehandaphedar_backup_data
-export PASSPHRASE="$(pass init/backup/home)" 
-
-duplicity ~/Files/audio sftp://rehandaphedar@localhost:8008/Files/audio
-duplicity ~/Files/backups sftp://rehandaphedar@localhost:8008/Files/backups
-duplicity ~/Files/calls sftp://rehandaphedar@localhost:8008/Files/calls
-duplicity ~/Files/dcim sftp://rehandaphedar@localhost:8008/Files/dcim
-duplicity ~/Files/documents sftp://rehandaphedar@localhost:8008/Files/documents
-duplicity ~/Files/emojis sftp://rehandaphedar@localhost:8008/Files/emojis
-duplicity ~/Files/finance sftp://rehandaphedar@localhost:8008/Files/finance
-duplicity ~/Files/media sftp://rehandaphedar@localhost:8008/Files/media
-duplicity ~/Files/pdfs sftp://rehandaphedar@localhost:8008/Files/pdfs
-duplicity ~/Files/roam sftp://rehandaphedar@localhost:8008/Files/roam
-duplicity ~/Files/mbbs sftp://rehandaphedar@localhost:8008/Files/mbbs
-duplicity ~/Files/wallpapers sftp://rehandaphedar@localhost:8008/Files/wallpapers
+borg create /run/media/rehandaphedar/hdd/borg::$(date +%F) \
+~/Files/art \
+~/Files/audio \
+~/Files/calls \
+~/Files/clients \
+~/Files/contacts \
+~/Files/dcim \
+~/Files/documents \
+~/Files/emojis \
+~/Files/finance \
+~/Files/important \
+~/Files/mails \
+~/Files/mbbs/docs \
+~/Files/media \
+~/Files/pdfs \
+~/Files/roam \
+~/Files/videos \
+~/Files/wallpapers \
+~/Files/x1
 #+end_src
 
 ** rehandaphedar Fabric Run Pattern
