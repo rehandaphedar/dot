@@ -1211,8 +1211,17 @@ We will be using this to hide the modeline while presenting.
   (:host github
 		 :repo "brunoarine/org-similarity"
 		 :branch "main")
+  :init
+  (setq org-similarity--findlike-pkg-version "findlike>=2.1.1")
+  :config
+  (defun org-similarity--deps-available-p ()
+    (let (py)
+	  (setq py (org-similarity--get-python-interpreter))
+      (when (and py (file-exists-p py))
+        (eq 0 (call-process py nil nil nil "-c"
+                            "import importlib; [importlib.import_module(m) for m in ('findlike','numpy','nltk','sklearn')]")))))
   :custom
-  (org-similarity-custom-python-interpreter "~/.local/share/pipx/venvs/findlike")
+  (org-similarity-custom-python-interpreter "~/.local/share/uv/tools/findlike/bin/python")
   (org-similarity-directory org-roam-directory)
   (org-similarity-algorithm "bm25")
   (org-similarity-show-scores t)
@@ -1937,15 +1946,21 @@ Move to [[https://protesilaos.com/emacs/dired-preview][dired-preview]]
   :config
   (emms-all)
   (setq emms-player-list '(emms-player-mpv))
-  (setq emms-player-mpv-parameters '("--quiet" "--really-quiet" "--no-audio-display" "--no-video"))
+  (setq emms-player-mpv-parameters '("--quiet"
+									 "--really-quiet"
+									 "--no-audio-display"
+									 "--no-video"))
   (setq emms-info-functions '(emms-info-native))
   (setq emms-source-file-default-directory "~/Files/audio/")
+  (setq emms-repeat-playlist t)
   :bind
-  ("C-c c e e" . 'emms)
-  ("C-c c e f" . 'emms-add-file)
-  ("C-c c e d" . 'emms-add-directory)
-  ("C-c c e p" . 'emms-pause)
-  ("C-c c e P" . 'emms-add-playlist))
+  ("C-c e h" . (lambda ()
+                 (interactive)
+                 (emms-stop)
+                 (emms-play-playlist "~/Files/audio/hifz/hifz.m3u8")))
+  ("C-c e p" . 'emms-pause)
+  ("C-c e e" . 'emms)
+  ("C-c e s" . 'emms-show))
 
 #+end_src
 
