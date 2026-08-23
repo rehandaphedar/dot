@@ -275,6 +275,7 @@ texstudio
 thunar
 tlp
 tlpui
+tmux
 tombi
 topgrade
 torbrowser-launcher
