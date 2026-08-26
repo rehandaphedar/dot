@@ -260,6 +260,7 @@ display correctly:
   :config
   (evil-set-undo-system 'undo-redo)
   (evil-mode 1)
+  (evil-set-initial-state 'minibuffer-mode 'insert)
 
   (evil-global-set-key 'motion "j" 'evil-next-visual-line)
   (evil-global-set-key 'motion "k" 'evil-previous-visual-line)
@@ -490,7 +491,8 @@ display correctly:
 		 :map minibuffer-local-map
 		 ("M-s" . consult-history)
 		 ("M-r" . consult-history))
-  :hook (completion-list-mode . consult-preview-at-point-mode)
+  :hook
+  (completion-list-mode . consult-preview-at-point-mode)
   :init
   (setq register-preview-delay 0.5
 		register-preview-function #'consult-register-format)
@@ -1914,7 +1916,7 @@ Move to [[https://protesilaos.com/emacs/dired-preview][dired-preview]]
 
 #+end_src
 
-* Contacts
+* COMMENT Contacts
 #+begin_src elisp
 
 (use-package org-vcard)
