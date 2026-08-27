@@ -2013,7 +2013,7 @@ Channel main
 Far :main-remote:
 Near :main-local:
 Patterns *
-Expunge None
+Expunge Both
 CopyArrivalDate yes
 Sync All
 Create Both
