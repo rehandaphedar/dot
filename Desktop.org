@@ -2006,7 +2006,7 @@ Account main
 MaildirStore main-local
 Path ~/Files/mails/
 Inbox ~/Files/mails/INBOX
-Trash ~/Files/mails/Trash
+Trash Trash
 SubFolders Verbatim
 
 Channel main
