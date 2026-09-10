@@ -38,6 +38,7 @@ python2-bin
 python310
 python38
 shaka-packager-bin
+svu
 swhkd-git
 tabula
 tex-gyre-math-fonts
@@ -47,6 +48,7 @@ ttf-inter
 ttf-qurancomplex-fonts
 ttf-urdufonts
 tweego
+unoconv
 uwuify
 vcftools
 vidcutter

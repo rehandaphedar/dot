@@ -93,6 +93,7 @@ heimdall
 helvum
 httpie
 hugo
+hut
 hyprcursor
 hyprgraphics
 hyprland
@@ -101,7 +102,6 @@ hyprland-qt-support
 hyprlang
 hyprlock
 hyprpicker-git
-hyprutils
 iftop
 imagemagick
 imv
@@ -295,7 +295,6 @@ tumbler
 typescript-language-server
 udiskie
 ungoogled-chromium-bin
-unoconv
 unrar
 unzip
 uv
